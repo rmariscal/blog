@@ -17,8 +17,8 @@
       <pubDate>Tue, 26 Jun 2018 21:12:36 +0000</pubDate>
       
       <guid>/blog/time-series-in-r-quick-reference/</guid>
-      <description>Read and Define the Time Series (TS) Objects Read from a Saved File These functions reads a file without a TS structure and then defines the TS object.
-# Read from a raw csv file raw.data &amp;lt;- read.table(&amp;quot;./data/data.us.csv&amp;quot;, sep = &amp;quot;,&amp;quot;, header = T) # When you have the dates in the original csv file xts.data &amp;lt;- xts(raw.data, order.by = as.Date(raw.data$date, &amp;quot;%m/%d/%Y&amp;quot;)) # When you don&amp;#39;t have the dates in the original csv file but know the starting date date = seq(as.</description>
+      <description>Read and Define the Time Series (TS) ObjectsRead from a Saved FileThese functions reads a file without a TS structure and then defines the TS object.
+# Read from a raw csv fileraw.data &amp;lt;- read.table(&amp;quot;./data/data.us.csv&amp;quot;, sep = &amp;quot;,&amp;quot;, header = T)# When you have the dates in the original csv filexts.data &amp;lt;- xts(raw.data, order.by = as.Date(raw.data$date, &amp;quot;%m/%d/%Y&amp;quot;))# When you don&amp;#39;t have the dates in the original csv file but know the starting datedate = seq(as.</description>
     </item>
     
   </channel>

@@ -60,19 +60,19 @@ statement = "#ff8e91"
 
 [menu]
     [[menu.main]]
-    name = "Home Page"
-    url = "/"
-    weight = "-10"
+    name = "Home"
+    url = "/home/"
+    weight = "1"
 
     [[menu.main]]
-    name = "Blog"
+    name = "Posts"
     url = "/blog/"
-    weight = "1"
+    weight = "2"
     
     [[menu.main]]
     name = "Projects"
     url = "/projects/"
-    weight = "2"
+    weight = "3"
 
     [[menu.main]]
     name = "About"

@@ -17,7 +17,7 @@
       <pubDate>Sun, 30 Sep 2018 21:12:36 +0000</pubDate>
       
       <guid>/blog/the-natural-interest-rate-and-the-taylor-rule-prescription/</guid>
-      <description>Monetary Stance in the U.S. The Natural Interest Rate (R-Star) The natural interest rate or r-star is commonly defied as the long-term interest rate such that monetary policy is consistent sustained maximum employment and inflation at its longer-run objective.1 Also it’s sometimes defined as the interest rate that would preveil in a steady state where prices are fully flexible and inflation is zero (Woodford, 2003). However, the approach that I will take here is the one put forward by Holston, Lauback and Williams (2017) which is more an equilibrium concept that uses a time series approach.</description>
+      <description>Monetary Stance in the U.S.The Natural Interest Rate (R-Star)The natural interest rate or r-star is commonly defied as the long-term interest rate such that monetary policy is consistent sustained maximum employment and inflation at its longer-run objective.1 Also it’s sometimes defined as the interest rate that would preveil in a steady state where prices are fully flexible and inflation is zero (Woodford, 2003). However, the approach that I will take here is the one put forward by Holston, Lauback and Williams (2017) which is more an equilibrium concept that uses a time series approach.</description>
     </item>
     
     <item>
@@ -27,7 +27,7 @@
       
       <guid>/blog/mexicos-2018-presidential-elections-by-state/</guid>
       <description>Mexico’s 2018 presidential elections. Two interesting maps that summarize the results. Map 1, percent difference between the front-runner, Andres Manuel (AMLO), and the second place, Ricardo Anaya. In 15 states, AMLO won by more than 40 percentage points.
- {&#34;</description>
+{&#34;</description>
     </item>
     
     <item>
@@ -36,8 +36,8 @@
       <pubDate>Tue, 26 Jun 2018 21:12:36 +0000</pubDate>
       
       <guid>/blog/time-series-in-r-quick-reference/</guid>
-      <description>Read and Define the Time Series (TS) Objects Read from a Saved File These functions reads a file without a TS structure and then defines the TS object.
-# Read from a raw csv file raw.data &amp;lt;- read.table(&amp;quot;./data/data.us.csv&amp;quot;, sep = &amp;quot;,&amp;quot;, header = T) # When you have the dates in the original csv file xts.data &amp;lt;- xts(raw.data, order.by = as.Date(raw.data$date, &amp;quot;%m/%d/%Y&amp;quot;)) # When you don&amp;#39;t have the dates in the original csv file but know the starting date date = seq(as.</description>
+      <description>Read and Define the Time Series (TS) ObjectsRead from a Saved FileThese functions reads a file without a TS structure and then defines the TS object.
+# Read from a raw csv fileraw.data &amp;lt;- read.table(&amp;quot;./data/data.us.csv&amp;quot;, sep = &amp;quot;,&amp;quot;, header = T)# When you have the dates in the original csv filexts.data &amp;lt;- xts(raw.data, order.by = as.Date(raw.data$date, &amp;quot;%m/%d/%Y&amp;quot;))# When you don&amp;#39;t have the dates in the original csv file but know the starting datedate = seq(as.</description>
     </item>
     
     <item>
@@ -46,7 +46,7 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/about/</guid>
-      <description>Rodrigo Mariscal is a senior research analyst at the Institute of International Finance. He has worked at the IMF’s Western Hemisphere Department, the Inter-American Development Bank, and Mexico’s Central Bank. Mr. Mariscal holds an M.A. in economics from El Colegio de Mexico. His research focuses on macroeconomics, with emphasis on the credibility of inflation regimes in Latin America, sovereign debt restructurings, and commodity prices. He has also worked on income distribution and labor productivity in North America.</description>
+      <description>Rodrigo Mariscal is a senior research analyst at the Institute of International Finance. He has worked at the IMF’s Western Hemisphere Department, the Inter-American Development Bank, and the Central Bank of Mexico. Mr. Mariscal holds an M.A. in economics from El Colegio de Mexico. His research focuses on macroeconomics, with emphasis on the credibility of inflation regimes in Latin America, sovereign debt restructurings, and commodity prices. He has also worked on income distribution and labor productivity in North America.</description>
     </item>
     
     <item>
@@ -55,7 +55,8 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/home/</guid>
-      <description>.title { display: none; } #getting-started img { margin-right: 20px; }  Personal Web Page Summary Rodrigo Mariscal is a senior research analyst at the Institute of International Finance. He has worked at the IMF’s Western Hemisphere Department, the Inter-American Development Bank, and Mexico’s Central Bank. Mr. Mariscal holds an M.A. in economics from El Colegio de Mexico. His research focuses on macroeconomics, with emphasis on the credibility of inflation regimes in Latin America, sovereign debt restructurings, and commodity prices.</description>
+      <description>.title {display: none;}#getting-started img {margin-right: 10px;}Personal Web PageSummaryRodrigo Mariscal is a senior research analyst at the Institute of International Finance. He has worked at the IMF’s Western Hemisphere Department, the Inter-American Development Bank, and the Central Bank of Mexico. Mr. Mariscal holds an M.A. in economics from El Colegio de Mexico.
+</description>
     </item>
     
     <item>
@@ -64,9 +65,8 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/license/</guid>
-      <description>You can use this page to put a license on the contents of your blog, like so:
- The MIT License (MIT)
-Copyright &amp;copy; 2015 Nishanth Shanmughamnishanth.gerrard@gmail.com
+      <description>License
+Copyright &amp;copy; 2018 Rodrigo Mariscalrmariscalparedes@gmail.com
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &amp;ldquo;Software&amp;rdquo;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</description>
     </item>
     

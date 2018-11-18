@@ -1,5 +1,6 @@
 ---
-title: "Home Page"
+title: "Home"
+author: "Rodrigo Mariscal"
 ---
 
 <style type="text/css">
@@ -8,19 +9,19 @@ title: "Home Page"
 }
 
 #getting-started img {
-  margin-right: 20px;
+  margin-right: 10px;
 }
 
 </style>
 
-<div class="row" style="padding-top: 10px;">
+<div class="row" style="padding-top: 5px;">
 <div class="col-sm-20">
 
 # **Personal Web Page**
 
 ### *Summary*
 
-Rodrigo Mariscal is a senior research analyst at the [Institute of International Finance](https://www.iif.com/). He has worked at the [IMF's](http://www.imf.org/external/index.htm) Western Hemisphere Department, the [Inter-American Development Bank](https://www.iadb.org/), and [Mexico’s Central Bank](http://www.banxico.org.mx/). Mr. Mariscal holds an M.A. in economics from [El Colegio de Mexico](https://www.colmex.mx/).
+Rodrigo Mariscal is a senior research analyst at the [Institute of International Finance](https://www.iif.com/). He has worked at the [IMF's](http://www.imf.org/external/index.htm) Western Hemisphere Department, the [Inter-American Development Bank](https://www.iadb.org/), and the [Central Bank of Mexico](http://www.banxico.org.mx/). Mr. Mariscal holds an M.A. in economics from [El Colegio de Mexico](https://www.colmex.mx/).
 
 </div>
 <div class="col-sm-20">
