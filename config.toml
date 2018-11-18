@@ -1,7 +1,7 @@
 baseurl = "https://rodmariscal.com/"
 languageCode = "en-us"
 title = "Rodrigo Mariscal"
-theme = "basics"
+theme = "blackburn"
 googleAnalytics = ""
 disqusShortname = ""
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
