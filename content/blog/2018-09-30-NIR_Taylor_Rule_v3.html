@@ -1,0 +1,88 @@
+---
+title: "The Natural Interest Rate and the Taylor Rule Prescription"
+use_math: true
+author: "Rodrigo Mariscal"
+date: 2018-09-30T21:12:36-00:00
+categories: ["Economics"]
+tags: ["Time Series","Monetary Policy"]
+---
+
+
+
+<div id="monetary-stance-in-the-u.s." class="section level3">
+<h3>Monetary Stance in the U.S.</h3>
+<hr />
+<div id="the-natural-interest-rate-r-star" class="section level5">
+<h5><strong>The Natural Interest Rate (R-Star)</strong></h5>
+<p>The natural interest rate or r-star is commonly defied as the long-term interest rate such that monetary policy is consistent sustained maximum employment and inflation at its longer-run objective.<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> Also it’s sometimes defined as the interest rate that would preveil in a steady state where prices are fully flexible and inflation is zero (Woodford, 2003). However, the approach that I will take here is the one put forward by Holston, Lauback and Williams (2017) which is more an equilibrium concept that uses a time series approach.</p>
+<p>It’s imporant to note that this <span class="math inline">\(r_{t}^{*}\)</span> variable is attached to slow-moving forces that hardly change except when there is a big disruption in the economy. As an example, these are the forces that can affect the natural interest rate:</p>
+<ul>
+<li>Changes in labor productivity that affect the amount of labor supplied or the return on investment</li>
+<li>Household’s desire to save or to realocate current consumption from the future</li>
+<li>Public debt or government consumption that affect the use of aggregate savings in the economy</li>
+<li>Capital flows, that is, the amount of financial resources coming from the rest of the world</li>
+<li>The risk premia that the savers would like to received in return for their borrowed assets</li>
+</ul>
+<p><img src="/blog/2018-09-30-NIR_Taylor_Rule_v3_files/figure-html/unnamed-chunk-4-1.png" width="576" /></p>
+</div>
+</div>
+<div id="monetary-policy-rules" class="section level3">
+<h3>Monetary Policy Rules</h3>
+<hr />
+<table>
+<colgroup>
+<col width="27%" />
+<col width="72%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Policy Rules</th>
+<th>Formula</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Taylor Rule</td>
+<td><span class="math inline">\(R_t^T = r_t^{*} + \pi_t + 0.5(\pi_t - \pi^{*}) + 0.5(y_t - y_t^P)\)</span></td>
+</tr>
+<tr class="even">
+<td>Inertial rule</td>
+<td><span class="math inline">\(R_t^I = 0.85R_{t-1} + 0.15[r_t^{*} + \pi_t + 0.5(\pi_t - \pi^{*}) + (y_t - y_t^P)]\)</span></td>
+</tr>
+<tr class="odd">
+<td>Balanced-approach rule</td>
+<td><span class="math inline">\(R_t^{BA} = r_t^{*} + \pi_t + 0.5(\pi_t - \pi^{*}) + (y_t - y_t^P)\)</span></td>
+</tr>
+<tr class="even">
+<td>ELB-adjusted rule</td>
+<td><span class="math inline">\(R_t^{ELB} = max\{ R_{t-1}^{BA} - Z_t, 0 \}\)</span></td>
+</tr>
+<tr class="odd">
+<td>First-difference rule</td>
+<td><span class="math inline">\(R_t^{FD} = R_{t-1} + 0.1(\pi_t - \pi^*) + 0.1(y_t - y_{t-4})\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="taylor-rule-inertial" class="section level3">
+<h3>Taylor Rule (inertial)</h3>
+<hr />
+<p>The Taylor Rule originally proposed by John B. Taylor is a prescription for the level of federal funds rate such that the monetary policy supports price stability and sustain GDP growth. The general formulation of the rule is the following:</p>
+<p><span class="math inline">\(R^{T}_{t} = \rho R^{T}_{t-1} + (1 - \rho) [ r^{*} + \bar{\pi}_t + \beta ( \pi_{t} - \bar{\pi}_t ) + \gamma x_{t} ],\)</span></p>
+<p>where <span class="math inline">\(R^{T}_{t}\)</span> is the federal funds prescribed rate in quarter t, <span class="math inline">\(r_t^{*}\)</span> is the natural interest rate estimated above, <span class="math inline">\(\pi_{t}\)</span> is the four-quarter inflation rate, <span class="math inline">\(\bar{\pi}_t\)</span> is the central bank’s objective for inflation, and <span class="math inline">\(x_{t}\)</span> measures the percentage difference of GDP from its potential level or output gap. The <span class="math inline">\(\rho\)</span> parameter is a measure of persistence that smooths the series to make gradual adjustments in the policy rate, <span class="math inline">\(\beta\)</span> is the weight on the inflation gap and <span class="math inline">\(\gamma\)</span> the weight on the output gap.</p>
+<p><img src="/blog/2018-09-30-NIR_Taylor_Rule_v3_files/figure-html/unnamed-chunk-5-1.png" width="576" /></p>
+</div>
+<div id="references" class="section level3">
+<h3>References</h3>
+<p>Federal Reserve Board of Governors. 2018. ‘’Monetary Policy Principles and Practice,’’, Federal Reserve Board, <a href="https://www.federalreserve.gov/monetarypolicy/monetary-policy-principles-and-practice.htm">web site</a>.</p>
+<p>Federal Reserve Board of Governors. 2017. ‘’Monetary Policy Report - July 2017’’, Federal Reserve Board, <a href="https://www.federalreserve.gov/monetarypolicy/files/20170707_mprfullreport.pdf#page=42">web site</a>.</p>
+<p>Federal Reserve Bank of New York. 2018. ‘’Measuring the Natural Rate of Interest,’’ <a href="https://www.newyorkfed.org/research/policy/rstar/overview">web site</a>.</p>
+<p>Holston, Laubach, and Williams. 2017. ‘’Measuring the Natural Rate of Interest: International Trends and Determinants,’’ Journal of International Economics 108, supplement 1 (May): S39-S75.</p>
+<p>Woodford, M. 2003. Interest and Prices Foundations of a Theory of Monetary Policy. Princeton University Press, Princeton.</p>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Federal Reserve Board of Governors. 2018. ‘’Monetary Policy Report - February 2018’’, Federal Reserve Board, <a href="https://www.federalreserve.gov/monetarypolicy/2018-02-mpr-part2.htm">web site</a>.<a href="#fnref1">↩</a></p></li>
+</ol>
+</div>

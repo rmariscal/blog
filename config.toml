@@ -56,3 +56,28 @@ type = "#97d28b"
 special = "#ffcb8d"
 value = "#96c2d7"
 statement = "#ff8e91"
+
+
+[menu]
+    [[menu.main]]
+    name = "Home Page"
+    url = "/"
+    weight = "-10"
+
+    [[menu.main]]
+    name = "Blog"
+    url = "/blog/"
+    weight = "1"
+    
+    [[menu.main]]
+    name = "Projects"
+    url = "/projects/"
+    weight = "2"
+
+    [[menu.main]]
+    name = "About"
+    url = "/about/"
+    weight = "10"
+   
+
+

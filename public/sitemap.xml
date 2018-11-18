@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/blog/the-natural-interest-rate-and-the-taylor-rule-prescription/</loc>
+    <lastmod>2018-09-30T21:12:36+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/blog/mexicos-2018-presidential-elections-by-state/</loc>
+    <lastmod>2018-07-04T21:12:36+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/blog/time-series-in-r-quick-reference/</loc>
     <lastmod>2018-06-26T21:12:36+00:00</lastmod>
   </url>
@@ -18,7 +28,7 @@
   
   <url>
     <loc>/blog/</loc>
-    <lastmod>2018-06-26T21:12:36+00:00</lastmod>
+    <lastmod>2018-09-30T21:12:36+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -28,11 +38,35 @@
   </url>
   
   <url>
+    <loc>/categories/economics/</loc>
+    <lastmod>2018-09-30T21:12:36+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/elections/</loc>
+    <lastmod>2018-07-04T21:12:36+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/home/</loc>
   </url>
   
   <url>
     <loc>/license/</loc>
+  </url>
+  
+  <url>
+    <loc>/categories/mexico/</loc>
+    <lastmod>2018-07-04T21:12:36+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/monetary-policy/</loc>
+    <lastmod>2018-09-30T21:12:36+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -61,19 +95,19 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2018-06-26T21:12:36+00:00</lastmod>
+    <lastmod>2018-09-30T21:12:36+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/</loc>
-    <lastmod>2015-07-23T21:13:14-05:00</lastmod>
+    <lastmod>2018-07-04T21:12:36+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/time-series/</loc>
-    <lastmod>2018-06-26T21:12:36+00:00</lastmod>
+    <lastmod>2018-09-30T21:12:36+00:00</lastmod>
     <priority>0</priority>
   </url>
   

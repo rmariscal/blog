@@ -1,0 +1,162 @@
+---
+title: "Mexico's 2018 Presidential Elections by State"
+use_math: true
+author: "Rodrigo Mariscal"
+date: 2018-07-04T21:12:36-00:00
+categories: ["Mexico"]
+tags: ["Elections"]
+---
+
+```{r, echo = F, eval = T, message = F, warning = F}
+#------------------------------------------------------------------------------#
+# Load packages
+#------------------------------------------------------------------------------#
+library(ggplot2)
+library(ggthemes)
+library(dplyr)
+library(readxl)
+library(foreign)
+library(xts)
+library(tidyverse)
+library(reshape2)
+library(plm)
+
+library(rgdal)
+library(cartography)
+library(geojsonio)
+library(highcharter)
+library(devtools)
+#devtools::install_github("diegovalle/mxmaps")
+#library(mxmaps)
+library(rjson)
+library(viridisLite)
+library(RColorBrewer)
+```
+
+
+```{r, echo = F, eval = T, message = F, warning = F}
+#------------------------------------------------------------------------------#
+# Set working directory 
+#------------------------------------------------------------------------------#
+rm(list = ls(all = TRUE))
+
+### Functions ###
+tlag <- function(x, n = 1L, time) { 
+  index <- match(time - n, time, incomparables = NA)
+  x[index]
+}
+```
+
+
+Mexico's 2018 presidential elections. Two interesting maps that summarize the results. Map 1, percent difference between the front-runner, Andres Manuel (AMLO), and the second place, Ricardo Anaya. In 15 states, AMLO won by more than 40 percentage points.
+
+```{r, echo = F, eval = T, message = F, warning = F}
+### Get data ###
+s.elec <- read_excel("./data/State Resutls.xlsx", sheet="ToR", range="A1:I33", col_names=T)
+
+### Map with Highcharter ###
+mx.json <- fromJSON(file="./data/mx_geo.json")
+```
+
+
+
+```{r, echo = F, eval = T, message = F, warning = F}
+#hist(s.elec$amlo_w1_difp)
+#summary(s.elec$amlo_w1_difp)
+#quantile(s.elec$amlo_w1_difp, probs = c(0.2,0.25,0.4,0.5,0.6,0.75,0.8))
+
+s.elec$irank <- NA
+s.elec$irank[s.elec$amlo_w1_difp < 0] <- 1.5
+s.elec$irank[s.elec$amlo_w1_difp >= 0 & s.elec$amlo_w1_difp < 10] <- 3.5
+s.elec$irank[s.elec$amlo_w1_difp >= 10 & s.elec$amlo_w1_difp < 20] <- 5.5
+s.elec$irank[s.elec$amlo_w1_difp >= 20 & s.elec$amlo_w1_difp < 40] <- 7.5
+s.elec$irank[s.elec$amlo_w1_difp >= 40] <- 9.5
+
+#['#d53e4f','#fc8d59','#fee08b','#ffffbf','#e6f598','#99d594','#3288bd']
+#['#ffffcc','#d9f0a3','#addd8e','#78c679','#41ab5d','#238443','#005a32']
+dclass <- data_frame(from = c(1,3,5,7,9),
+                     to =   c(2,4,6,8,10),
+                     color = c('#d53e4f','#fc8d59','#addd8e','#41ab5d','#005a32'),
+                     name = c("Negative (lost)",
+                              "Positive (win):  0 - 10",
+                              "Positive (win): 10 - 20",
+                              "Positive (win): 20 - 40",
+                              "Positive (win): 40 or more"))
+
+dclass <- list_parse(dclass)
+
+map1 <- highchart() %>%
+  hc_title(text = "Mexico's 2018 Election Results by State") %>%
+  hc_subtitle(text = "Percent difference between 1st and 2nd place, Overall difference: 30.5%") %>%
+  hc_credits(enabled = T, text = "Source: National Electoral Institute, PREP, jul-02-2018 21:00hrs", href = "") %>%
+  hc_add_series_map(map = mx.json, 
+                    df = s.elec, 
+                    name = "Category", 
+                    value = "irank", joinBy = c("hc-a2", "isocode"),
+                    borderWidth = 0.5, 
+                    borderColor = "black",
+                    dataLabels = list(enabled = T, format = '{point.properties.postalcode}')) %>%
+  hc_colorAxis(dataClasses = dclass) %>%
+  hc_legend(layout="vertical", reversed=F, valueDecimals=1, floating=F, align="right", x=0, y=0) %>%
+  hc_mapNavigation(enabled = T, align = "center") %>%
+  hc_tooltip(valueSuffix = "", valueDecimals = 1) %>%
+  hc_exporting(enabled = F, filename = "Map1")
+
+#htmlwidgets::saveWidget(widget = map1, file = "./AMLO_difp_w1.html")
+```
+
+```{r, echo = F, eval = T, message = F, warning = F}
+map1
+```
+
+
+
+Map 2, percent difference between AMLO and both the 2nd (Anaya) and 3rd (Meade) place combined. It shows that AMLO would have won 20 states and 4 of them with more than 40 percentage points.
+
+```{r, echo = F, eval = T, message = F, warning = F}
+s.elec$irank <- NA
+s.elec$irank[s.elec$amlo_w2_difp < 0] <- 1.5
+s.elec$irank[s.elec$amlo_w2_difp >= 0 & s.elec$amlo_w2_difp < 10] <- 3.5
+s.elec$irank[s.elec$amlo_w2_difp >= 10 & s.elec$amlo_w2_difp < 20] <- 5.5
+s.elec$irank[s.elec$amlo_w2_difp >= 20 & s.elec$amlo_w2_difp < 40] <- 7.5
+s.elec$irank[s.elec$amlo_w2_difp >= 40] <- 9.5
+
+#['#fee0d2','#fc9272','#de2d26']
+#['#f7fcb9','#addd8e','#31a354']
+#['#d53e4f','#fc8d59','#fee08b','#ffffbf','#e6f598','#99d594','#3288bd']
+#['#ffffcc','#d9f0a3','#addd8e','#78c679','#41ab5d','#238443','#005a32']
+dclass <- data_frame(from = c(1,3,5,7,9),
+                     to =   c(2,4,6,8,10),
+                     color = c('#d53e4f','#fc8d59','#addd8e','#41ab5d','#005a32'),
+                     name = c("Negative (lost)",
+                              "Positive (win):  0 - 10",
+                              "Positive (win): 10 - 20",
+                              "Positive (win): 20 - 40",
+                              "Positive (win): 40 or more"))
+
+dclass <- list_parse(dclass)
+
+map2 <- highchart() %>%
+  hc_title(text = "Mexico's 2018 Election Results") %>%
+  hc_subtitle(text = "Percent difference between 1st and both 2nd and 3rd (combined), Overall difference: 14.1%") %>%
+  hc_credits(enabled = T, text = "Source: National Electoral Institute, PREP, jul-02-2018 21:00hrs", href = "") %>%
+  hc_add_series_map(map = mx.json, 
+                    df = s.elec, 
+                    name = "Category", 
+                    value = "irank", joinBy = c("hc-a2", "isocode"),
+                    borderWidth = 0.5, 
+                    borderColor = "black",
+                    dataLabels = list(enabled = T, format = '{point.properties.postalcode}')) %>%
+  hc_colorAxis(dataClasses = dclass) %>%
+  hc_legend(layout="vertical", reversed=F, valueDecimals=1, floating=F, align="right", x=0, y=0) %>%
+  hc_mapNavigation(enabled = T, align = "center") %>%
+  hc_tooltip(valueSuffix = "", valueDecimals = 1) %>%
+  hc_exporting(enabled = F, filename = "Map2")
+
+#htmlwidgets::saveWidget(widget = map2, file = "./AMLO_difp_w2.html")
+```
+
+```{r, echo = F, eval = T, message = F, warning = F}
+map2
+```
+

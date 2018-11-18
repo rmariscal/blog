@@ -6,10 +6,29 @@
     <description>Recent content in Blog on Rodrigo Mariscal</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Tue, 26 Jun 2018 21:12:36 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 30 Sep 2018 21:12:36 +0000</lastBuildDate>
     
 	<atom:link href="/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>The Natural Interest Rate and the Taylor Rule Prescription</title>
+      <link>/blog/the-natural-interest-rate-and-the-taylor-rule-prescription/</link>
+      <pubDate>Sun, 30 Sep 2018 21:12:36 +0000</pubDate>
+      
+      <guid>/blog/the-natural-interest-rate-and-the-taylor-rule-prescription/</guid>
+      <description>Monetary Stance in the U.S. The Natural Interest Rate (R-Star) The natural interest rate or r-star is commonly defied as the long-term interest rate such that monetary policy is consistent sustained maximum employment and inflation at its longer-run objective.1 Also it’s sometimes defined as the interest rate that would preveil in a steady state where prices are fully flexible and inflation is zero (Woodford, 2003). However, the approach that I will take here is the one put forward by Holston, Lauback and Williams (2017) which is more an equilibrium concept that uses a time series approach.</description>
+    </item>
+    
+    <item>
+      <title>Mexico&#39;s 2018 Presidential Elections by State</title>
+      <link>/blog/mexicos-2018-presidential-elections-by-state/</link>
+      <pubDate>Wed, 04 Jul 2018 21:12:36 +0000</pubDate>
+      
+      <guid>/blog/mexicos-2018-presidential-elections-by-state/</guid>
+      <description>Mexico’s 2018 presidential elections. Two interesting maps that summarize the results. Map 1, percent difference between the front-runner, Andres Manuel (AMLO), and the second place, Ricardo Anaya. In 15 states, AMLO won by more than 40 percentage points.
+ {&#34;</description>
+    </item>
     
     <item>
       <title>Time Series in R: Quick Reference</title>

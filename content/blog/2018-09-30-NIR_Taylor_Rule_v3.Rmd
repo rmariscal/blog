@@ -1,0 +1,343 @@
+---
+title: "The Natural Interest Rate and the Taylor Rule Prescription"
+use_math: true
+author: "Rodrigo Mariscal"
+date: 2018-09-30T21:12:36-00:00
+categories: ["Economics"]
+tags: ["Time Series","Monetary Policy"]
+---
+
+
+```{r, echo = F, eval = T, message = F, warning = F}
+#------------------------------------------------------------------------------#
+# Load packages
+#------------------------------------------------------------------------------#
+library(ggplot2)
+library(ggthemes)
+library(dplyr)
+library(purrr)
+library(readxl)
+library(foreign)
+library(xts)
+library(zoo)
+library(tis)
+library(stargazer)
+library(broom)
+
+library(formatR)
+#library(brocks)
+library(knitr)
+
+library(gridExtra)
+library(quantmod)
+library(fredr)
+library(latex2exp)
+
+library(magick)
+
+#http://sboysel.github.io/fredr/articles/fredr.html
+#https://www.r-bloggers.com/high-resolution-figures-in-r/
+#https://stackoverflow.com/questions/34341808/is-there-a-way-to-add-a-gif-to-a-markdown-file
+#https://cran.r-project.org/web/packages/magick/vignettes/intro.html#graphics_device
+#http://sboysel.github.io/fredr/articles/fredr.html
+#https://www.r-bloggers.com/high-resolution-figures-in-r/
+
+
+```
+
+
+```{r, echo = F, eval = T, message = F, warning = F}
+#------------------------------------------------------------------------------#
+# Set working directory 
+#------------------------------------------------------------------------------#
+#knitr::opts_chunk$set(echo = TRUE)
+#rm(list = ls(all = TRUE))
+#setwd("C:/Users/rmariscal/Documents/(#) Blog Posts/2018_03/")
+
+#filename <- "blog-NIR Taylor Rule v1.Rmd"
+
+# knit(input = filename,
+#      output = NULL,
+#      encoding = 'UTF-8')
+#htmlwidgets_deps(filename, always = T)
+
+```
+
+
+```{r, echo = F, eval = T, include = F, message = F, warning = F, tidy = T}
+### Set working directory ###
+rm(list = ls(all = TRUE))
+
+#setwd("/Volumes/R5/NIR_USA/code/Rcode")
+#setwd("D:/NIR_USA/code/Rcode")
+
+fredr_set_key("b2302a14e74954ce8495e6345edbb48d")
+
+
+# ------------------------------------------------------------------------------
+# Load and Prepare Data
+# ------------------------------------------------------------------------------
+dat.nri <- read.table("./data/one.sided.est.us.csv", sep = ",", 
+                      na.strings = ".", header = T, stringsAsFactors = F)
+colnames(dat.nri) <- c("rstar","g","z","gap")
+
+
+
+# fred_fun <- function(x){
+#   map_dfr(x, fredr, observation_start = as.Date("1990-01-01"), observation_end = as.Date("2018-04-01"), frequency = "q")
+# }
+# 
+# series = c("GDPC1","NGDPPOT","GDPDEF")
+# 
+# data.p <- sapply(series, fred_fun)
+# 
+# x <- data.frame(data.p[1][[1]],
+#                 data.p[3][[1]],
+#                 data.p[6][[1]],
+#                 data.p[9][[1]])
+
+
+date = seq(as.Date("1961/3/1"), by = "3 month", length.out = nrow(dat.nri))
+dat.nri <- xts(dat.nri, order.by = date, frequency = 4)
+
+getSymbols("NROU", src = "FRED")
+getSymbols("UNRATE", src = "FRED")
+getSymbols("GDPC1",src="FRED")
+getSymbols("GDPPOT", src = "FRED")
+getSymbols("NGDPPOT", src = "FRED")
+getSymbols("GDPDEF", src = "FRED")
+getSymbols("FEDFUNDS", src = "FRED")
+getSymbols("PCEPILFE", src = "FRED")
+
+quarter <- endpoints(UNRATE, on = "quarters")
+UNRATE.q <- period.apply(UNRATE, INDEX = quarter, FUN = mean)
+
+quarter <- endpoints(FEDFUNDS, on = "quarters")
+FEDFUNDS.q <- period.apply(FEDFUNDS, INDEX = quarter, FUN = last)
+
+quarter <- endpoints(PCEPILFE, on = "quarters")
+PCEPILFE.q <- period.apply(PCEPILFE, INDEX = quarter, FUN = mean)
+INFL.q <- 100*log(PCEPILFE.q$PCEPILFE/lag(PCEPILFE.q$PCEPILFE,4))
+
+
+dat.fred <- merge(GDPC1["1961-01-01/2018-04-01"], NGDPPOT["1961-01-01/2018-04-01"], join = "inner")
+dat.fred <- merge(dat.fred, NROU["1961-01-01/2018-04-01"], join = "inner")
+dat.fred <- merge(dat.fred, GDPDEF["1961-01-01/2018-04-01"], join = "inner")
+
+index(dat.fred) <- date
+dat.fred <- merge(dat.fred, UNRATE.q["1961-03-01/2018-08-01"], join = "inner")
+dat.fred <- merge(dat.fred, FEDFUNDS.q["1961-03-01/2018-08-01"], join = "inner")
+dat.fred <- merge(dat.fred, INFL.q["1961-03-01/2018-08-01"], join = "inner")
+
+dat.fred$GDPPOT <- 100*(dat.fred$NGDPPOT / dat.fred$GDPDEF)
+dat.fred$GDPGAP <- 100*((dat.fred$GDPC1 / dat.fred$GDPPOT) - 1)
+dat.fred$LGDPGAP <- 100*(log(dat.fred$GDPC1) - log(dat.fred$GDPPOT))
+dat.fred$D4LGDP <- 100*(log(dat.fred$GDPC1) - log(lag(dat.fred$GDPC1,4)))
+
+
+rm("NROU","UNRATE","UNRATE.q","GDPC1","GDPPOT","NGDPPOT",
+   "GDPDEF","FEDFUNDS","FEDFUNDS.q","PCEPILFE","PCEPILFE.q","INFL.q")
+
+
+
+### Policy Rules ###
+pi.star <- 2
+gamma <- 0.5
+beta <- 0.5
+
+dat.nri <- merge(dat.nri,dat.fred[,c("FEDFUNDS","PCEPILFE","GDPGAP","LGDPGAP","D4LGDP")])
+
+dat.nri$TR.Rule1 <- dat.nri$rstar + pi.star + 0.5*(dat.nri$PCEPILFE - pi.star) + 0.5*dat.nri$LGDPGAP
+dat.nri$IR.Rule1 <- 0.85*lag(dat.nri$FEDFUNDS) + 0.15*(dat.nri$rstar + pi.star + 0.5*(dat.nri$PCEPILFE - pi.star) + dat.nri$LGDPGAP)
+dat.nri$BR.Rule1 <- dat.nri$rstar + pi.star + 0.5*(dat.nri$PCEPILFE - pi.star) + dat.nri$LGDPGAP
+
+dat.nri$Zt <- (dat.nri$BR.Rule1 - dat.nri$FEDFUNDS)
+dat.nri$Zt[(dat.nri$BR.Rule) > 0] <- 0
+#dat.nri$Zt <- cumsum(dat.nri$Zt)
+
+dat.nri$ELB.Rule1 <- dat.nri$BR.Rule1 + dat.nri$Zt
+dat.nri$ELB.Rule1[(dat.nri$BR.Rule1 + dat.nri$Zt) <= 0] <- 0
+
+dat.nri$FD.Rule1 <- lag(dat.nri$FEDFUNDS) + 0.1*(dat.nri$PCEPILFE - pi.star) + 0.1*dat.nri$D4LGDP
+
+
+```
+
+
+
+
+
+### Monetary Stance in the U.S.
+
+---
+
+##### **The Natural Interest Rate (R-Star)**
+
+The natural interest rate or r-star is commonly defied as the long-term interest rate such that monetary policy is consistent sustained maximum employment and inflation at its longer-run objective.[^1] Also it's sometimes defined as the interest rate that would preveil in a steady state where prices are fully flexible and inflation is zero (Woodford, 2003). However, the approach that I will take here is the one put forward by Holston, Lauback and Williams (2017) which is more an equilibrium concept that uses a time series approach.
+
+It's imporant to note that this $r_{t}^{*}$ variable is attached to slow-moving forces that hardly change except when there is a big disruption in the economy. As an example, these are the forces that can affect the natural interest rate:
+
+
+* Changes in labor productivity that affect the amount of labor supplied or the return on investment
+* Household's desire to save or to realocate current consumption from the future
+* Public debt or government consumption that affect the use of aggregate savings in the economy
+* Capital flows, that is, the amount of financial resources coming from the rest of the world
+* The risk premia that the savers would like to received in return for their borrowed assets
+
+
+```{r, echo = F, eval = T, message = F, warning = F, results = "hide", fig.width=6, fig.height=3, fig.show='hold'}
+
+d_ends.a <- round(dat.nri$rstar["2018-06-01"],2)
+d_ends.b <- round(dat.nri$g["2018-06-01"],2)
+
+ggplot() +
+  geom_line(data = dat.nri, aes(x = Index, y = rstar, color = "R-Star"), linetype = 1, size = 1.2) +
+  geom_line(data = dat.nri, aes(x = Index, y = g, color = "Trend growth"), linetype = 1, size = 1.2) +
+  scale_color_manual(labels = c("R-Star","Trend growth"),
+                     breaks = c("R-Star","Trend growth"),
+                     values = c("R-Star"="blue3","Trend growth"="orange2")) +
+  scale_y_continuous(limits=c(0,4.5), breaks=seq(0,4.5,1)) +
+  scale_x_date(limits = as.Date(c("1999-1-01","2018-06-01")), date_breaks = "2 years", date_labels = "%Y") +
+  geom_text(aes(x=as.Date("2018-06-01"),y=d_ends.a+0.25,label=as.character(d_ends.a)), hjust=0.3, size=3.5, color="blue3") +
+  geom_text(aes(x=as.Date("2018-06-01"),y=d_ends.b+0.25,label=as.character(d_ends.b)), hjust=0.3, size=3.5, color="orange2") +
+  theme_hc() +
+  theme(legend.position = c(0.85,0.85), 
+        legend.direction = "vertical",
+        legend.background = element_rect(fill="transparent"),
+        legend.title = element_blank(),
+        #legend.box.background = element_rect(),
+        #axis.text.x=element_blank(),
+        #axis.title.x=element_blank(),
+        #axis.ticks.x=element_blank(),
+        #plot.margin = unit(c(0.5,0.5,0,0.5), "lines"),
+        panel.grid.major.y = element_line(size = 0.5, colour = "grey", linetype = 3),
+        panel.grid.major.x = element_line(size = 0.5, colour = "grey", linetype = 3),
+        panel.grid.minor.x = element_line(colour = "transparent")) +
+  labs(x = "", y = "", color = "", 
+       title = "U.S. Natural Rate of Interest", 
+       subtitle = "Percentage points", 
+       caption = "Source: BEA; Holston, Laubach and Williams (2017), and own estimates.")
+```
+
+
+
+### Monetary Policy Rules
+
+---
+
+Policy Rules              | Formula
+--------------------------|---------------------------------------------------------------------
+Taylor Rule               | $R_t^T = r_t^{*} + \pi_t + 0.5(\pi_t - \pi^{*}) + 0.5(y_t - y_t^P)$
+Inertial rule             | $R_t^I = 0.85R_{t-1} + 0.15[r_t^{*} + \pi_t + 0.5(\pi_t - \pi^{*}) + (y_t - y_t^P)]$
+Balanced-approach rule    | $R_t^{BA} = r_t^{*} + \pi_t + 0.5(\pi_t - \pi^{*}) + (y_t - y_t^P)$
+ELB-adjusted rule         | $R_t^{ELB} = max\{ R_{t-1}^{BA} - Z_t, 0 \}$
+First-difference rule     | $R_t^{FD} = R_{t-1} + 0.1(\pi_t - \pi^*) + 0.1(y_t - y_{t-4})$
+
+
+### Taylor Rule (inertial)
+
+------------------------------------------------------------------------
+
+The Taylor Rule originally proposed by John B. Taylor is a prescription for the level of federal funds rate such that the monetary policy supports price stability and sustain GDP growth. The general formulation of the rule is the following:
+
+
+$R^{T}_{t} = \rho R^{T}_{t-1} + (1 - \rho) [ r^{*} + \bar{\pi}_t + \beta ( \pi_{t}  - \bar{\pi}_t ) + \gamma x_{t} ],$
+
+where $R^{T}_{t}$ is the federal funds prescribed rate in quarter t, $r_t^{*}$ is the natural interest rate estimated above, $\pi_{t}$ is the four-quarter inflation rate, $\bar{\pi}_t$ is the central bank's objective for inflation, and $x_{t}$ measures the percentage difference of GDP from its potential level or output gap. The $\rho$ parameter is a measure of persistence that smooths the series to make gradual adjustments in the policy rate, $\beta$ is the weight on the inflation gap and $\gamma$ the weight on the output gap. 
+
+
+
+```{r, echo = F, eval = T, message = F, warning = F, results = "hide", fig.width=6, fig.height=6, fig.show='hold'}
+d_ends.a <- round(dat.nri$FEDFUNDS["2018-06-01"],1)
+d_ends.b <- round(dat.nri$TR.Rule1["2018-06-01"],1)
+d_ends.c <- round(dat.nri$TR.Rule1["2018-06-01"]-dat.nri$FEDFUNDS["2018-06-01"],1)
+
+
+gg.a <- ggplot() +
+  geom_line(data = dat.nri, aes(x = Index, y = FEDFUNDS, color = "Fed Funds Rate"), linetype = 1, size = 1.2) +
+  geom_line(data = dat.nri, aes(x = Index, y = TR.Rule1, color = "Taylor Rule"), linetype = 1, size = 1.2) +
+  geom_hline(yintercept = 0, linetype = 1, size = 0.5, col = "black") +
+  scale_color_manual(labels = c("Fed Funds Rate","Taylor Rule"),
+                     breaks = c("Fed Funds Rate","Taylor Rule"),
+                     values = c("Fed Funds Rate"="#e41a1c","Taylor Rule"="#377eb8")) +
+  geom_text(aes(x=as.Date("2018-06-01"),y=d_ends.a+0.6,label=as.character(d_ends.a)), hjust=-0.25, size=3.5, color="#e41a1c") +
+  geom_text(aes(x=as.Date("2018-06-01"),y=d_ends.b+0.6,label=as.character(d_ends.b)), hjust=-0.25, size=3.5, color="#377eb8") +
+  #scale_y_continuous(limits=c(-2,20), breaks=seq(0,20,5)) +
+  scale_y_continuous(limits=c(-2.5,7.5), breaks=seq(-2.5,7.5,2.5)) +
+  scale_x_date(limits = as.Date(c("1999-12-01","2018-06-01")), date_breaks = "2 years", date_labels = "%Y") +
+  theme_hc() +
+  theme(legend.position = c(0.85,0.85), 
+        legend.direction = "vertical",
+        legend.background = element_rect(fill="transparent"),
+        legend.title = element_blank(),
+        #legend.box.background = element_rect(),
+        #axis.text.x=element_blank(),
+        #axis.title.x=element_blank(),
+        #axis.ticks.x=element_blank(),
+        #plot.margin = unit(c(0.5,0.5,0,0.5), "lines"),
+        panel.grid.major.y = element_line(size = 0.5, colour = "grey", linetype = 3),
+        panel.grid.major.x = element_line(size = 0.5, colour = "grey", linetype = 3),
+        panel.grid.minor.x = element_line(colour = "transparent")) +
+  labs(x = NULL, y = "Percentage points", color = "", 
+       title = "Federal Funds Rate and Taylor Rule Prescription", 
+       subtitle = TeX("Taylor Rule: $R_t^T = r_t^{*} + \\pi_t + 0.5(\\pi_t - \\pi^{*}) + 0.5(y_t - y_t^P)$"), 
+       caption = NULL)
+
+gg.b <- ggplot() +
+  geom_step(data = dat.nri, aes(x = Index, y = TR.Rule1-FEDFUNDS, color = "Spread"), linetype = 1, size = 1.2) +
+  geom_hline(yintercept = 0, linetype = 1, size = 0.5, col = "black") +
+  scale_color_manual(labels = c("Spread"),
+                     breaks = c("Spread"),
+                     values = c("Spread"="#4daf4a")) +
+  geom_text(aes(x=as.Date("2018-06-01"),y=d_ends.c+0.6,label=as.character(d_ends.c)), hjust=-0.25, size=3.5, color="#4daf4a") +
+  #scale_y_continuous(limits=c(-2,20), breaks=seq(0,20,5)) +
+  scale_y_continuous(limits=c(-3,3), breaks=seq(-3,3,1.5)) +
+  scale_x_date(limits = as.Date(c("1999-12-01","2018-06-01")), date_breaks = "2 years", date_labels = "%Y") +
+  theme_hc() +
+  theme(legend.position = c(0.85,0.20), 
+        legend.direction = "vertical",
+        legend.background = element_rect(fill="transparent"),
+        legend.title = element_blank(),
+        #legend.box.background = element_rect(),
+        #plot.margin = unit(c(0.5,0.5,1.2,0.5), "lines"),
+        panel.grid.major.y = element_line(size = 0.5, colour = "grey", linetype = 3),
+        panel.grid.major.x = element_line(size = 0.5, colour = "grey", linetype = 3),
+        panel.grid.minor.x = element_line(colour = "transparent")) +
+  labs(x = "", y = "Percentage points", color = "", 
+       title = NULL, 
+       subtitle = NULL, 
+       caption = "Source: BEA; CBO; Holston, Laubach and Williams (2017), and own estimates.")
+
+
+
+cgg.a <- ggplot_gtable(ggplot_build(gg.a))
+cgg.b <- ggplot_gtable(ggplot_build(gg.b))
+maxWidth = grid::unit.pmax(cgg.a$widths, cgg.b$widths)
+cgg.a$widths <- as.list(maxWidth)
+cgg.b$widths <- as.list(maxWidth)
+TRG.graph <- grid.arrange(arrangeGrob(cgg.a, cgg.b, heights=c(0.65, 0.50)))
+
+
+```
+
+
+
+
+
+### References
+
+Federal Reserve Board of Governors. 2018. ''Monetary Policy Principles and Practice,'', Federal Reserve Board, [web site](https://www.federalreserve.gov/monetarypolicy/monetary-policy-principles-and-practice.htm).
+
+Federal Reserve Board of Governors. 2017. ''Monetary Policy Report - July 2017'', Federal Reserve Board, [web site](https://www.federalreserve.gov/monetarypolicy/files/20170707_mprfullreport.pdf#page=42).
+
+Federal Reserve Bank of New York. 2018. ''Measuring the Natural Rate of Interest,'' [web site](https://www.newyorkfed.org/research/policy/rstar/overview).
+
+Holston, Laubach, and Williams. 2017. ''Measuring the Natural Rate of Interest: International Trends and Determinants,'' Journal of International Economics 108, supplement 1 (May): S39-S75. 
+
+Woodford, M. 2003. Interest and Prices Foundations of a Theory of Monetary Policy. Princeton University Press, Princeton.
+
+
+
+[^1]: Federal Reserve Board of Governors. 2018. ''Monetary Policy Report - February 2018'', Federal Reserve Board, [web site](https://www.federalreserve.gov/monetarypolicy/2018-02-mpr-part2.htm).
+
+
