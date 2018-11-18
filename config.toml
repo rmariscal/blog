@@ -25,7 +25,7 @@ logofile = "img/AS_AD1.png"
 faviconfile = "img/AS_AD1.png"
 highlightjs = true
 progressively = true
-share = true
+share = false
 # Share to googleplus, twitter, fb, linkedin by default
 # disable by setting share_on_<social network> = false
 # example: share_on_googleplus = false
