@@ -1,148 +1,133 @@
 <!DOCTYPE html>
-<html>
-    <head>
+<html class="no-js" lang="en-us">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>A Hugo website</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="A website built through Hugo and blogdown.">
 	<meta name="generator" content="Hugo 0.51" />
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-    
-    <title>
-      
-      A Hugo website
-      
-		</title>
-
-    <meta name="HandheldFriendly" content="True" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="/index.xml" rel="alternate" type="application/rss+xml" title="A Hugo website" />
-    
-    <link rel="stylesheet" type="text/css" href="/assets/css/normalize.css" />
-    <link rel="stylesheet" type="text/css" href="/assets/css/icons.css" />
-    <link rel="stylesheet" type="text/css" href="/assets/css/screen.css" />
-    
-    <link href="https://fonts.googleapis.com/css?family=Bree+Serif|Lato:100,100i,300,300i,400,400i,700,700i|Source+Code+Pro:300,400,500,700" rel="stylesheet">
-    
-
-    
-    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
-    <script type="text/javascript" src="/assets/bigfoot/dist/bigfoot.js"></script>
-    <link rel="stylesheet" type="text/css" href="/assets/bigfoot/dist/bigfoot-number.css" />
-    <script type="text/javascript">
-        $.bigfoot();
-    </script>
-    
-    
+	
+	
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="alternate" type="application/rss+xml" href="/index.xml" title="A Hugo website">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="shortcut icon" href="/favicon.ico">
+		
 </head>
-
-    <body class="">
-        <header class="main-header">
-	<div class="main-header-content">
-		<h1 class="blog-title">
-			<a href="/">
-				
-           A Hugo website
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container">
+		<div class="logo" role="banner">
+			<a class="logo__link" href="/" title="A Hugo website" rel="home">
+				<div class="logo__title">A Hugo website</div>
 				
 			</a>
-		</h1>
-		<h2 class="blog-description">A website built through Hugo and blogdown.</h2>
-	</div>
+		</div>
+		
+<nav class="menu">
+	<button class="menu__btn" aria-haspopup="true" aria-expanded="false" tabindex="0">
+		<span class="menu__btn-title" tabindex="-1">Menu</span>
+	</button>
+	<ul class="menu__list">
+		<li class="menu__item">
+			<a class="menu__link" href="/about/">About</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="https://github.com/rstudio/blogdown">GitHub</a>
+		</li>
+		<li class="menu__item">
+			<a class="menu__link" href="https://twitter.com/rstudio">Twitter</a>
+		</li>
+	</ul>
+</nav>
 
-	<div class="nav">
-    
-		
-      <a class="nav- " role="presentation" href="/about/">About</a>
-		
-      <a class="nav- " role="presentation" href="https://github.com/rstudio/blogdown">GitHub</a>
-		
-      <a class="nav- " role="presentation" href="https://twitter.com/rstudio">Twitter</a>
-		
 	</div>
 </header>
-
-        
-	<main class="content" role="main">
-    
-    <div class="extra-pagination">
-      
-
-<nav class="pagination" role="navigation">
-    
-    <span class="page-number">Page 1 of 1</span>
-    
-</nav>
-
-    </div>
-		
-      <article class="post">
-	<header class="post-header">
-    
-		<h2 class="post-title"><a href="/2016/12/30/a-plain-markdown-post/">A Plain Markdown Post</a></h2>
+		<div class="wrapper flex">
+			<section class="primary">
+			
+<main class="main list" role="main"><article class="list__item post">
+	<header class="list__header">
+		<h3 class="list__title post__title ">
+			<a href="/2016/12/30/a-plain-markdown-post/" rel="bookmark">
+			A Plain Markdown Post
+			</a>
+		</h3>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 16 16"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
+	<time class="meta__text" datetime="2016-12-30T21:49:57">December 30, 2016</time>
+</div>
+</div>
 	</header>
-	<section class="post-excerpt">
-    <p>
-      This is a post written in plain Markdown (*.md) instead of R Markdown (*.Rmd). The major differences are:
- You cannot run any R code in a plain Markdown document, whereas in an R Markdown document, you can embed R code chunks (```{r}); A plain Markdown post is rendered through Blackfriday, and an R Markdown document is compiled by rmarkdown and Pandoc.  There are many differences in syntax between Blackfriday&rsquo;s Markdown and Pandoc&rsquo;s Markdown. &hellip; <a class="read-more" href="/2016/12/30/a-plain-markdown-post/">&raquo;</a>
-    </p>
-	</section>
-	<footer class="post-meta">
-    <time class="post-date">December 30, 2016</time>
-	</footer>
-</article>
+	<div class="content list__excerpt post__content clearfix">
+		This is a post written in plain Markdown (*.md) instead of R Markdown (*.Rmd). The major differences are:
+ You cannot run any R code in a plain Markdown document, whereas in an R Markdown document, you can embed R code chunks (```{r}); A plain Markdown post is rendered through Blackfriday, and an R Markdown document is compiled by rmarkdown and Pandoc.  There are many differences in syntax between Blackfriday&rsquo;s Markdown and Pandoc&rsquo;s Markdown.
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h3 class="list__title post__title ">
+			<a href="/2015/07/23/hello-r-markdown/" rel="bookmark">
+			Hello R Markdown
+			</a>
+		</h3>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 16 16"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
+	<time class="meta__text" datetime="2015-07-23T21:13:14">July 23, 2015</time>
+</div>
 
-		
-      <article class="post">
-	<header class="post-header">
-    
-		<h2 class="post-title"><a href="/2015/07/23/hello-r-markdown/">Hello R Markdown</a></h2>
+<div class="meta__item-categories meta__item">
+	<svg class="meta__icon icon icon-category" width="16" height="16" viewBox="0 0 16 16"><path d="m7 2l1 2h8v11h-16v-13z"/></svg>
+	<span class="meta__text"><a class="meta__link" href="/categories/r" rel="category">R</a></span>
+</div>
+</div>
 	</header>
-	<section class="post-excerpt">
-    <p>
-      R Markdown This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
+	<div class="content list__excerpt post__content clearfix">
+		R Markdown This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
 You can embed an R code chunk like this:
-summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu. &hellip; <a class="read-more" href="/2015/07/23/hello-r-markdown/">&raquo;</a>
-    </p>
-	</section>
-	<footer class="post-meta">
-    <time class="post-date">July 23, 2015</time>
-	</footer>
-</article>
-
-		
-      <article class="post">
-	<header class="post-header">
-    
-		<h2 class="post-title"><a href="/2015/01/01/lorem-ipsum/">Lorem Ipsum</a></h2>
+summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.
+	</div>
+</article><article class="list__item post">
+	<header class="list__header">
+		<h3 class="list__title post__title ">
+			<a href="/2015/01/01/lorem-ipsum/" rel="bookmark">
+			Lorem Ipsum
+			</a>
+		</h3>
+		<div class="list__meta meta">
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 16 16"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
+	<time class="meta__text" datetime="2015-01-01T13:09:13">January 01, 2015</time>
+</div>
+</div>
 	</header>
-	<section class="post-excerpt">
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. &hellip; <a class="read-more" href="/2015/01/01/lorem-ipsum/">&raquo;</a>
-    </p>
-	</section>
-	<footer class="post-meta">
-    <time class="post-date">January 01, 2015</time>
-	</footer>
+	<div class="content list__excerpt post__content clearfix">
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+	</div>
 </article>
+</main>
 
+
+			</section>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
 		
-    
-
-<nav class="pagination" role="navigation">
-    
-    <span class="page-number">Page 1 of 1</span>
-    
-</nav>
-
-	</main>
-
-        <footer class="site-footer">
-  <section class="rss"><a class="subscribe-button icon-feed" href="/index.xml"></a></section>
-  
-  
-  <section class="copyright">&copy; 2018 A Hugo website</section>
-  <section class="poweredby"><a href="http://thedarkroast.com/arabica">Arabica</a> theme by Sean Lunsford. Published with <a href="https://gohugo.io">Hugo</a>.</section>
+		<div class="footer__copyright">
+			&copy; 2018 A Hugo website.
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
 </footer>
 
 
-
-    </body>
+	</div>
+<script async defer src="/js/menu.js"></script></body>
 </html>
