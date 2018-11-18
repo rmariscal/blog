@@ -1,40 +1,58 @@
 baseurl = "https://rodmariscal.com/"
-languageCode = "en-us"
+theme = "cocoa-eh-hugo-theme"
+builddrafts = true
+canonifyurls = true
+contentdir = "content"
+languageCode = "en-US"
+layoutdir = "layouts"
+publishdir = "public"
+author = "Rodrigo Mariscal"
 title = "Rodrigo Mariscal"
-theme = "blackburn"
-googleAnalytics = ""
-disqusShortname = ""
+disqusshortname = ""
+pluralizelisttitles = false
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 [permalinks]
-    post = "/:year/:month/:day/:slug/"
+blog = "blog/:slug/"
 
-[[menu.main]]
-    name = "Home"
-    url = "/"
-    weight = 1
-    
-[[menu.main]]
-    name = "About"
-    url = "/about/"
-    weight = 10
-    
 [params]
-    description = ""
-    
+dateform = "Jan 2, 2006"
+dateformfull = "Mon Jan 2 2006 15:04:05 MST"
+description = "Personal Blog"
+copyright = "Copyright © 2015 Nishanth Shanmugham"
+# copyrightUrl = "https://creativecommons.org/licenses/by-sa/4.0/"
+logofile = "img/logo.png"
+faviconfile = "img/logo.png"
+highlightjs = true
+progressively = true
+share = true
+# Share to googleplus, twitter, fb, linkedin by default
+# disable by setting share_on_<social network> = false
+# example: share_on_googleplus = false
+latestpostcount = 5
+github = "example"
+email = "you@example.com"
+linkedin = "john-example-aa80ue8è"
+twitter = "example"
+facebook = "facebook_id"
+instagram = "instagram_id"
+itch_io = "itch_io_id"
+social_banner = "img/banner.png"
+usesmallsummarycard = true
+posts_navigation = true
+# issoHost = "comments.domain.tld:1234"
+# githubRepo = "githubUsername/repositoryName/tree/master"
+small_banner_logo = false
 
-    # options for highlight.js (version, additional languages, and theme)
-    highlightjsVersion = "9.12.0"
-    highlightjsCDN = "//cdnjs.cloudflare.com/ajax/libs"
-    highlightjsLang = ["r", "yaml"]
-    highlightjsTheme = "github"
-
-    MathJaxCDN = "//cdnjs.cloudflare.com/ajax/libs"
-    MathJaxVersion = "2.7.5"
-
-    [params.logo]
-    url = "leaves.png"
-    width = 50
-    height = 50
-    alt = "Logo"
-
+[params.colors]
+identifier = "#527fc1f"
+identifier_dark = "#1a3152"
+trivial = "#6a7a8b"
+foreground = "#181d2a"
+background = "#f9f9f9"
+background_dark = "#282a36"
+code = "#87a5d2"
+type = "#97d28b"
+special = "#ffcb8d"
+value = "#96c2d7"
+statement = "#ff8e91"

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="{{ .Site.LanguageCode }}">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{.Title}} - {{.Site.Title}}</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <style type="text/css">{{partial "styles.css" . | safeCSS}}
+    </style>
+
+    {{ template "_internal/opengraph.html" . }}
+    {{ template "_internal/twitter_cards.html" . }}
+</head>
+
+<body>
+    {{- partialCached "navbar" . -}}
+    <main id="content" class="container mt-3">
+            {{- block "main" .}}{{- end}}
+        </div>
+    </main>
+    {{partialCached "footer" . }}
+    <script src="/js/jquery.min.js"></script>
+    <script async src="/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

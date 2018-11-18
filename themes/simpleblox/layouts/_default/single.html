@@ -1,0 +1,11 @@
+{{define "main"}}
+
+
+<h3 class="display-4 text-primary">{{.Title}}</h3>
+{{partial "breadcrumb" . }}
+<small>{{.Params.author}} on {{ dateFormat "Monday, Jan 2, 2006" "2015-01-21" }}</small>
+{{.Content}}
+
+
+
+{{end}}

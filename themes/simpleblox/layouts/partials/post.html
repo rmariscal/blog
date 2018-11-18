@@ -1,0 +1,10 @@
+{{ $paginator := .Paginate (where .Pages "Type" "post") }}
+{{ range $paginator.Pages }}
+<div class="list"> 
+    <a href="{{.RelPermalink}}"><h3>{{.Title}}</h3></a>
+    <p>{{if .Params.author}}{{.Params.author}} on {{end}} {{ .PublishDate.Format "January 2, 2006" }}</p>
+</div>
+{{ end }}
+<div class="justify-content-center">
+    {{ template "_internal/pagination.html" . }}
+</div>

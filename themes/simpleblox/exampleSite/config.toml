@@ -1,0 +1,18 @@
+baseurl = "https://gohugo.io/"
+title = "Simple Blox"
+author = "Steve Francia"
+copyright = 'Copyright © by <a href="https://www.okabrionz.com">Oka bRionZ</a>'
+canonifyurls = true
+paginate = 3
+theme = "simpleblox"
+
+[menu]
+    [[menu.main]]
+    name = "Home"
+    url = "/"
+    weight = "-10"
+
+[params]
+facebook = "antihacx"
+twitter = "antihacx"
+github = "okabrionz"
