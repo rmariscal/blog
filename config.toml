@@ -29,7 +29,7 @@ share = false
 # Share to googleplus, twitter, fb, linkedin by default
 # disable by setting share_on_<social network> = false
 # example: share_on_googleplus = false
-latestpostcount = 5
+latestpostcount = 3
 github = "rmariscal"
 email = "rmariscalparedes@gmail.com"
 linkedin = "rmariscal"
