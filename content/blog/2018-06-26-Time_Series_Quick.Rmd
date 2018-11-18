@@ -1,0 +1,405 @@
+---
+title: "Time Series in R: Quick Reference"
+use_math: true
+author: "Rodrigo Mariscal"
+date: 2018-06-26T21:12:36-00:00
+categories: ["R"]
+tags: ["Time Series"]
+---
+
+
+```{r, echo = F, eval = T, message = F, warning = F}
+#------------------------------------------------------------------------------#
+# Load packages
+#------------------------------------------------------------------------------#
+library(quantmod)
+library(readxl)
+library(tis)
+library(dplyr)
+library(xts)
+library(zoo)
+#library(PerformanceAnalytics)
+library(ggplot2)
+library(ggthemes)
+library(dygraphs)
+library(plotly)
+#library(datasets)
+library(formatR)
+#library(brocks)
+library(knitr)
+```
+
+
+```{r, echo = F, eval = T, message = F, warning = F}
+#------------------------------------------------------------------------------#
+# Set working directory 
+#------------------------------------------------------------------------------#
+knitr::opts_chunk$set(echo = TRUE)
+rm(list = ls(all = TRUE))
+#setwd("C:/Users/rmariscal/Documents/(#) Blog Posts/2018_03/")
+
+#filename <- "blog-TS Quick v2.Rmd"
+
+# knit(input = filename,
+#      output = NULL,
+#      encoding = 'UTF-8')
+#htmlwidgets_deps(filename, always = T)
+
+#https://tclavelle.github.io/blog/blogdown_github/
+
+```
+
+
+### Read and Define the Time Series (TS) Objects
+
+---
+
+##### **Read from a Saved File**
+
+These functions reads a file without a TS structure and then defines the TS object.
+```{r, echo = T, eval = T, message = F, warning = F}
+# Read from a raw csv file
+raw.data <- read.table("./data/data.us.csv", sep = ",", header = T)
+
+# When you have the dates in the original csv file
+xts.data <- xts(raw.data, order.by = as.Date(raw.data$date, "%m/%d/%Y"))
+
+# When you don't have the dates in the original csv file but know the starting date
+date = seq(as.Date("1960/3/1"), by = "3 month", length.out = nrow(raw.data))
+xts.data <- xts(raw.data[,-1], order.by = date, frequency = 3)
+```
+
+
+This function reads and declares the TS structure from the begining.
+```{r, echo = T, eval = T, message = F, warning = F}
+# Note that this is a TS with a zoo structure
+ts.data <- read.zoo("./data/data.us.csv", index.column = 1, sep = ",", header = T, format = "%m/%d/%Y")
+# Or...
+ts.data <- ts(raw.data[,2:4], frequency = 4, start = c(1960,1))
+
+# One can convert the TS-zoo into a xts...
+xts.data <- as.xts(ts.data)
+```
+
+
+---
+
+##### **Read from Online Sources**
+
+There are two main ways to get data into R: get the data into `Excel` or a `csv` or download for an online source. There are built-in package to get the data directly for the web in a predefined format. The table below shows the most popular sources and packages that one can use.
+
+Sources | R-Package | Web Pages
+---------------------------------------- | ----------------------------- | -----------------------------------
+[Yahoo](https://finance.yahoo.com/), [FRED](https://fred.stlouisfed.org/), [Google](https://goo.gl/CmY1Mg), [Onda](https://goo.gl/zJL1PJ)        | `quantmod`                    | [Link](https://www.quantmod.com/)
+International Monetary Fund (IMF)[^1]    | `IMFData` or `imfr`           | [Link](http://www.imf.org/en/data)
+World Bank's WDI                         | `WDI`                         | [Link](http://databank.worldbank.org/data)
+OECD[^2]                                 | `rsdmx`                       | [Link](https://data.oecd.org/)
+Penn World Tables                        | `pwt`                         | [Link](http://pwt.econ.upenn.edu/)
+International Labor Organization (ILO)   | `rsdmx`                       | [Link](http://www.ilo.org/)
+
+
+
+One can use the `getSymbols` function with a previous search in the web pages and download directly into R.
+
+```{r, echo = T, eval = F, message = F, warning = F, tidy = T}
+getSymbols("GDPC1",src="FRED")
+getSymbols("PCEPILFE",src="FRED")
+getSymbols("FEDFUNDS",src="FRED")
+
+names(GDPC1) <- "US Real GDP"
+names(PCEPILFE) <- "Core PCE"
+names(FEDFUNDS) <- "FED Rate"
+```
+
+```{r, echo = F, eval = T, include = F, message = F, warning = F, tidy = T}
+getSymbols("GDPC1",src="FRED")
+getSymbols("PCEPILFE",src="FRED")
+getSymbols("FEDFUNDS",src="FRED")
+
+names(GDPC1) <- "US Real GDP"
+names(PCEPILFE) <- "Core PCE"
+names(FEDFUNDS) <- "FED Rate"
+```
+
+
+---
+
+### Subset and Extract
+
+```{r, echo = T, eval = T, message = F, warning = F, tidy = T}
+# Federal funds rate, montly data from January 1980 to March
+FEDFUNDS["1980-01-01/1980-03-01"]
+
+# Real GDP, quarterly data, for in 2006
+GDPC1["2006"]
+
+# End of period inflation rate from 2000 to 2005
+PCEPILFE[format(index(PCEPILFE["2000/2005"]), "%m") %in% "12"]
+```
+
+
+---
+
+### Identify 'NA's, Fill and Splice
+```{r, echo = T, eval = T, message = F, warning = F, tidy = T}
+# Set missings into the series...
+gdp.miss <- GDPC1["2000/2002"]
+gdp.miss["2001"] <- NA
+```
+
+```{r, echo = T, eval = F, message = F, warning = F, tidy = T}
+# Identify the NAs
+gdp.miss[is.na(gdp.miss)]
+
+# Show numbers without NAs
+na.omit(gdp.miss)
+```
+
+```{r, echo = T, eval = T, message = F, warning = F, tidy = T}
+# Fill missing with the last observarion or with the first non-missing observation
+cbind(gdp.miss, na.locf(gdp.miss), na.locf(gdp.miss, fromLast = T))
+
+# Fill missing values with linear interpolation and bubic spline
+cbind(gdp.miss, na.approx(gdp.miss), na.spline(gdp.miss, method = "fmm"))
+```
+
+```{r, echo = F, eval = T, message = F, warning = F, results = "hide", fig.width=6, fig.height=3, fig.show='hold'}
+dat.plot <- cbind(gdp.miss, na.approx(gdp.miss), na.spline(gdp.miss, method = "fmm"))
+
+ggplot() +
+  geom_line(data = dat.plot, aes(x = Index, y = US.Real.GDP.1, color = "Linear"), size = 1.5) +
+  geom_line(data = dat.plot, aes(x = Index, y = US.Real.GDP.2, color = "Cubic"), size = 1.5) +
+  geom_line(data = dat.plot, aes(x = Index, y = US.Real.GDP, color = "Incomplete"), size = 1.5) +
+  scale_color_manual(labels = c("Incomplete","Linear","Cubic"),
+                     breaks = c("Incomplete","Linear","Cubic"),
+                     values = c("Incomplete"="black","Linear"="red","Cubic"="blue")) +
+  scale_y_continuous(limits=c(12900,13600), breaks=seq(12900,13600,100)) +
+  scale_x_date(limits = c(as.Date("1999-10-01"), as.Date("2003-03-01")), date_breaks = "6 month", date_labels = "%b-%y") +
+  theme_hc() +
+  theme(legend.position = c(0.65,0.25), 
+        legend.direction = "horizontal",
+        legend.title = element_blank(),
+        legend.background = element_rect(fill="white"),
+        legend.box.background = element_rect(fill="black"),
+        legend.text = element_text(size = 7, colour = "black"),
+        panel.grid.major.y = element_line(size = 0.15, colour = "grey", linetype = 3),
+        panel.grid.major.x = element_line(size = 0.15, colour = "transparent", linetype = 1),
+        panel.grid.minor.x = element_line(colour = "transparent")) +
+  labs(x = "", y = "", color = "", 
+       title = "U.S. Real GDP", 
+       subtitle = "Billions of Chained 2009 Dollars", 
+       caption = "Source: U.S. Bureau of Economic Analysis.")
+```
+
+
+---
+
+### Transformations, Combine and Change Frequency
+
+---
+
+##### **Basic Function Transformations**
+
+Transformation                                                           | Command
+-------------------------------------------------------------------------|---------
+Logarithm                                                                | `log(y)`
+Lag: $L^{n} y_{t} = y_{t-1}$                                             | `lag(y,n)`
+Difference: $\Delta y_{t} = y_{t} - y_{t-1}$                             | `diff(y)`
+Moving average: $\bar{y}^{n}_{t} = \frac{1}{n} \sum^{n-1}_{i=0} y_{t-i}$ | `rollapply(y, n, FUN = mean)`
+Cumulative sum: $y^{s}_{t} = \sum^{t}_{i=0} y_{i}$                       | `cumsum(y)`
+
+
+```{r, echo = F, eval = T, message = F, warning = F, tidy = T}
+xts.gdp <- GDPC1
+colnames(xts.gdp) <- "gdp"
+date = seq(as.Date("1947-03-01"), by = "1 quarter", length.out = nrow(GDPC1))  ## Reset the quarters to end of month
+index(xts.gdp) <- date
+```
+
+```{r, echo = T, eval = T, message = F, warning = F, tidy = T}
+# Transformations
+xts.gdp$lgdp <- log(xts.gdp$gdp)
+xts.gdp$lgdp_1 <- lag(xts.gdp$lgdp, 1)
+xts.gdp$dlgdp <- diff(xts.gdp$lgdp)
+xts.gdp$mov.avg5_lgdp <- rollapply(xts.gdp$lgdp, 5, FUN = mean)
+xts.gdp$cu.sum_lgdp <- cumsum(xts.gdp$lgdp)
+```
+
+
+---
+
+##### **Period aggregation**
+
+```{r, echo = F, eval = T, message = F, warning = F, tidy = T}
+xts.gdp <- GDPC1
+colnames(xts.gdp) <- "QRT.GDP"
+date = seq(as.Date("1947-03-01"), by = "1 quarter", length.out = nrow(GDPC1))  ## Reset the quarters to end of month
+index(xts.gdp) <- date
+```
+
+```{r, echo = T, eval = T, message = F, warning = F, tidy = T}
+# Get a date index on a lower frequency
+periodicity(xts.gdp)
+years <- endpoints(xts.gdp, on = "years") 
+
+# Aggregate to first/end of period
+xts.gdp.a.firs <- period.apply(xts.gdp, INDEX = years, FUN = first)
+xts.gdp.a.last <- period.apply(xts.gdp, INDEX = years, FUN = last)
+# Aggregate to average of period
+xts.gdp.a.mean <- period.apply(xts.gdp, INDEX = years, FUN = mean)
+# Aggregate to sum of period
+xts.gdp.a.sum <- period.apply(xts.gdp, INDEX = years, FUN = sum)
+# Aggregate to min/max of period
+xts.gdp.a.min <- period.apply(xts.gdp, INDEX = years, FUN = min)
+xts.gdp.a.max <- period.apply(xts.gdp, INDEX = years, FUN = max)
+```
+
+```{r, echo = F, eval = T, message = F, warning = F, tidy = T}
+colnames(xts.gdp.a.firs) <- "FOP.GDP"
+colnames(xts.gdp.a.last) <- "EOP.GDP"
+colnames(xts.gdp.a.mean) <- "AVG.GDP"
+colnames(xts.gdp.a.sum) <- "SUM.GDP"
+colnames(xts.gdp.a.min) <- "MIN.GDP"
+colnames(xts.gdp.a.max) <- "MAX.GDP"
+```
+
+```{r, echo = T, eval = T, message = F, warning = F, tidy = T}
+# Putting all together...
+cbind(xts.gdp['2000/2001'],
+      xts.gdp.a.firs['2000/2001'],xts.gdp.a.last['2000/2001'],xts.gdp.a.mean['2000/2001'],
+      xts.gdp.a.sum['2000/2001'],xts.gdp.a.min['2000/2001'],xts.gdp.a.max['2000/2001'])
+```
+
+
+---
+
+##### **Combine series**
+```{r, echo = F, eval = T, message = F, warning = F, tidy = T}
+xts.gdp <- GDPC1
+colnames(xts.gdp) <- "QRT.GDP"
+date = seq(as.Date("1947-03-01"), by = "1 quarter", length.out = nrow(GDPC1))  ## Reset the quarters to end of month
+index(xts.gdp) <- date
+
+xts.inf <- PCEPILFE
+colnames(xts.inf) <- "mon.infl"
+```
+
+```{r, echo = T, eval = T, message = F, warning = F, tidy = T}
+# Aggregate data to quarterly averages
+quarts <- endpoints(xts.inf, on = "quarters") 
+xts.inf.q.avg <- period.apply(xts.inf, INDEX = quarts, FUN = mean)
+
+# Merge monthly and quarterly data
+xts.inf <- merge(xts.inf, xts.inf.q.avg, join = "left")
+colnames(xts.inf) <- c("EOP.inf","AVG.inf")
+xts.inf["2001"]
+```
+
+```{r, echo = T, eval = T, message = F, warning = F, tidy = T}
+# Merge two series and exclude the missing cases from both sides
+merge(xts.gdp['2001'], xts.inf['2001'], join = "inner")
+```
+
+
+
+
+---
+
+### Summary Charts
+```{r, echo = T, eval = F, message = F, warning = F, results = "hide", fig.width=6, fig.height=4, fig.show='hold'}
+# Plot separate series under the zoo TS structure
+plot(ts.data[,c(1:2)], plot.type = "multiple",
+     col = c("blue","red"),
+     lty = c(1,1), lwd = c(2,2),
+     main = "",
+     ylab = c("FED Rate","Inflation"),
+     xlab = "Date")
+legend(x = "topright", 
+       legend = c("FED Rate","Inflation"), 
+       col = c("blue","red"), lty = c(1,1), lwd = c(2,2))
+```
+
+```{r, echo = T, eval = F, message = F, warning = F, results = "hide", fig.width=6, fig.height=4, fig.show='hold'}
+# Plot series together under the zoo TS structure
+plot(ts.data[,c(1:2)], plot.type = "single", ylim = c(0,20),
+     col = c("blue","red"),
+     lty = c(1,1), lwd = c(2,2),
+     ylab = "Percentage points",
+     xlab = "Date")
+legend(x = "topright", 
+       legend = c("Fed Rate","Inflation"), 
+       col = c("blue","red"), lty = c(1,1), lwd = c(2,2))
+```
+
+```{r, echo = F, eval = T, message = F, warning = F, tidy = T}
+date = seq(as.Date("1960/3/1"), by = "3 month", length.out = nrow(raw.data))
+xts.data <- xts(raw.data[,-1], order.by = date, frequency = 4)
+#colnames(xts.data) <- c("Fed Rate","Inflation","Log GDP")
+#index(xts.data) <- POSIXct(index(xts.data))
+```
+
+
+```{r, echo = T, eval = F, message = F, warning = F, include=T, fig.width=9, fig.height=4, fig.align="left"}
+ggplot() +
+  geom_line(data = xts.data, aes(x = Index, y = ffr, color = "Fed Rate"), linetype = 1, size = 1) +
+  geom_line(data = xts.data, aes(x = Index, y = infl, color = "Inflation"), linetype = 1, size = 1) +
+  scale_color_manual(labels = c("Fed Rate","Inflation"),
+                     breaks = c("Fed Rate","Inflation"),
+                     values = c("Fed Rate"="red","Inflation"="blue")) +
+  scale_y_continuous(limits=c(0,20), breaks=seq(0,20,5)) +
+  scale_x_date(limits = as.Date(c("1960-03-01","2018-03-01")), date_breaks = "10 years", date_labels = "%Y") +
+  theme_hc() +
+  theme(legend.position = c(0.82,0.85), 
+        legend.direction = "horizontal",
+        legend.background = element_rect(fill="transparent"),
+        panel.grid.major.y = element_line(size = 0.1, colour = "grey", linetype = 3),
+        panel.grid.major.x = element_line(colour = "transparent"),
+        panel.grid.minor.x = element_line(colour = "transparent")) +
+  labs(x = "", y = "", color = "", 
+       title = "Federal Funds Rate and PCE Inflation", 
+       subtitle = "Percentage points", 
+       caption = "Source: U.S. Bureau of Economic Analysis.")
+```
+
+
+```{r, echo = F, eval = T, message = F, warning = F, include=T, fig.width=9, fig.height=3, fig.align="center"}
+dygraph(xts.data[,c(1,2)], ylab="", main="Federal Funds Rate and PCE Inflation") %>%
+  dyOptions(colors = c('#377eb8','#4daf4a'), digitsAfterDecimal="1", strokeWidth = 2, fillAlpha = 0.7) %>%
+  dyShading(from = "1969-06-1", to = "1970-12-1", color = "#d9d9d9") %>%
+  dyShading(from = "1973-12-1", to = "1975-03-1", color = "#d9d9d9") %>%
+  dyShading(from = "1979-06-1", to = "1980-06-1", color = "#d9d9d9") %>%
+  dyShading(from = "1981-06-1", to = "1982-06-1", color = "#d9d9d9") %>%
+  dyShading(from = "1989-12-1", to = "1991-03-1", color = "#d9d9d9") %>%
+  dyShading(from = "2001-03-1", to = "2001-09-1", color = "#d9d9d9") %>%
+  dyShading(from = "2007-12-1", to = "2009-06-1", color = "#d9d9d9") %>%
+  dyAxis("y", valueRange = c(0, 21), label = "Percentage points", drawGrid = F) %>%
+  dyAxis("x", valueRange = c("1960-01-01", "2018-01-01"), drawGrid = F, rangePad=2)
+```
+
+
+
+
+---
+
+### Useful Links
+
+[CRAN Task View: Time Series Analysis](https://cran.r-project.org/web/views/TimeSeries.html)
+
+[zoo Quick Reference](https://cran.r-project.org/web/packages/zoo/vignettes/zoo-quickref.pdf)
+
+[xts: Extensible Time Series](https://cran.r-project.org/web/packages/xts/vignettes/xts.pdf)
+
+[R Functions for TS Analysis](https://cran.r-project.org/doc/contrib/Ricci-refcard-ts.pdf)
+
+[Data Camp xts Cheat Sheet](https://www.datacamp.com/community/blog/r-xts-cheat-sheet)
+
+[RPubs Good xts Reference](https://rpubs.com/mohammadshadan/288218)
+
+[Another xts Reference](https://ugoproto.github.io/ugo_r_doc/Time+Series+in+R+The+Power+of+xts+and+zoo/)
+
+
+---
+
+[^1]: For more information check the official [web site](http://data.imf.org/) and these other useful sites: [site 1](https://github.com/mingjerli/IMFData), [site 2](https://cran.r-project.org/web/packages/IMFData/IMFData.pdf) and [site 3](https://github.com/christophergandrud/imfr).
+[^2]: Organisation for Economic Co-operation and Development, for more information check the [web site](https://github.com/opensdmx/rsdmx).
+

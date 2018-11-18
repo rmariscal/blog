@@ -6,10 +6,20 @@
     <description>Recent content on Rodrigo Mariscal</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sun, 01 Jan 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 26 Jun 2018 21:12:36 +0000</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Time Series in R: Quick Reference</title>
+      <link>/blog/time-series-in-r-quick-reference/</link>
+      <pubDate>Tue, 26 Jun 2018 21:12:36 +0000</pubDate>
+      
+      <guid>/blog/time-series-in-r-quick-reference/</guid>
+      <description>Read and Define the Time Series (TS) Objects Read from a Saved File These functions reads a file without a TS structure and then defines the TS object.
+# Read from a raw csv file raw.data &amp;lt;- read.table(&amp;quot;./data/data.us.csv&amp;quot;, sep = &amp;quot;,&amp;quot;, header = T) # When you have the dates in the original csv file xts.data &amp;lt;- xts(raw.data, order.by = as.Date(raw.data$date, &amp;quot;%m/%d/%Y&amp;quot;)) # When you don&amp;#39;t have the dates in the original csv file but know the starting date date = seq(as.</description>
+    </item>
     
     <item>
       <title>A small project example : add yours !</title>
@@ -32,16 +42,6 @@
     </item>
     
     <item>
-      <title>About</title>
-      <link>/about/</link>
-      <pubDate>Sat, 22 Aug 2015 00:00:00 +0000</pubDate>
-      
-      <guid>/about/</guid>
-      <description>With this theme, it is possible to add small sections that only contains one page like this. It will automatically appears in the header, at the end.
-Along with Ford Prefect, Dent barely escapes the Earth&amp;rsquo;s destruction as it is demolished to make way for a hyperspace bypass. Arthur spends the next several years, still wearing his dressing gown, helplessly launched from crisis to crisis while trying to straighten out his lifestyle.</description>
-    </item>
-    
-    <item>
       <title>Projects</title>
       <link>/projects/projects/</link>
       <pubDate>Wed, 19 Aug 2015 20:29:37 -0700</pubDate>
@@ -60,6 +60,16 @@ A Hollywood-funded film version, produced and filmed in the UK, was released in 
       <description>R Markdown This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see http://rmarkdown.rstudio.com.
 You can embed an R code chunk like this:
 summary(cars) ## speed dist ## Min. : 4.0 Min. : 2.00 ## 1st Qu.:12.0 1st Qu.: 26.00 ## Median :15.0 Median : 36.00 ## Mean :15.4 Mean : 42.98 ## 3rd Qu.</description>
+    </item>
+    
+    <item>
+      <title>Time Series in R: Quick Reference</title>
+      <link>/blog/time-series-in-r-quick-reference/</link>
+      <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
+      
+      <guid>/blog/time-series-in-r-quick-reference/</guid>
+      <description>Read and Define the Time Series (TS) Objects Read from a Saved File These functions reads a file without a TS structure and then defines the TS object.
+# Read from a raw csv file raw.data &amp;lt;- read.table(&amp;quot;./data/data.us.csv&amp;quot;, sep = &amp;quot;,&amp;quot;, header = T) # When you have the dates in the original csv file xts.data &amp;lt;- xts(raw.data, order.by = as.Date(raw.data$date, &amp;quot;%m/%d/%Y&amp;quot;)) # When you don&amp;#39;t have the dates in the original csv file but know the starting date date = seq(as.</description>
     </item>
     
     <item>
@@ -94,6 +104,15 @@ More complete instructions are available at installing hugo
 Step 2. Build the Docs Hugo has its own example site which happens to also be the documentation site you are reading right now.
 Follow the following steps:
  Clone the hugo repository Go into the repo Run hugo in server mode and build the docs Open your browser to http://localhost:1313  Corresponding pseudo commands:</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/about/</guid>
+      <description>Rodrigo Mariscal is a senior research analyst at the Institute of International Finance. He has worked at the IMF’s Western Hemisphere Department, the Inter-American Development Bank, and Mexico’s Central Bank. Mr. Mariscal holds an M.A. in economics from El Colegio de Mexico. His research focuses on macroeconomics, with emphasis on the credibility of inflation regimes in Latin America, sovereign debt restructurings, and commodity prices. He has also worked on income distribution and labor productivity in North America.</description>
     </item>
     
     <item>

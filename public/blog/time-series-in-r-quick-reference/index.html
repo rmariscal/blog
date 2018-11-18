@@ -1,0 +1,1666 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+<meta charset="utf-8">
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Personal Blog">
+
+
+    <meta property="twitter:site" content="@RodMariscal">
+
+<meta property="og:site_name" content="Rodrigo Mariscal" />
+<meta property="og:locale" content="en-US" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/blog/time-series-in-r-quick-reference/" />
+<meta property="og:title" content="Time Series in R: Quick Reference" />
+<meta property="twitter:title" content="Time Series in R: Quick Reference">
+
+    <meta property="og:image" content="/img/banner.png">
+    <meta property="twitter:card" content="summary">
+    <meta property="twitter:image" content="/img/banner.png">
+
+<meta property="og:description" content="">
+<meta property="twitter:description" content="">
+
+<title>
+
+
+     Rodrigo Mariscal - Time Series in R: Quick Reference 
+
+</title>
+<link rel="canonical" href="/blog/time-series-in-r-quick-reference/">
+
+
+<style media="screen">
+  @font-face {
+  font-family: 'Nexa Bold';
+  src: url('/fonts/Nexa Bold.otf');
+}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, div.column {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+a,
+a:visited,
+a:focus,
+a:active {
+  text-decoration: none;
+}
+html {
+  height: 100%;
+  font-size: 16px;
+}
+body {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -ms-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  -webkit-justify-content: flex-start;
+  -moz-justify-content: flex-start;
+  -ms-justify-content: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 100%;
+  font-weight: 400;
+  font-family: 'Helvetica Neue', 'Arial', sans-serif;
+  color: #111111;
+  line-height: 1.6;
+  text-rendering: optimizeLegibility !important;
+}
+.icon {
+  text-rendering: geometricPrecision !important;
+}
+section {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -ms-flex;
+  display: flex;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  width: 100%;
+}
+div.column {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -ms-flex;
+  display: flex;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  width: 100%;
+}
+.container {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -ms-flex;
+  display: flex;
+  width: 100%;
+}
+div.header .container {
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+}
+div.header .content {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -ms-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+}
+div.header .container .logo {
+  
+  max-width: 100px;
+  
+  margin-left: -2em;
+}
+div.header .name {
+  padding-top: 20px;
+  font-size: 28px;
+  font-family: 'Nexa Bold', 'Helvetica Neue', 'Arial', sans-serif;
+  letter-spacing: -0.005rem;
+  
+  text-transform: uppercase;
+  
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  color: #333333;
+}
+div.header nav {
+  margin-bottom: 16px;
+}
+div.header nav ul {
+  list-style: none;
+  text-align: center;
+  display: -webkit-inline-flex;
+  display: -moz-inline-flex;
+  display: -ms-inline-flexbox;
+  display: -ms-inline-flex;
+  display: inline-flex;
+}
+div.header nav ul li {
+  margin-left: 6px;
+  margin-right: 6px;
+}
+div.header nav ul li:first-child {
+  margin-left: 0;
+}
+div.header nav ul li:last-child {
+  margin-right: 0;
+}
+div.header nav ul a {
+  color: #555555;
+  font-weight: 400;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-family: 'Helvetica Neue', 'Arial', sans-serif;
+  -webkit-transition: color 0.1s cubic-bezier(0.47, 0, 0.75, 0.72);
+  -moz-transition: color 0.1s cubic-bezier(0.47, 0, 0.75, 0.72);
+  -ms-transition: color 0.1s cubic-bezier(0.47, 0, 0.75, 0.72);
+  -o-transition: color 0.1s cubic-bezier(0.47, 0, 0.75, 0.72);
+}
+div.header nav ul a:hover {
+  color: #111111;
+}
+div.footer .container {
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+  flex-direction: column-reverse;
+  width: 100%;
+  text-align: center;
+}
+div.footer .container a {
+  font-size: 14px;
+  margin-left: 6px;
+  margin-right: 6px;
+  opacity: 0.6;
+  -webkit-transition: opacity 0.1s cubic-bezier(0.47, 0, 0.75, 0.72);
+  -moz-transition: opacity 0.1s cubic-bezier(0.47, 0, 0.75, 0.72);
+  -ms-transition: opacity 0.1s cubic-bezier(0.47, 0, 0.75, 0.72);
+  -o-transition: opacity 0.1s cubic-bezier(0.47, 0, 0.75, 0.72);
+}
+div.footer .container a:first-child {
+  margin-left: 0;
+}
+div.footer .container a:last-child {
+  margin-right: 0;
+}
+div.footer .container a:hover {
+  opacity: 0.8;
+}
+div.footer .container a .icon {
+  width: 16px;
+  height: 16px;
+}
+div.footer .container .copyright {
+  flex-grow: 0.5;
+  text-align: start;
+}
+div.footer .container .icons {
+  flex-grow: 0.5;
+  text-align: end;
+}
+div.main .container {
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  -webkit-justify-content: flex-start;
+  -moz-justify-content: flex-start;
+  -ms-justify-content: flex-start;
+  justify-content: flex-start;
+}
+div.main .content {
+  color: #111111;
+  font-size: 16px;
+}
+div.main .content .title-container {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -ms-flex;
+  display: flex;
+  -webkit-justify-content: space-between;
+  -moz-justify-content: space-between;
+  -ms-justify-content: space-between;
+  justify-content: space-between;
+}
+div.main .content .posts {
+  
+  
+}
+div.main .content .page-heading {
+  font-size: 20px;
+  font-weight: 700;
+  font-family: 'Helvetica Neue', 'Arial', sans-serif;
+  letter-spacing: -0.005rem;
+  text-transform: uppercase;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  color: #333333;
+  margin-bottom: 16px;
+}
+div.main .content .front-matter .page-heading {
+  margin-bottom: 0;
+}
+div.main .content .front-matter .meta {
+  font-size: 14px;
+  color: #666666;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -ms-flex;
+  display: flex;
+  margin-bottom: 32px;
+}
+div.main .content .front-matter .date,
+div.main .content .front-matter .author,
+div.main .content .front-matter .tags,
+div.main .content .front-matter .word-count,
+div.main .content .front-matter .middot:before {
+  display: none;
+}
+div.main .content .front-matter .middot:before {
+  font-size: 6px;
+  margin: 0 6px;
+  vertical-align: middle;
+  content: "•";
+}
+div.main .content .front-matter .tags ul {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -ms-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+}
+div.main .content .front-matter .tags ul li {
+  -webkit-transition: opacity 0.1s cubic-bezier(0.47, 0, 0.75, 0.72);
+  -moz-transition: opacity 0.1s cubic-bezier(0.47, 0, 0.75, 0.72);
+  -ms-transition: opacity 0.1s cubic-bezier(0.47, 0, 0.75, 0.72);
+  -o-transition: opacity 0.1s cubic-bezier(0.47, 0, 0.75, 0.72);
+}
+div.main .content .front-matter .tags ul li:hover {
+  opacity: 0.7;
+}
+div.main .content .front-matter .tags ul li a {
+  color: #666666;
+}
+div.main .container.f04 {
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+}
+div.main .container.f04 .content {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -ms-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+}
+div.main .container.f04 .content .num {
+  margin: 30px 0px 30px 0;
+  font-weight: 400;
+  font-family: 'Helvetica Neue', 'Arial', sans-serif;
+  font-size: 50px;
+}
+div.main .container.f04 .content .detail {
+  margin-bottom: 40px;
+}
+div.main .container .content .groupby {
+  margin-top: 1em;
+  padding-left: 0.5em;
+}
+div.main .container .content .post-item {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -ms-flex;
+  display: flex;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  display: list-item;
+  list-style: disc inside;
+}
+div.main .container .content .post-item .meta {
+  font-size: 14px;
+  color: #666666;
+  display: none;
+  min-width: 100px;
+}
+div.main .container .content .see-more {
+  font-style: italic;
+  float: right;
+  font-size: 0.9em;
+  margin-top: 2em;
+  color: #313537;
+}
+div.main .container .content .see-more:hover {
+  color: #666;
+}
+section {
+  padding: 0 16px;
+}
+div.column {
+  padding: 0 16px;
+}
+div.header {
+  padding-top: 10px;
+}
+div.header-home {
+  padding-top: 36px;
+}
+div.main {
+  padding-top: 32px;
+}
+div.main .container .content .post-item .meta {
+    display: block;
+}
+div.main .container .content .post-item {
+    display: flex;
+    list-style: none;
+}
+a {
+  color: #428bca;
+  -webkit-transition: color 0.1s cubic-bezier(0.47, 0, 0.75, 0.72);
+  -moz-transition: color 0.1s cubic-bezier(0.47, 0, 0.75, 0.72);
+  -ms-transition: color 0.1s cubic-bezier(0.47, 0, 0.75, 0.72);
+  -o-transition: color 0.1s cubic-bezier(0.47, 0, 0.75, 0.72);
+}
+a:hover {
+  color: #2a6496;
+}
+img {
+  max-width: 100%;
+}
+div.main .content {
+    width: 100%;
+}
+div.main .content .markdown {
+  font-size: 1.1em;
+  line-height: 1.75em;
+  color: #313537;
+  font-family: serif;
+  font-weight: 300;
+}
+div.main .content .markdown h1,
+div.main .content .markdown h2,
+div.main .content .markdown h3,
+div.main .content .markdown h4,
+div.main .content .markdown h5,
+div.main .content .markdown h6 {
+  font-size: 22px;
+  font-family: 'Helvetica Neue', 'Arial', sans-serif;
+  letter-spacing: -0.005rem;
+  font-weight: 700;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  color: #333333;
+  text-transform: none;
+  margin-top: 1.75rem;
+}
+div.main .content .markdown h1 {
+  font-size: 1.75rem;
+  margin-bottom: 2rem;
+}
+div.main .content .markdown h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+div.main .content .markdown h3 {
+  font-size: 1em;
+  margin-bottom: 1rem;
+}
+div.main .content .markdown h4,
+div.main .content .markdown h5,
+div.main .content .markdown h6 {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  letter-spacing: none;
+}
+div.main .content .markdown code,
+div.main .content .markdown pre {
+  font-family: 'Menlo', monospace;
+  font-size: 0.98rem;
+  background-color: #f7f7f7;
+}
+div.main .content .markdown code {
+  /* enclosed by single backtick (`) */
+  padding: .15em .5em;
+  border-radius: 2px;
+}
+div.main .content .markdown pre {
+  /* Hugo specific: consider using the 'highlight' shortcode */
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  line-height: 1.5em;
+  white-space: pre;
+  word-break: break-all;
+  word-wrap: break-word;
+}
+div.main .content .markdown pre code {
+  /* enclosed by 4 backticks (````) */
+  padding: 0;
+  font-size: 0.9rem;
+}
+div.main .content .markdown a code {
+  color: #428bca !important;
+}
+div.main .content .markdown a code:hover {
+  text-decoration: underline;
+}
+div.main .content .markdown p {
+  
+  text-align: justify;
+  
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+div.main .content .markdown ul,
+div.main .content .markdown ol,
+div.main .content .markdown dl {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+div.main .content .markdown dt {
+  font-weight: bold;
+}
+div.main .content .markdown dd {
+  margin-bottom: .5rem;
+}
+div.main .content .markdown ul {
+  list-style-type: disc;
+  list-style-position: outside;
+  margin-bottom: 1.25rem;
+}
+div.main .content .markdown ol {
+  list-style-type: decimal;
+  margin-bottom: 1.25rem;
+}
+div.main .content .markdown li {
+  margin-left: 2em;
+}
+div.main .content .markdown em {
+  font-style: italic;
+}
+div.main .content .markdown strong {
+  font-weight: 700;
+}
+div.main .content .markdown hr {
+  position: relative;
+  margin: 1.75rem 0;
+  border: 0;
+  border-top: 1px solid #808080;
+  border-top: 1px solid #999999;
+}
+div.main .content .markdown abbr {
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: #666666;
+  text-transform: uppercase;
+}
+div.main .content .markdown abbr[title] {
+  cursor: help;
+  border-bottom: 1px dotted #808080;
+}
+div.main .content .markdown blockquote {
+  padding: .5rem 1rem;
+  margin: .8rem 0;
+  color: #7a7a7a;
+  border-left: .25rem solid #e5e5e5;
+}
+div.main .content .markdown blockquote p:last-child {
+  margin-bottom: 0;
+}
+div.main .content .markdown figure {
+  width: 100%;
+  background: #fff;
+  margin-bottom: 1em;
+}
+div.main .content .markdown figure img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  display: block;
+  position: static;
+  margin: auto;
+}
+div.main .content .markdown table {
+  margin-bottom: 1rem;
+  width: 100%;
+  border: 1px solid #e5e5e5;
+  border-collapse: collapse;
+}
+div.main .content .markdown td,
+div.main .content .markdown th {
+  padding: .25rem .5rem;
+  border: 1px solid #e5e5e5;
+}
+div.main .content .markdown tbody tr:nth-child(odd) td,
+div.main .content .markdown tbody tr:nth-child(odd) th {
+  background-color: #f7f7f7;
+}
+div.main .content .markdown .footnotes ol {
+  list-style-type: decimal;
+  margin-left: 16px;
+}
+div.main .content .markdown .footnotes li {
+  list-style-type: unset;
+}
+div.main .content .markdown .footnote-ref {
+  font-size: 0.7em;
+}
+div.main .content .navigation {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -ms-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  padding: 2em;
+}
+div.main .content .navigation div {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -ms-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  margin-top: 1em;
+}
+div.main .content .navigation .icon {
+  width: 16px;
+  height: 16px;
+}
+div.main .content .navigation a {
+  width: 250px;
+  margin: 0 1em;
+  text-align: center;
+  font-style: italic;
+  color: #313537;
+}
+div.main .content .share, div.main .content .share div {
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flexbox;
+  display: -ms-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  -moz-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+  justify-content: center;
+}
+div.main .content .share {
+  background-color: rgba(152, 152, 152, 0.07);
+  padding: 1em 0;
+}
+div.main .content .share a {
+  margin: 0 6px;
+}
+kbd {
+  padding: 0.1em 0.6em;
+  border: 1px solid #ccc;
+  font-size: 11px;
+  font-family: Arial,Helvetica,sans-serif;
+  background-color: #f7f7f7;
+  color: #333;
+  -moz-box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2),0 0 0 2px #ffffff inset;
+  -webkit-box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2),0 0 0 2px #ffffff inset;
+  box-shadow: 0 1px 0px rgba(0, 0, 0, 0.2),0 0 0 2px #ffffff inset;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  display: inline-block;
+  margin: 0 0.1em;
+  text-shadow: 0 1px 0 #fff;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+/* Fonts */
+
+
+.wf-raleway-n4-active body, 
+.wf-raleway-n4-active div.header nav ul a,
+.wf-raleway-n7-active div.main .content .page-heading,
+.wf-raleway-n2-active div.main .container.f04 .content .num,
+.wf-raleway-n7-active div.main .content .markdown h1,
+.wf-raleway-n7-active div.main .content .markdown h2,
+.wf-raleway-n7-active div.main .content .markdown h3,
+.wf-raleway-n7-active div.main .content .markdown h4,
+.wf-raleway-n7-active div.main .content .markdown h5,
+.wf-raleway-n7-active div.main .content .markdown h6 {
+      font-family: 'Raleway';
+}
+
+.wf-merriweather-n3-active div.main .content .markdown {
+      font-family: 'Merriweather';
+}
+
+.wf-ubuntu-mono-n4-active div.main .content .markdown code,
+.wf-ubuntu-mono-n4-active div.main .content .markdown pre {
+      font-family: 'Ubuntu Mono';
+}
+
+
+</style>
+<style media="(min-width: 600px)">
+  body {
+-webkit-justify-content: center;
+-moz-justify-content: center;
+-ms-justify-content: center;
+justify-content: center;
+}
+.non-narrow.zero-top-spacing {
+padding-top: 0 !important;
+}
+section {
+padding: 0 16px;
+margin-left: 100px;
+margin-right: 100px;
+
+max-width: 750px;
+
+}
+div.column {
+padding: 0 16px;
+
+max-width: 750px;
+
+}
+div.header {
+background-color: transparent;
+}
+div.header .container {
+-webkit-justify-content: flex-start;
+-moz-justify-content: flex-start;
+-ms-justify-content: flex-start;
+justify-content: flex-start;
+}
+div.header .container .logo {
+margin: 0;
+}
+div.header-home .container .logo {
+max-width: 216px;
+margin-left: 24px;
+}
+div.header-home .name-home {
+padding-top: 30px;
+font-size: 40px;
+}
+div.header-home nav ul a {
+font-size: 18px;
+}
+div.header .content {
+-webkit-align-items: flex-start;
+-moz-align-items: flex-start;
+-ms-align-items: flex-start;
+align-items: flex-start;
+}
+div.header .name {
+color: #333333;
+}
+div.header nav {
+font-size: 14px;
+margin-bottom: 0;
+}
+div.header nav ul {
+text-align: left;
+}
+div.header nav ul a {
+color: #666666;
+}
+div.header nav ul a:hover {
+color: #333333;
+}
+div.footer {
+background-color: transparent;
+}
+div.footer .container {
+flex-direction: row;
+}
+div.footer .container a {
+margin-left: 3px;
+margin-right: 3px;
+color: #666666;
+}
+div.footer .container a:hover {
+color: #333333;
+}
+div.footer .container a .icon {
+font-size: 18px;
+}
+div.footer .container a .icon.larger {
+font-size: 20px;
+}
+div.main .content .front-matter .date,
+div.main .content .front-matter .author,
+div.main .content .front-matter .tags,
+div.main .content .front-matter .word-count,
+div.main .content .front-matter .middot:before {
+display: initial;
+}
+div.main .container.f04 {
+-webkit-justify-content: flex-start;
+-moz-justify-content: flex-start;
+-ms-justify-content: flex-start;
+justify-content: flex-start;
+}
+div.main .container.f04 .content {
+-webkit-align-items: flex-start;
+-moz-align-items: flex-start;
+-ms-align-items: flex-start;
+align-items: flex-start;
+}
+div.main .container.f04 .content .num {
+margin: 0 0 10px 0;
+font-size: 32px;
+}
+div.main .container.f04 .content .detail {
+margin-bottom: 30px;
+}
+.container {
+padding: 0 30px;
+}
+div.header {
+padding-top: 60px;
+padding-bottom: 60px;
+}
+div.footer {
+padding-top: 60px;
+padding-bottom: 60px;
+}
+div.main {
+padding-top: 0;
+}
+div.main .content {
+  
+  font-size: 16px;
+  
+}
+div.main .container .content .post-item {
+display: flex;
+list-style: none;
+padding-left: 1.5em;
+}
+div.main .container .content .post-item .meta {
+display: block;
+}
+div.main .content .markdown blockquote {
+padding-right: 5rem;
+padding-left: 1.25rem;
+}
+div.main .content .navigation {
+-webkit-flex-direction: row;
+-moz-flex-direction: row;
+-ms-flex-direction: row;
+flex-direction: row;
+}
+div.main .content .navigation div {
+margin-top: 0em;
+}
+
+</style>
+<style media="(min-width: 769px)">
+  div.main .content .markdown figure {
+width: 110%;
+margin-left: -4%;
+}
+div.main .content .markdown img {
+max-width: 110%;
+width: 110%;
+margin-left: -4%;
+}
+div.main .content .markdown pre {
+width: 110%;
+margin-left: -4%;
+}
+
+</style>
+
+<noscript>
+  <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Merriweather:300,300i,700,700i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700" rel="stylesheet">
+</noscript>
+
+
+  <style type="text/css" media="screen">
+    .hljs{display:block;background:white;padding:0.5em;color:#333333;overflow-x:auto}.hljs-comment,.hljs-meta{color:#969896}.hljs-string,.hljs-variable,.hljs-template-variable,.hljs-strong,.hljs-emphasis,.hljs-quote{color:#df5000}.hljs-keyword,.hljs-selector-tag,.hljs-type{color:#a71d5d}.hljs-literal,.hljs-symbol,.hljs-bullet,.hljs-attribute{color:#0086b3}.hljs-section,.hljs-name{color:#63a35c}.hljs-tag{color:#333333}.hljs-title,.hljs-attr,.hljs-selector-id,.hljs-selector-class,.hljs-selector-attr,.hljs-selector-pseudo{color:#795da3}.hljs-addition{color:#55a532;background-color:#eaffea}.hljs-deletion{color:#bd2c00;background-color:#ffecec}.hljs-link{text-decoration:underline}
+  </style>
+
+
+
+  <style type="text/css" media="screen">
+    .progressive{overflow:hidden;position:relative;background:#efefef}.progressive__img{width:100%;height:100%;position:absolute;-webkit-transform:translateZ(0);transform:translateZ(0)}.progressive--not-loaded{filter:blur(30px);-webkit-filter:blur(30px)}.progressive--is-loaded{filter:blur(20px);-webkit-filter:blur(20px);-webkit-animation:sharpen .5s both;animation:sharpen .5s both}@-webkit-keyframes sharpen{from{filter:blur(20px);-webkit-filter:blur(20px)}to{filter:blur(0);-webkit-filter:blur(0)}}@keyframes sharpen{from{filter:blur(20px);-webkit-filter:blur(20px)}to{filter:blur(0);-webkit-filter:blur(0)}}
+  </style>
+
+
+
+  <style type="text/css" media="screen">
+    /*!
+ * Social Share Kit v1.0.7 (http://socialsharekit.com)
+ * Copyright 2015 Social Share Kit / Kaspars Sprogis.
+ * Licensed under Creative Commons Attribution-NonCommercial 3.0 license:
+ * https://github.com/darklow/social-share-kit/blob/master/LICENSE
+ * ---
+ */@font-face{font-family:'social-share-kit';src:url('/fonts/social-share-kit.eot');src:url('/fonts/social-share-kit.eot?#iefix') format('embedded-opentype'),url('/fonts/social-share-kit.woff') format('woff'),url('/fonts/social-share-kit.ttf') format('truetype'),url('/fonts/social-share-kit.svg#social-share-kit') format('svg');font-weight:normal;font-style:normal}.ssk:before{display:inline-block;font-family:"social-share-kit" !important;font-style:normal !important;font-weight:normal !important;font-variant:normal !important;text-transform:none !important;speak:none;line-height:1;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.ssk-facebook:before{content:"a";text-indent:4px;margin-right:-4px}.ssk-twitter:before{content:"b"}.ssk-google-plus:before{content:"v"}.ssk-google-plus-old:before{content:"c"}.ssk-email:before{content:"d";top:-1px;position:relative}.ssk-pinterest:before{content:"e"}.ssk-tumblr:before{content:"f"}.ssk-linkedin:before{content:"g"}.ssk-github:before{content:"h"}.ssk-vk:before{content:"i"}.ssk-instagram:before{content:"j"}.ssk-amazon:before{content:"k"}.ssk-skype:before{content:"s"}.ssk-youtube:before{content:"x"}.ssk-vimeo:before{content:"u"}.ssk-ebay:before{content:"p"}.ssk-apple:before{content:"l"}.ssk-behance:before{content:"q"}.ssk-dribble:before{content:"n"}.ssk-android:before{content:"o"}.ssk-whatsapp:before{content:"m"}.ssk-reddit:before{content:"r"}.ssk-reddit2:before{content:"t"}.ssk-link:before{content:"w"}.ssk{background-color:#757575;color:white;display:inline-block;font-size:22px;line-height:1px;margin-right:2px;margin-bottom:2px;padding:7px;text-align:center;text-decoration:none;transition:background-color .1s;-webkit-transition:background-color .1s;-moz-transition:background-color .1s;-ms-transition:background-color .1s;-o-transition:background-color .1s}.ssk:before,.ssk .glyphicon,.ssk .fa{position:relative;font-size:22px;top:0;vertical-align:middle}.ssk.ssk-xs,.ssk-xs>.ssk{padding:4px}.ssk.ssk-xs:before,.ssk-xs>.ssk:before,.ssk.ssk-xs .glyphicon,.ssk-xs>.ssk .glyphicon,.ssk.ssk-xs .fa,.ssk-xs>.ssk .fa{font-size:15px}.ssk.ssk-sm,.ssk-sm>.ssk{padding:5px}.ssk.ssk-sm:before,.ssk-sm>.ssk:before,.ssk.ssk-sm .glyphicon,.ssk-sm>.ssk .glyphicon,.ssk.ssk-sm .fa,.ssk-sm>.ssk .fa{font-size:20px}.ssk.ssk-lg,.ssk-lg>.ssk{padding:9px}.ssk.ssk-lg:before,.ssk-lg>.ssk:before,.ssk.ssk-lg .glyphicon,.ssk-lg>.ssk .glyphicon,.ssk.ssk-lg .fa,.ssk-lg>.ssk .fa{font-size:28px}.ssk:last-child{margin-right:0}.ssk:hover{background-color:#424242}.ssk:hover,.ssk:focus{color:#fff;text-decoration:none}.ssk.ssk-round,.ssk-round .ssk{border-radius:50%}.ssk.ssk-round:before,.ssk-round .ssk:before{text-indent:0;margin-right:0}.ssk.ssk-rounded,.ssk-rounded .ssk{border-radius:15%}.ssk.ssk-icon{color:#757575;padding:2px;font-size:24px}.ssk.ssk-icon,.ssk.ssk-icon:hover{background-color:transparent}.ssk.ssk-icon:hover{color:#424242}.ssk.ssk-icon.ssk-xs,.ssk-xs>.ssk.ssk-icon{font-size:16px}.ssk.ssk-icon.ssk-sm,.ssk-sm>.ssk.ssk-icon{font-size:20px}.ssk.ssk-icon.ssk-lg,.ssk-lg>.ssk.ssk-icon{font-size:28px}.ssk.ssk-text{overflow:hidden;font-size:17px;line-height:normal;padding-right:10px}.ssk.ssk-text:before,.ssk.ssk-text .glyphicon,.ssk.ssk-text .fa{margin:-7px 10px -7px -7px;padding:7px;background-color:rgba(0,0,0,0.15);vertical-align:bottom;text-indent:0}.ssk-block .ssk.ssk-text{display:block;margin-right:0;text-align:left}.ssk.ssk-text.ssk-xs,.ssk-xs>.ssk.ssk-text{font-size:12px;padding-right:6px}.ssk.ssk-text.ssk-xs:before,.ssk-xs>.ssk.ssk-text:before,.ssk.ssk-text.ssk-xs .glyphicon,.ssk-xs>.ssk.ssk-text .glyphicon,.ssk.ssk-text.ssk-xs .fa,.ssk-xs>.ssk.ssk-text .fa{margin:-4px 6px -4px -4px;padding:4px}.ssk.ssk-text.ssk-sm,.ssk-sm>.ssk.ssk-text{font-size:16px;padding-right:7px}.ssk.ssk-text.ssk-sm:before,.ssk-sm>.ssk.ssk-text:before,.ssk.ssk-text.ssk-sm .glyphicon,.ssk-sm>.ssk.ssk-text .glyphicon,.ssk.ssk-text.ssk-sm .fa,.ssk-sm>.ssk.ssk-text .fa{margin:-5px 7px -5px -5px;padding:5px}.ssk.ssk-text.ssk-lg,.ssk-lg>.ssk.ssk-text{font-size:22px;padding-right:13px}.ssk.ssk-text.ssk-lg:before,.ssk-lg>.ssk.ssk-text:before,.ssk.ssk-text.ssk-lg .glyphicon,.ssk-lg>.ssk.ssk-text .glyphicon,.ssk.ssk-text.ssk-lg .fa,.ssk-lg>.ssk.ssk-text .fa{margin:-9px 13px -9px -9px;padding:9px}.ssk-group,.ssk-sticky{font-size:0}.ssk-sticky{top:0;position:fixed;z-index:2000}.ssk-sticky .ssk{transition:padding .1s ease-out;-webkit-transition:padding .1s ease-out;-moz-transition:padding .1s ease-out;-ms-transition:padding .1s ease-out;-o-transition:padding .1s ease-out;margin:0}@media (min-width:768px){.ssk-sticky.ssk-left .ssk,.ssk-sticky.ssk-right .ssk{display:block;clear:both}.ssk-sticky.ssk-left.ssk-center,.ssk-sticky.ssk-right.ssk-center{top:50%;transform:translateY(-50%);-webkit-transform:translateY(-50%);-moz-transform:translateY(-50%);-ms-transform:translateY(-50%);-o-transform:translateY(-50%)}.ssk-sticky.ssk-left{left:0}.ssk-sticky.ssk-left .ssk{float:left}.ssk-sticky.ssk-left .ssk:hover{padding-left:15px}.ssk-sticky.ssk-right{right:0}.ssk-sticky.ssk-right .ssk{float:right}.ssk-sticky.ssk-right .ssk:hover{padding-right:15px}}.ssk-sticky.ssk-bottom{font-size:0;top:auto;bottom:0}.ssk-sticky.ssk-bottom.ssk-center{left:50%;right:auto;transform:translateX(-50%);-webkit-transform:translateX(-50%);-moz-transform:translateX(-50%);-ms-transform:translateX(-50%);-o-transform:translateX(-50%)}.ssk-sticky.ssk-bottom .ssk{vertical-align:bottom}.ssk-sticky.ssk-bottom .ssk:hover{padding-bottom:15px}.ssk-sticky.ssk-round.ssk-xs .ssk:hover{padding:8px}.ssk-sticky.ssk-round.ssk-sm .ssk:hover{padding:9px}.ssk-sticky.ssk-round .ssk:hover{padding:11px}.ssk-sticky.ssk-round.ssk-lg .ssk:hover{padding:13px}@media (max-width:767px){.ssk-sticky{left:0;right:0;bottom:0;top:auto;width:100%;display:flex !important;flex-direction:row;flex-wrap:nowrap}.ssk-sticky.ssk-sticky-hide-xs{display:none !important}.ssk-sticky .ssk{flex:1;width:auto}.ssk-sticky .ssk .ssk-num{display:none}}.ssk-count{padding-top:20px}.ssk-count .ssk{position:relative}.ssk-count .ssk-num{border-radius:4px;color:#8f8f8f;background-color:rgba(50,50,50,0.03);display:block;font-size:12px;left:0;line-height:20px;position:absolute;right:0;text-align:center;top:-20px}@media (min-width:768px){.ssk-count.ssk-sticky{padding-top:0}.ssk-count.ssk-sticky.ssk-left .ssk-num,.ssk-count.ssk-sticky.ssk-right .ssk-num{top:20%;background-color:transparent}.ssk-count.ssk-sticky.ssk-left .ssk-num{left:100%;margin-left:5px}.ssk-count.ssk-sticky.ssk-right .ssk-num{right:115%;margin-left:-100%;text-align:right}}.ssk-facebook{background-color:#3B5998}.ssk-grayscale>.ssk-facebook{background-color:#757575}.ssk-facebook:hover{background-color:#2d4373}.ssk-facebook:hover{background-color:#2d4373}.ssk-grayscale>.ssk-facebook:hover{background-color:#3B5998}.ssk-facebook.ssk-icon{color:#3B5998}.ssk-facebook.ssk-icon:hover{color:#2d4373}.ssk-facebook.ssk-icon:before{text-indent:0;margin-right:0}.ssk-twitter{background-color:#1DA1F2}.ssk-grayscale>.ssk-twitter{background-color:#757575}.ssk-twitter:hover{background-color:#0c85d0}.ssk-twitter:hover{background-color:#0c85d0}.ssk-grayscale>.ssk-twitter:hover{background-color:#1DA1F2}.ssk-twitter.ssk-icon{color:#1DA1F2}.ssk-twitter.ssk-icon:hover{color:#0c85d0}.ssk-google-plus{background-color:#EA4335}.ssk-grayscale>.ssk-google-plus{background-color:#757575}.ssk-google-plus:hover{background-color:#d62516}.ssk-google-plus:hover{background-color:#d62516}.ssk-grayscale>.ssk-google-plus:hover{background-color:#EA4335}.ssk-google-plus.ssk-icon{color:#EA4335}.ssk-google-plus.ssk-icon:hover{color:#d62516}.ssk-pinterest{background-color:#BD081C}.ssk-grayscale>.ssk-pinterest{background-color:#757575}.ssk-pinterest:hover{background-color:#8c0615}.ssk-pinterest:hover{background-color:#8c0615}.ssk-grayscale>.ssk-pinterest:hover{background-color:#BD081C}.ssk-pinterest.ssk-icon{color:#BD081C}.ssk-pinterest.ssk-icon:hover{color:#8c0615}.ssk-tumblr{background-color:#395773}.ssk-grayscale>.ssk-tumblr{background-color:#757575}.ssk-tumblr:hover{background-color:#283d51}.ssk-tumblr:hover{background-color:#283d51}.ssk-grayscale>.ssk-tumblr:hover{background-color:#395773}.ssk-tumblr.ssk-icon{color:#395773}.ssk-tumblr.ssk-icon:hover{color:#283d51}.ssk-email{background-color:#757575}.ssk-grayscale>.ssk-email{background-color:#757575}.ssk-email:hover{background-color:#5b5b5b}.ssk-email:hover{background-color:#5b5b5b}.ssk-grayscale>.ssk-email:hover{background-color:#757575}.ssk-grayscale>.ssk-email:hover{background-color:#5b5b5b}.ssk-email.ssk-icon{color:#757575}.ssk-email.ssk-icon:hover{color:#5b5b5b}.ssk-vk{background-color:#54769a}.ssk-grayscale>.ssk-vk{background-color:#757575}.ssk-vk:hover{background-color:#425d79}.ssk-vk:hover{background-color:#425d79}.ssk-grayscale>.ssk-vk:hover{background-color:#54769a}.ssk-vk.ssk-icon{color:#54769a}.ssk-vk.ssk-icon:hover{color:#425d79}.ssk-linkedin{background-color:#1c87bd}.ssk-grayscale>.ssk-linkedin{background-color:#757575}.ssk-linkedin:hover{background-color:#156791}.ssk-linkedin:hover{background-color:#156791}.ssk-grayscale>.ssk-linkedin:hover{background-color:#1c87bd}.ssk-linkedin.ssk-icon{color:#1c87bd}.ssk-linkedin.ssk-icon:hover{color:#156791}.ssk-whatsapp{background-color:#34AF23}.ssk-grayscale>.ssk-whatsapp{background-color:#757575}.ssk-whatsapp:hover{background-color:#27851a}.ssk-whatsapp:hover{background-color:#27851a}.ssk-grayscale>.ssk-whatsapp:hover{background-color:#34AF23}.ssk-whatsapp.ssk-icon{color:#34AF23}.ssk-whatsapp.ssk-icon:hover{color:#27851a}.ssk-reddit{background-color:#5f99cf}.ssk-grayscale>.ssk-reddit{background-color:#757575}.ssk-reddit:hover{background-color:#3a80c1}.ssk-reddit:hover{background-color:#3a80c1}.ssk-grayscale>.ssk-reddit:hover{background-color:#5f99cf}.ssk-reddit.ssk-icon{color:#5f99cf}.ssk-reddit.ssk-icon:hover{color:#3a80c1}.ssk-reddit2{background-color:#5f99cf}.ssk-grayscale>.ssk-reddit2{background-color:#757575}.ssk-reddit2:hover{background-color:#3a80c1}.ssk-reddit2:hover{background-color:#3a80c1}.ssk-grayscale>.ssk-reddit2:hover{background-color:#5f99cf}.ssk-reddit2.ssk-icon{color:#5f99cf}.ssk-reddit2.ssk-icon:hover{color:#3a80c1}.ssk-turquoise{background-color:#1abc9c}.ssk-turquoise:hover{background-color:#148f77}.ssk-emerald{background-color:#2ecc71}.ssk-emerald:hover{background-color:#25a25a}.ssk-peter-river{background-color:#3498db}.ssk-peter-river:hover{background-color:#217dbb}.ssk-belize-hole{background-color:#2980b9}.ssk-belize-hole:hover{background-color:#20638f}.ssk-amethyst{background-color:#9b59b6}.ssk-amethyst:hover{background-color:#804399}.ssk-wisteria{background-color:#8e44ad}.ssk-wisteria:hover{background-color:#703688}.ssk-wet-asphalt{background-color:#34495e}.ssk-wet-asphalt:hover{background-color:#222f3d}.ssk-midnight-blue{background-color:#2c3e50}.ssk-midnight-blue:hover{background-color:#1a242f}.ssk-green-sea{background-color:#16a085}.ssk-green-sea:hover{background-color:#107360}.ssk-nephritis{background-color:#27ae60}.ssk-nephritis:hover{background-color:#1e8449}.ssk-sunflower{background-color:#f1c40f}.ssk-sunflower:hover{background-color:#c29d0b}.ssk-orange{background-color:#f39c12}.ssk-orange:hover{background-color:#c87f0a}.ssk-carrot{background-color:#e67e22}.ssk-carrot:hover{background-color:#bf6516}.ssk-pumpkin{background-color:#d35400}.ssk-pumpkin:hover{background-color:#a04000}.ssk-alizarin{background-color:#e74c3c}.ssk-alizarin:hover{background-color:#d62c1a}.ssk-pomegranate{background-color:#c0392b}.ssk-pomegranate:hover{background-color:#962d22}.ssk-clouds{background-color:#cfd9db}.ssk-clouds:hover{background-color:#b1c2c6}.ssk-concrete{background-color:#95a5a6}.ssk-concrete:hover{background-color:#798d8f}.ssk-silver{background-color:#bdc3c7}.ssk-silver:hover{background-color:#a1aab0}.ssk-asbestos{background-color:#7f8c8d}.ssk-asbestos:hover{background-color:#667273}.ssk-dark-gray{background-color:#555}.ssk-dark-gray:hover{background-color:#3b3b3b}.ssk-black{background-color:#333}.ssk-black:hover{background-color:#1a1a1a}
+  </style>
+
+
+
+  <style type="text/css" media="screen">
+    a {
+    color: #527fc1f;
+}
+
+a:hover {
+    color: #1a3152;
+}
+
+div.main .content .markdown, div.header .name, div.header nav ul a:hover {
+    color: #181d2a;
+}
+
+div.header nav ul a {
+    color: #6a7a8b;
+}
+
+div.main .content .markdown code {
+    background-color: #f9f9f9;
+    color: #527fc1f;
+}
+
+div.main .content .markdown pre, div.main .content .markdown pre code {
+    background-color: #282a36;
+    color: #87a5d2;
+}
+
+.hljs, .hljs-subst, .hljs-variable {
+    color: #87a5d2;
+}
+
+.hljs-type {
+    color: #97d28b;
+}
+
+.hljs-quote {
+    color: #ffcb8d;
+}
+
+.hljs-string, .hljs-number, .hljs-selector-id, .hljs-selector-class, .hljs-template-tag, .hljs-deletion {
+    color: #96c2d7;
+}
+
+.hljs-comment {
+    color: #6a7a8b;
+}
+
+.hljs-regexp, .hljs-symbol, .hljs-template-variable {
+    color: #ffcb8d;
+}
+
+.hljs-keyword, .hljs-attribute, .hljs-meta-keyword, .hljs-doctag, .hljs-name {
+    color: #97d28b;
+}
+
+.hljs-link, .hljs-selector-attr, .hljs-selector-pseudo, .hljs-title, .hljs-section {
+    color: #ff8e91;
+}
+
+.hljs-built_in, .hljs-bullet, .hljs-code, .hljs-addition {
+    color: #97d28b;
+}
+
+.ssk {
+    background-color: #6a7a8b;
+}
+
+  </style>
+
+
+
+
+
+<link rel="shortcut icon"
+
+    href="/img/AS_AD1.png"
+
+>
+
+
+
+
+</head>
+
+
+<body>
+
+
+<div class="header column">
+
+    <div class="container">
+        
+        <a href="/"><img class="logo" src="/img/AS_AD1.png" alt="logo"></a>
+        
+        <div class="content">
+            <a href="/"><div class="name"><h1>Rodrigo Mariscal</h1></div></a>
+            <nav>
+                <ul>
+                    
+                            <li><a href="/blog/">Blog</a></li>
+                    
+                    
+                        
+                            
+                        
+                    
+                        
+                            
+                            <li><a href="/projects">projects</a></li>
+                            
+                        
+                    
+                    
+                        
+                            <li><a href="/about/">About</a></li>
+                        
+                    
+                        
+                    
+                        
+                    
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="main post non-narrow zero-top-spacing column">
+    <div class="container">
+        <div class="content">
+            <div class="front-matter">
+                <div class="title-container">
+                    <div class="page-heading">
+
+    
+    Time Series in R: Quick Reference
+    
+
+</div>
+
+                </div>
+                <div class="meta">
+                    <div class="date" title="Thu Jul 23 2015 21:13:14 -0500">Jul 23, 2015</div>
+                    
+                        
+                        <div class="author middot" title="Rodrigo Mariscal">Rodrigo Mariscal</div>
+                        
+                    
+                    
+                    <div class="reading-time middot">6 minute read</div>
+                    
+                    <div class="tags">
+                        <ul>
+                          
+                            <li class="middot"><a href="/tags/time-series">Time Series</a> </li>
+                          
+                        </ul>
+                    </div>
+                    <div class="tags">
+                        <ul>
+                          
+                          
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="markdown">
+                
+    
+    
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<link href="/rmarkdown-libs/dygraphs/dygraph.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/dygraphs/dygraph-combined.js"></script>
+<script src="/rmarkdown-libs/dygraphs/shapes.js"></script>
+<script src="/rmarkdown-libs/moment/moment.js"></script>
+<script src="/rmarkdown-libs/moment-timezone/moment-timezone-with-data.js"></script>
+<script src="/rmarkdown-libs/moment-fquarter/moment-fquarter.min.js"></script>
+<script src="/rmarkdown-libs/dygraphs-binding/dygraphs.js"></script>
+
+
+<div id="read-and-define-the-time-series-ts-objects" class="section level3">
+<h3>Read and Define the Time Series (TS) Objects</h3>
+<hr />
+<div id="read-from-a-saved-file" class="section level5">
+<h5><strong>Read from a Saved File</strong></h5>
+<p>These functions reads a file without a TS structure and then defines the TS object.</p>
+<pre class="r"><code># Read from a raw csv file
+raw.data &lt;- read.table(&quot;./data/data.us.csv&quot;, sep = &quot;,&quot;, header = T)
+
+# When you have the dates in the original csv file
+xts.data &lt;- xts(raw.data, order.by = as.Date(raw.data$date, &quot;%m/%d/%Y&quot;))
+
+# When you don&#39;t have the dates in the original csv file but know the starting date
+date = seq(as.Date(&quot;1960/3/1&quot;), by = &quot;3 month&quot;, length.out = nrow(raw.data))
+xts.data &lt;- xts(raw.data[,-1], order.by = date, frequency = 3)</code></pre>
+<p>This function reads and declares the TS structure from the begining.</p>
+<pre class="r"><code># Note that this is a TS with a zoo structure
+ts.data &lt;- read.zoo(&quot;./data/data.us.csv&quot;, index.column = 1, sep = &quot;,&quot;, header = T, format = &quot;%m/%d/%Y&quot;)
+# Or...
+ts.data &lt;- ts(raw.data[,2:4], frequency = 4, start = c(1960,1))
+
+# One can convert the TS-zoo into a xts...
+xts.data &lt;- as.xts(ts.data)</code></pre>
+<hr />
+</div>
+<div id="read-from-online-sources" class="section level5">
+<h5><strong>Read from Online Sources</strong></h5>
+<p>There are two main ways to get data into R: get the data into <code>Excel</code> or a <code>csv</code> or download for an online source. There are built-in package to get the data directly for the web in a predefined format. The table below shows the most popular sources and packages that one can use.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Sources</th>
+<th>R-Package</th>
+<th>Web Pages</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="https://finance.yahoo.com/">Yahoo</a>, <a href="https://fred.stlouisfed.org/">FRED</a>, <a href="https://goo.gl/CmY1Mg">Google</a>, <a href="https://goo.gl/zJL1PJ">Onda</a></td>
+<td><code>quantmod</code></td>
+<td><a href="https://www.quantmod.com/">Link</a></td>
+</tr>
+<tr class="even">
+<td>International Monetary Fund (IMF)<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></td>
+<td><code>IMFData</code> or <code>imfr</code></td>
+<td><a href="http://www.imf.org/en/data">Link</a></td>
+</tr>
+<tr class="odd">
+<td>World Bank’s WDI</td>
+<td><code>WDI</code></td>
+<td><a href="http://databank.worldbank.org/data">Link</a></td>
+</tr>
+<tr class="even">
+<td>OECD<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></td>
+<td><code>rsdmx</code></td>
+<td><a href="https://data.oecd.org/">Link</a></td>
+</tr>
+<tr class="odd">
+<td>Penn World Tables</td>
+<td><code>pwt</code></td>
+<td><a href="http://pwt.econ.upenn.edu/">Link</a></td>
+</tr>
+<tr class="even">
+<td>International Labor Organization (ILO)</td>
+<td><code>rsdmx</code></td>
+<td><a href="http://www.ilo.org/">Link</a></td>
+</tr>
+</tbody>
+</table>
+<p>One can use the <code>getSymbols</code> function with a previous search in the web pages and download directly into R.</p>
+<pre class="r"><code>getSymbols(&quot;GDPC1&quot;, src = &quot;FRED&quot;)
+getSymbols(&quot;PCEPILFE&quot;, src = &quot;FRED&quot;)
+getSymbols(&quot;FEDFUNDS&quot;, src = &quot;FRED&quot;)
+
+names(GDPC1) &lt;- &quot;US Real GDP&quot;
+names(PCEPILFE) &lt;- &quot;Core PCE&quot;
+names(FEDFUNDS) &lt;- &quot;FED Rate&quot;</code></pre>
+<hr />
+</div>
+</div>
+<div id="subset-and-extract" class="section level3">
+<h3>Subset and Extract</h3>
+<pre class="r"><code># Federal funds rate, montly data from January 1980 to March
+FEDFUNDS[&quot;1980-01-01/1980-03-01&quot;]</code></pre>
+<pre><code>##            FED Rate
+## 1980-01-01    13.82
+## 1980-02-01    14.13
+## 1980-03-01    17.19</code></pre>
+<pre class="r"><code># Real GDP, quarterly data, for in 2006
+GDPC1[&quot;2006&quot;]</code></pre>
+<pre><code>##            US Real GDP
+## 2006-01-01    15267.03
+## 2006-04-01    15302.70
+## 2006-07-01    15326.37
+## 2006-10-01    15456.93</code></pre>
+<pre class="r"><code># End of period inflation rate from 2000 to 2005
+PCEPILFE[format(index(PCEPILFE[&quot;2000/2005&quot;]), &quot;%m&quot;) %in% &quot;12&quot;]</code></pre>
+<pre><code>##            Core PCE
+## 1959-12-01   17.069
+## 1960-12-01   17.295
+## 1961-12-01   17.499
+## 1962-12-01   17.718
+## 1963-12-01   18.014
+## 1964-12-01   18.244</code></pre>
+<hr />
+</div>
+<div id="identify-nas-fill-and-splice" class="section level3">
+<h3>Identify ’NA’s, Fill and Splice</h3>
+<pre class="r"><code># Set missings into the series...
+gdp.miss &lt;- GDPC1[&quot;2000/2002&quot;]
+gdp.miss[&quot;2001&quot;] &lt;- NA</code></pre>
+<pre class="r"><code># Identify the NAs
+gdp.miss[is.na(gdp.miss)]
+
+# Show numbers without NAs
+na.omit(gdp.miss)</code></pre>
+<pre class="r"><code># Fill missing with the last observarion or with the first non-missing
+# observation
+cbind(gdp.miss, na.locf(gdp.miss), na.locf(gdp.miss, fromLast = T))</code></pre>
+<pre><code>##            US.Real.GDP US.Real.GDP.1 US.Real.GDP.2
+## 2000-01-01    12924.18      12924.18      12924.18
+## 2000-04-01    13160.84      13160.84      13160.84
+## 2000-07-01    13178.42      13178.42      13178.42
+## 2000-10-01    13260.51      13260.51      13260.51
+## 2001-01-01          NA      13260.51      13397.00
+## 2001-04-01          NA      13260.51      13397.00
+## 2001-07-01          NA      13260.51      13397.00
+## 2001-10-01          NA      13260.51      13397.00
+## 2002-01-01    13397.00      13397.00      13397.00
+## 2002-04-01    13478.15      13478.15      13478.15
+## 2002-07-01    13538.07      13538.07      13538.07
+## 2002-10-01    13559.03      13559.03      13559.03</code></pre>
+<pre class="r"><code># Fill missing values with linear interpolation and bubic spline
+cbind(gdp.miss, na.approx(gdp.miss), na.spline(gdp.miss, method = &quot;fmm&quot;))</code></pre>
+<pre><code>##            US.Real.GDP US.Real.GDP.1 US.Real.GDP.2
+## 2000-01-01    12924.18      12924.18      12924.18
+## 2000-04-01    13160.84      13160.84      13160.84
+## 2000-07-01    13178.42      13178.42      13178.42
+## 2000-10-01    13260.51      13260.51      13260.51
+## 2001-01-01          NA      13287.98      13320.38
+## 2001-04-01          NA      13314.87      13338.72
+## 2001-07-01          NA      13342.05      13341.20
+## 2001-10-01          NA      13369.52      13352.20
+## 2002-01-01    13397.00      13397.00      13397.00
+## 2002-04-01    13478.15      13478.15      13478.15
+## 2002-07-01    13538.07      13538.07      13538.07
+## 2002-10-01    13559.03      13559.03      13559.03</code></pre>
+<p><img src="/blog/blog-TS-Quick-v2_files/figure-html/unnamed-chunk-11-1.png" width="576" /></p>
+<hr />
+</div>
+<div id="transformations-combine-and-change-frequency" class="section level3">
+<h3>Transformations, Combine and Change Frequency</h3>
+<hr />
+<div id="basic-function-transformations" class="section level5">
+<h5><strong>Basic Function Transformations</strong></h5>
+<table>
+<colgroup>
+<col width="88%" />
+<col width="11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Transformation</th>
+<th>Command</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Logarithm</td>
+<td><code>log(y)</code></td>
+</tr>
+<tr class="even">
+<td>Lag: <span class="math inline">\(L^{n} y_{t} = y_{t-1}\)</span></td>
+<td><code>lag(y,n)</code></td>
+</tr>
+<tr class="odd">
+<td>Difference: <span class="math inline">\(\Delta y_{t} = y_{t} - y_{t-1}\)</span></td>
+<td><code>diff(y)</code></td>
+</tr>
+<tr class="even">
+<td>Moving average: <span class="math inline">\(\bar{y}^{n}_{t} = \frac{1}{n} \sum^{n-1}_{i=0} y_{t-i}\)</span></td>
+<td><code>rollapply(y, n, FUN = mean)</code></td>
+</tr>
+<tr class="odd">
+<td>Cumulative sum: <span class="math inline">\(y^{s}_{t} = \sum^{t}_{i=0} y_{i}\)</span></td>
+<td><code>cumsum(y)</code></td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code># Transformations
+xts.gdp$lgdp &lt;- log(xts.gdp$gdp)
+xts.gdp$lgdp_1 &lt;- lag(xts.gdp$lgdp, 1)
+xts.gdp$dlgdp &lt;- diff(xts.gdp$lgdp)
+xts.gdp$mov.avg5_lgdp &lt;- rollapply(xts.gdp$lgdp, 5, FUN = mean)
+xts.gdp$cu.sum_lgdp &lt;- cumsum(xts.gdp$lgdp)</code></pre>
+<hr />
+</div>
+<div id="period-aggregation" class="section level5">
+<h5><strong>Period aggregation</strong></h5>
+<pre class="r"><code># Get a date index on a lower frequency
+periodicity(xts.gdp)</code></pre>
+<pre><code>## Quarterly periodicity from 1947-03-01 to 2018-09-01</code></pre>
+<pre class="r"><code>years &lt;- endpoints(xts.gdp, on = &quot;years&quot;)
+
+# Aggregate to first/end of period
+xts.gdp.a.firs &lt;- period.apply(xts.gdp, INDEX = years, FUN = first)
+xts.gdp.a.last &lt;- period.apply(xts.gdp, INDEX = years, FUN = last)
+# Aggregate to average of period
+xts.gdp.a.mean &lt;- period.apply(xts.gdp, INDEX = years, FUN = mean)
+# Aggregate to sum of period
+xts.gdp.a.sum &lt;- period.apply(xts.gdp, INDEX = years, FUN = sum)
+# Aggregate to min/max of period
+xts.gdp.a.min &lt;- period.apply(xts.gdp, INDEX = years, FUN = min)
+xts.gdp.a.max &lt;- period.apply(xts.gdp, INDEX = years, FUN = max)</code></pre>
+<pre class="r"><code># Putting all together...
+cbind(xts.gdp[&quot;2000/2001&quot;], xts.gdp.a.firs[&quot;2000/2001&quot;], xts.gdp.a.last[&quot;2000/2001&quot;], 
+    xts.gdp.a.mean[&quot;2000/2001&quot;], xts.gdp.a.sum[&quot;2000/2001&quot;], xts.gdp.a.min[&quot;2000/2001&quot;], 
+    xts.gdp.a.max[&quot;2000/2001&quot;])</code></pre>
+<pre><code>##             QRT.GDP  FOP.GDP  EOP.GDP  AVG.GDP  SUM.GDP  MIN.GDP  MAX.GDP
+## 2000-03-01 12924.18       NA       NA       NA       NA       NA       NA
+## 2000-06-01 13160.84       NA       NA       NA       NA       NA       NA
+## 2000-09-01 13178.42       NA       NA       NA       NA       NA       NA
+## 2000-12-01 13260.51 12924.18 13260.51 13130.99 52523.95 12924.18 13260.51
+## 2001-03-01 13222.69       NA       NA       NA       NA       NA       NA
+## 2001-06-01 13299.98       NA       NA       NA       NA       NA       NA
+## 2001-09-01 13244.78       NA       NA       NA       NA       NA       NA
+## 2001-12-01 13280.86 13222.69 13280.86 13262.08 53048.32 13222.69 13299.98</code></pre>
+<hr />
+</div>
+<div id="combine-series" class="section level5">
+<h5><strong>Combine series</strong></h5>
+<pre class="r"><code># Aggregate data to quarterly averages
+quarts &lt;- endpoints(xts.inf, on = &quot;quarters&quot;)
+xts.inf.q.avg &lt;- period.apply(xts.inf, INDEX = quarts, FUN = mean)
+
+# Merge monthly and quarterly data
+xts.inf &lt;- merge(xts.inf, xts.inf.q.avg, join = &quot;left&quot;)
+colnames(xts.inf) &lt;- c(&quot;EOP.inf&quot;, &quot;AVG.inf&quot;)
+xts.inf[&quot;2001&quot;]</code></pre>
+<pre><code>##            EOP.inf  AVG.inf
+## 2001-01-01  81.698       NA
+## 2001-02-01  81.827       NA
+## 2001-03-01  81.909 81.81133
+## 2001-04-01  82.044       NA
+## 2001-05-01  82.067       NA
+## 2001-06-01  82.253 82.12133
+## 2001-07-01  82.465       NA
+## 2001-08-01  82.511       NA
+## 2001-09-01  82.049 82.34167
+## 2001-10-01  82.637       NA
+## 2001-11-01  82.810       NA
+## 2001-12-01  82.829 82.75867</code></pre>
+<pre class="r"><code># Merge two series and exclude the missing cases from both sides
+merge(xts.gdp[&quot;2001&quot;], xts.inf[&quot;2001&quot;], join = &quot;inner&quot;)</code></pre>
+<pre><code>##             QRT.GDP EOP.inf  AVG.inf
+## 2001-03-01 13222.69  81.909 81.81133
+## 2001-06-01 13299.98  82.253 82.12133
+## 2001-09-01 13244.78  82.049 82.34167
+## 2001-12-01 13280.86  82.829 82.75867</code></pre>
+<hr />
+</div>
+</div>
+<div id="summary-charts" class="section level3">
+<h3>Summary Charts</h3>
+<pre class="r"><code># Plot separate series under the zoo TS structure
+plot(ts.data[,c(1:2)], plot.type = &quot;multiple&quot;,
+     col = c(&quot;blue&quot;,&quot;red&quot;),
+     lty = c(1,1), lwd = c(2,2),
+     main = &quot;&quot;,
+     ylab = c(&quot;FED Rate&quot;,&quot;Inflation&quot;),
+     xlab = &quot;Date&quot;)
+legend(x = &quot;topright&quot;, 
+       legend = c(&quot;FED Rate&quot;,&quot;Inflation&quot;), 
+       col = c(&quot;blue&quot;,&quot;red&quot;), lty = c(1,1), lwd = c(2,2))</code></pre>
+<pre class="r"><code># Plot series together under the zoo TS structure
+plot(ts.data[,c(1:2)], plot.type = &quot;single&quot;, ylim = c(0,20),
+     col = c(&quot;blue&quot;,&quot;red&quot;),
+     lty = c(1,1), lwd = c(2,2),
+     ylab = &quot;Percentage points&quot;,
+     xlab = &quot;Date&quot;)
+legend(x = &quot;topright&quot;, 
+       legend = c(&quot;Fed Rate&quot;,&quot;Inflation&quot;), 
+       col = c(&quot;blue&quot;,&quot;red&quot;), lty = c(1,1), lwd = c(2,2))</code></pre>
+<pre class="r"><code>ggplot() +
+  geom_line(data = xts.data, aes(x = Index, y = ffr, color = &quot;Fed Rate&quot;), linetype = 1, size = 1) +
+  geom_line(data = xts.data, aes(x = Index, y = infl, color = &quot;Inflation&quot;), linetype = 1, size = 1) +
+  scale_color_manual(labels = c(&quot;Fed Rate&quot;,&quot;Inflation&quot;),
+                     breaks = c(&quot;Fed Rate&quot;,&quot;Inflation&quot;),
+                     values = c(&quot;Fed Rate&quot;=&quot;red&quot;,&quot;Inflation&quot;=&quot;blue&quot;)) +
+  scale_y_continuous(limits=c(0,20), breaks=seq(0,20,5)) +
+  scale_x_date(limits = as.Date(c(&quot;1960-03-01&quot;,&quot;2018-03-01&quot;)), date_breaks = &quot;10 years&quot;, date_labels = &quot;%Y&quot;) +
+  theme_hc() +
+  theme(legend.position = c(0.82,0.85), 
+        legend.direction = &quot;horizontal&quot;,
+        legend.background = element_rect(fill=&quot;transparent&quot;),
+        panel.grid.major.y = element_line(size = 0.1, colour = &quot;grey&quot;, linetype = 3),
+        panel.grid.major.x = element_line(colour = &quot;transparent&quot;),
+        panel.grid.minor.x = element_line(colour = &quot;transparent&quot;)) +
+  labs(x = &quot;&quot;, y = &quot;&quot;, color = &quot;&quot;, 
+       title = &quot;Federal Funds Rate and PCE Inflation&quot;, 
+       subtitle = &quot;Percentage points&quot;, 
+       caption = &quot;Source: U.S. Bureau of Economic Analysis.&quot;)</code></pre>
+<div id="htmlwidget-1" style="width:864px;height:288px;" class="dygraphs html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"attrs":{"axes":{"x":{"pixelsPerLabel":60,"drawAxis":true,"valueRange":["1960-01-01","2018-01-01"],"drawGrid":false},"y":{"drawAxis":true,"valueRange":[0,21],"drawGrid":false}},"colors":["#377eb8","#4daf4a"],"title":"Federal Funds Rate and PCE Inflation","ylabel":"Percentage points","labels":["quarter","ffr","infl"],"legend":"auto","retainDateWindow":false,"stackedGraph":false,"fillGraph":false,"fillAlpha":0.7,"stepPlot":false,"drawPoints":false,"pointSize":1,"drawGapEdgePoints":false,"connectSeparatedPoints":false,"strokeWidth":2,"strokeBorderColor":"white","colorValue":0.5,"colorSaturation":1,"includeZero":false,"drawAxesAtZero":false,"logscale":false,"axisTickSize":3,"axisLineColor":"black","axisLineWidth":0.3,"axisLabelColor":"black","axisLabelFontSize":14,"axisLabelWidth":60,"drawGrid":true,"gridLineWidth":0.3,"rightGap":5,"digitsAfterDecimal":"1","labelsKMB":false,"labelsKMG2":false,"labelsUTC":false,"maxNumberWidth":6,"animatedZooms":false,"mobileDisableYTouch":true,"disableZoom":false,"xRangePad":2},"scale":"quarterly","annotations":[],"shadings":[{"from":"1969-06-01T00:00:00.000Z","to":"1970-12-01T00:00:00.000Z","color":"#d9d9d9","axis":"x"},{"from":"1973-12-01T00:00:00.000Z","to":"1975-03-01T00:00:00.000Z","color":"#d9d9d9","axis":"x"},{"from":"1979-06-01T00:00:00.000Z","to":"1980-06-01T00:00:00.000Z","color":"#d9d9d9","axis":"x"},{"from":"1981-06-01T00:00:00.000Z","to":"1982-06-01T00:00:00.000Z","color":"#d9d9d9","axis":"x"},{"from":"1989-12-01T00:00:00.000Z","to":"1991-03-01T00:00:00.000Z","color":"#d9d9d9","axis":"x"},{"from":"2001-03-01T00:00:00.000Z","to":"2001-09-01T00:00:00.000Z","color":"#d9d9d9","axis":"x"},{"from":"2007-12-01T00:00:00.000Z","to":"2009-06-01T00:00:00.000Z","color":"#d9d9d9","axis":"x"}],"events":[],"format":"date","data":[["1960-03-01T00:00:00.000Z","1960-06-01T00:00:00.000Z","1960-09-01T00:00:00.000Z","1960-12-01T00:00:00.000Z","1961-03-01T00:00:00.000Z","1961-06-01T00:00:00.000Z","1961-09-01T00:00:00.000Z","1961-12-01T00:00:00.000Z","1962-03-01T00:00:00.000Z","1962-06-01T00:00:00.000Z","1962-09-01T00:00:00.000Z","1962-12-01T00:00:00.000Z","1963-03-01T00:00:00.000Z","1963-06-01T00:00:00.000Z","1963-09-01T00:00:00.000Z","1963-12-01T00:00:00.000Z","1964-03-01T00:00:00.000Z","1964-06-01T00:00:00.000Z","1964-09-01T00:00:00.000Z","1964-12-01T00:00:00.000Z","1965-03-01T00:00:00.000Z","1965-06-01T00:00:00.000Z","1965-09-01T00:00:00.000Z","1965-12-01T00:00:00.000Z","1966-03-01T00:00:00.000Z","1966-06-01T00:00:00.000Z","1966-09-01T00:00:00.000Z","1966-12-01T00:00:00.000Z","1967-03-01T00:00:00.000Z","1967-06-01T00:00:00.000Z","1967-09-01T00:00:00.000Z","1967-12-01T00:00:00.000Z","1968-03-01T00:00:00.000Z","1968-06-01T00:00:00.000Z","1968-09-01T00:00:00.000Z","1968-12-01T00:00:00.000Z","1969-03-01T00:00:00.000Z","1969-06-01T00:00:00.000Z","1969-09-01T00:00:00.000Z","1969-12-01T00:00:00.000Z","1970-03-01T00:00:00.000Z","1970-06-01T00:00:00.000Z","1970-09-01T00:00:00.000Z","1970-12-01T00:00:00.000Z","1971-03-01T00:00:00.000Z","1971-06-01T00:00:00.000Z","1971-09-01T00:00:00.000Z","1971-12-01T00:00:00.000Z","1972-03-01T00:00:00.000Z","1972-06-01T00:00:00.000Z","1972-09-01T00:00:00.000Z","1972-12-01T00:00:00.000Z","1973-03-01T00:00:00.000Z","1973-06-01T00:00:00.000Z","1973-09-01T00:00:00.000Z","1973-12-01T00:00:00.000Z","1974-03-01T00:00:00.000Z","1974-06-01T00:00:00.000Z","1974-09-01T00:00:00.000Z","1974-12-01T00:00:00.000Z","1975-03-01T00:00:00.000Z","1975-06-01T00:00:00.000Z","1975-09-01T00:00:00.000Z","1975-12-01T00:00:00.000Z","1976-03-01T00:00:00.000Z","1976-06-01T00:00:00.000Z","1976-09-01T00:00:00.000Z","1976-12-01T00:00:00.000Z","1977-03-01T00:00:00.000Z","1977-06-01T00:00:00.000Z","1977-09-01T00:00:00.000Z","1977-12-01T00:00:00.000Z","1978-03-01T00:00:00.000Z","1978-06-01T00:00:00.000Z","1978-09-01T00:00:00.000Z","1978-12-01T00:00:00.000Z","1979-03-01T00:00:00.000Z","1979-06-01T00:00:00.000Z","1979-09-01T00:00:00.000Z","1979-12-01T00:00:00.000Z","1980-03-01T00:00:00.000Z","1980-06-01T00:00:00.000Z","1980-09-01T00:00:00.000Z","1980-12-01T00:00:00.000Z","1981-03-01T00:00:00.000Z","1981-06-01T00:00:00.000Z","1981-09-01T00:00:00.000Z","1981-12-01T00:00:00.000Z","1982-03-01T00:00:00.000Z","1982-06-01T00:00:00.000Z","1982-09-01T00:00:00.000Z","1982-12-01T00:00:00.000Z","1983-03-01T00:00:00.000Z","1983-06-01T00:00:00.000Z","1983-09-01T00:00:00.000Z","1983-12-01T00:00:00.000Z","1984-03-01T00:00:00.000Z","1984-06-01T00:00:00.000Z","1984-09-01T00:00:00.000Z","1984-12-01T00:00:00.000Z","1985-03-01T00:00:00.000Z","1985-06-01T00:00:00.000Z","1985-09-01T00:00:00.000Z","1985-12-01T00:00:00.000Z","1986-03-01T00:00:00.000Z","1986-06-01T00:00:00.000Z","1986-09-01T00:00:00.000Z","1986-12-01T00:00:00.000Z","1987-03-01T00:00:00.000Z","1987-06-01T00:00:00.000Z","1987-09-01T00:00:00.000Z","1987-12-01T00:00:00.000Z","1988-03-01T00:00:00.000Z","1988-06-01T00:00:00.000Z","1988-09-01T00:00:00.000Z","1988-12-01T00:00:00.000Z","1989-03-01T00:00:00.000Z","1989-06-01T00:00:00.000Z","1989-09-01T00:00:00.000Z","1989-12-01T00:00:00.000Z","1990-03-01T00:00:00.000Z","1990-06-01T00:00:00.000Z","1990-09-01T00:00:00.000Z","1990-12-01T00:00:00.000Z","1991-03-01T00:00:00.000Z","1991-06-01T00:00:00.000Z","1991-09-01T00:00:00.000Z","1991-12-01T00:00:00.000Z","1992-03-01T00:00:00.000Z","1992-06-01T00:00:00.000Z","1992-09-01T00:00:00.000Z","1992-12-01T00:00:00.000Z","1993-03-01T00:00:00.000Z","1993-06-01T00:00:00.000Z","1993-09-01T00:00:00.000Z","1993-12-01T00:00:00.000Z","1994-03-01T00:00:00.000Z","1994-06-01T00:00:00.000Z","1994-09-01T00:00:00.000Z","1994-12-01T00:00:00.000Z","1995-03-01T00:00:00.000Z","1995-06-01T00:00:00.000Z","1995-09-01T00:00:00.000Z","1995-12-01T00:00:00.000Z","1996-03-01T00:00:00.000Z","1996-06-01T00:00:00.000Z","1996-09-01T00:00:00.000Z","1996-12-01T00:00:00.000Z","1997-03-01T00:00:00.000Z","1997-06-01T00:00:00.000Z","1997-09-01T00:00:00.000Z","1997-12-01T00:00:00.000Z","1998-03-01T00:00:00.000Z","1998-06-01T00:00:00.000Z","1998-09-01T00:00:00.000Z","1998-12-01T00:00:00.000Z","1999-03-01T00:00:00.000Z","1999-06-01T00:00:00.000Z","1999-09-01T00:00:00.000Z","1999-12-01T00:00:00.000Z","2000-03-01T00:00:00.000Z","2000-06-01T00:00:00.000Z","2000-09-01T00:00:00.000Z","2000-12-01T00:00:00.000Z","2001-03-01T00:00:00.000Z","2001-06-01T00:00:00.000Z","2001-09-01T00:00:00.000Z","2001-12-01T00:00:00.000Z","2002-03-01T00:00:00.000Z","2002-06-01T00:00:00.000Z","2002-09-01T00:00:00.000Z","2002-12-01T00:00:00.000Z","2003-03-01T00:00:00.000Z","2003-06-01T00:00:00.000Z","2003-09-01T00:00:00.000Z","2003-12-01T00:00:00.000Z","2004-03-01T00:00:00.000Z","2004-06-01T00:00:00.000Z","2004-09-01T00:00:00.000Z","2004-12-01T00:00:00.000Z","2005-03-01T00:00:00.000Z","2005-06-01T00:00:00.000Z","2005-09-01T00:00:00.000Z","2005-12-01T00:00:00.000Z","2006-03-01T00:00:00.000Z","2006-06-01T00:00:00.000Z","2006-09-01T00:00:00.000Z","2006-12-01T00:00:00.000Z","2007-03-01T00:00:00.000Z","2007-06-01T00:00:00.000Z","2007-09-01T00:00:00.000Z","2007-12-01T00:00:00.000Z","2008-03-01T00:00:00.000Z","2008-06-01T00:00:00.000Z","2008-09-01T00:00:00.000Z","2008-12-01T00:00:00.000Z","2009-03-01T00:00:00.000Z","2009-06-01T00:00:00.000Z","2009-09-01T00:00:00.000Z","2009-12-01T00:00:00.000Z","2010-03-01T00:00:00.000Z","2010-06-01T00:00:00.000Z","2010-09-01T00:00:00.000Z","2010-12-01T00:00:00.000Z","2011-03-01T00:00:00.000Z","2011-06-01T00:00:00.000Z","2011-09-01T00:00:00.000Z","2011-12-01T00:00:00.000Z","2012-03-01T00:00:00.000Z","2012-06-01T00:00:00.000Z","2012-09-01T00:00:00.000Z","2012-12-01T00:00:00.000Z","2013-03-01T00:00:00.000Z","2013-06-01T00:00:00.000Z","2013-09-01T00:00:00.000Z","2013-12-01T00:00:00.000Z","2014-03-01T00:00:00.000Z","2014-06-01T00:00:00.000Z","2014-09-01T00:00:00.000Z","2014-12-01T00:00:00.000Z","2015-03-01T00:00:00.000Z","2015-06-01T00:00:00.000Z","2015-09-01T00:00:00.000Z","2015-12-01T00:00:00.000Z","2016-03-01T00:00:00.000Z","2016-06-01T00:00:00.000Z","2016-09-01T00:00:00.000Z","2016-12-01T00:00:00.000Z","2017-03-01T00:00:00.000Z","2017-06-01T00:00:00.000Z","2017-09-01T00:00:00.000Z","2017-12-01T00:00:00.000Z","2018-03-01T00:00:00.000Z"],[4.068323187,3.81893315,3.022097976,2.355811525,2.051868111,1.772897616,1.721319933,2.463097385,2.521979171,2.678005657,2.928140733,3.008172989,3.053436061,3.049953582,3.433730702,3.563139453,3.573639129,3.601643453,3.566639227,3.692709667,4.110532597,4.219652612,4.216130831,4.31478555,4.728030011,5.107383502,5.637925926,5.802256434,5.011529717,4.12812489,4.026130844,4.321835879,4.972503172,6.250095475,6.210609898,6.181902305,6.883859337,8.807859761,9.534530037,9.48642838,9.080256701,8.31632569,7.032038087,5.805831666,3.987469514,4.735108193,5.705770693,4.933491091,3.654171915,4.455882444,4.922853943,5.352739778,6.851359688,8.246810044,11.29909784,10.66539716,9.912675157,12.08022028,13.03853454,9.93867398,6.598920811,5.64863537,6.444146198,5.64149562,5.015078302,5.409715517,5.502366639,5.064771052,4.837795455,5.366980833,6.077902136,6.826088996,7.089919498,7.663177235,8.558147199,10.20272315,10.75142847,10.87123516,11.73615713,14.75467065,16.47711255,13.72420128,10.48606819,17.43323861,18.28925318,19.74866986,19.50217432,14.7663017,15.51313943,15.84923026,11.80412991,9.871832252,9.16874762,9.334861099,10.06504124,10.03157699,10.31821049,11.29533751,12.23937481,9.849560683,8.973425608,8.363914676,8.338287247,8.561815299,8.25778324,7.267375574,6.494513312,6.559305956,6.508908281,6.974187875,7.184043375,7.263751092,6.988647504,7.525026239,8.429841543,8.966061794,10.04644874,10.36294766,9.64561431,9.124493215,8.723334116,8.715987155,8.62419191,8.166373826,6.732278597,6.124510333,5.888095266,5.004432905,4.163318369,3.896145143,3.356861421,3.126595233,3.130080294,3.088267304,3.150993131,3.077816699,3.311465445,4.075356904,4.653737899,5.377662884,6.067149297,6.293187347,6.05281387,5.970422651,5.587962833,5.459594496,5.527325045,5.498801634,5.495236748,5.759363044,5.770084765,5.741495917,5.755789378,5.734349909,5.770084765,5.050570731,4.915763107,4.929945256,5.299352916,5.527325045,5.923881941,6.566507564,6.833308585,6.782781676,5.834437861,4.484124654,3.608645714,2.18645909,1.772897616,1.790095972,1.77977661,1.474109684,1.275403884,1.271981327,1.036103242,1.015618015,1.022445964,1.029274373,1.463822269,1.996702454,2.535838613,3.029061173,3.570139119,4.117569159,4.621914513,5.10028023,5.463158181,5.463158181,5.473849955,5.466721985,5.278005725,4.664347839,3.273068996,2.138124025,1.986362205,0.51502179,0.186052019,0.182666176,0.158968468,0.121740508,0.135276351,0.196210233,0.189437976,0.189437976,0.158968468,0.094674295,0.084526346,0.074379424,0.104823269,0.155583538,0.145429431,0.162353513,0.145429431,0.118356832,0.084526346,0.087908882,0.074379424,0.094674295,0.091291531,0.101440164,0.111589823,0.125124297,0.138660597,0.162353513,0.365665105,0.379233834,0.402983514,0.45728954,0.71223977,0.96783526,1.176196547,1.227498581,1.477539053],[1.292696283,1.532441285,1.614912461,1.32246098,0.681562261,1.315862802,1.769576058,1.001470071,1.497519451,1.53509553,1.249664361,0.709277207,1.307786238,1.431510755,1.490156061,1.950085999,1.730143008,1.240245889,1.173635967,1.044987271,1.479206873,1.225052218,1.241979884,1.320541796,2.03416388,3.245495314,3.320193169,3.472784216,2.212428093,2.654657854,3.597164221,3.99156329,4.469750777,4.609794341,4.463638381,4.636599642,4.418713811,4.804862579,4.604781495,4.693804416,4.324746563,4.503318522,4.436083981,5.569559778,5.04373815,4.536660244,3.752511083,2.293108677,3.825000399,2.721316723,3.003888161,2.509725496,2.791073653,5.431914001,5.28308122,5.54441886,6.798356246,9.820198183,11.29553594,9.66267288,7.777215018,6.075123838,5.971237348,6.459343277,6.041874087,4.758681132,6.200908543,6.190737311,6.607170181,6.079108553,6.621112722,5.833852962,6.308197136,6.89071526,6.827922576,7.115952396,5.385728403,8.671614074,7.28462568,8.227839466,9.620520094,8.831428906,8.778495209,9.604891499,8.774596914,7.442236894,7.25554441,7.001614687,5.743857722,5.339272699,6.336734418,5.57139587,5.409701286,3.092749218,6.046569136,3.195856379,4.003843024,4.662686149,3.751090016,2.864484626,5.497135262,3.604395043,4.145842999,2.800380641,4.322127147,2.641990406,2.644986137,3.186030783,2.486582349,3.797107556,3.525296892,4.10534471,3.78071594,4.820799045,4.581227756,4.392661673,4.209686737,3.544640841,2.866525082,3.614482426,4.478582168,4.399666909,3.957076744,3.30248187,3.383969366,3.004281548,3.566615052,3.094912078,2.99368921,2.806642111,2.361246371,2.949713363,2.73968122,3.036495269,2.238424026,2.046230077,1.788484683,2.675665447,2.210929889,2.028078387,2.043585356,2.289181426,1.863734024,2.002113,1.593496603,1.863654617,1.824999092,2.249705077,1.563830393,2.055924563,0.901073175,1.247315479,1.106555574,1.210761067,1.391745829,1.222293234,1.290986585,1.238711911,1.369198015,1.813562936,2.19966512,1.308337067,1.82262778,1.922210712,2.258162888,1.554122818,1.140804205,2.027776507,1.141004443,2.331673641,2.063774147,1.38807125,0.972405655,1.447438973,1.617089424,1.396208835,2.160758622,2.418638805,1.837402232,1.868383476,2.547251458,2.124804441,1.661606917,2.605788508,2.031609485,2.68581257,2.138264435,1.683152619,2.833975595,1.407421545,1.959633078,2.692228932,2.299690281,2.011065071,1.803371229,0.399199618,0.475293842,1.943622811,1.12410753,2.079851686,1.02002903,1.056971128,0.979260319,0.807663223,1.351644672,2.420730183,2.010670097,1.59510839,2.230972487,1.870720742,1.233407978,1.715850925,1.640472277,1.136423393,1.385009052,1.758211632,1.534449961,1.93299944,1.558171953,1.110327955,0.857378426,1.66167883,1.519900259,1.241586841,2.113826794,1.962397407,1.985044479,1.336945041,1.801724652,0.912006854,1.327029691,1.913769637,2.26492436]],"fixedtz":false,"tzone":"UTC"},"evals":[],"jsHooks":[]}</script>
+<hr />
+</div>
+<div id="useful-links" class="section level3">
+<h3>Useful Links</h3>
+<p><a href="https://cran.r-project.org/web/views/TimeSeries.html">CRAN Task View: Time Series Analysis</a></p>
+<p><a href="https://cran.r-project.org/web/packages/zoo/vignettes/zoo-quickref.pdf">zoo Quick Reference</a></p>
+<p><a href="https://cran.r-project.org/web/packages/xts/vignettes/xts.pdf">xts: Extensible Time Series</a></p>
+<p><a href="https://cran.r-project.org/doc/contrib/Ricci-refcard-ts.pdf">R Functions for TS Analysis</a></p>
+<p><a href="https://www.datacamp.com/community/blog/r-xts-cheat-sheet">Data Camp xts Cheat Sheet</a></p>
+<p><a href="https://rpubs.com/mohammadshadan/288218">RPubs Good xts Reference</a></p>
+<p><a href="https://ugoproto.github.io/ugo_r_doc/Time+Series+in+R+The+Power+of+xts+and+zoo/">Another xts Reference</a></p>
+<hr />
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>For more information check the official <a href="http://data.imf.org/">web site</a> and these other useful sites: <a href="https://github.com/mingjerli/IMFData">site 1</a>, <a href="https://cran.r-project.org/web/packages/IMFData/IMFData.pdf">site 2</a> and <a href="https://github.com/christophergandrud/imfr">site 3</a>.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>Organisation for Economic Co-operation and Development, for more information check the <a href="https://github.com/opensdmx/rsdmx">web site</a>.<a href="#fnref2">↩</a></p></li>
+</ol>
+</div>
+
+
+            </div>
+            
+            <br>
+            <div class="share">
+                  
+                  <a href="" class="ssk ssk-facebook"></a>
+                  
+                  
+                  <a href="" class="ssk ssk-twitter"></a>
+                  
+                  
+                  <a href="" class="ssk ssk-google-plus"></a>
+                  
+                  
+                  <a href="" class="ssk ssk-linkedin"></a>
+                  
+            </div>
+            
+            
+            <br>
+            <div class="navigation">
+                
+                <div>
+                    <img class="icon" src="/img/back.svg" alt="back" />
+                    <a href="/blog/creating-a-new-theme/">Creating a New Theme</a>
+                </div>
+                
+                <div style="width: 100%;"></div>
+                
+                <div>
+                    <a href="/blog/hello-r-markdown/">Hello R Markdown</a>
+                    <img class="icon" src="/img/next.svg" alt="next" />
+                </div>
+                
+            </div>
+            
+            
+
+            
+
+            
+        </div>
+    </div>
+</div>
+
+
+
+<div class="footer column">
+    <div class="container">
+
+        
+
+        <div class="copyright">
+
+        
+            
+                <a href="/license">The views in this website are exclusively my own and not necessary the views of my colleagues or the institution in which I work.</a>
+            
+        
+
+        </div>
+        <div class="icons">
+
+        
+
+        
+
+        
+
+        
+
+        
+
+        
+            <a href="https://github.com/rmariscal" rel=me target="_blank">
+                <img class="icon" src="/img/github.svg" alt="github" />
+            </a>
+        
+
+        
+            <a href="https://twitter.com/RodMariscal" rel=me target="_blank">
+                <img class="icon" src="/img/twitter.svg" alt="twitter" />
+            </a>
+        
+
+        
+            <a href="https://www.linkedin.com/in/rmariscal" rel=me target="_blank">
+                <img class="icon" src="/img/linkedin.svg" alt="linkedin" />
+            </a>
+        
+
+        
+
+        
+            <a href="mailto:rmariscalparedes@gmail.com">
+                <img class="icon" src="/img/email.svg" alt="email" />
+            </a>
+        
+
+        
+            <a href="/index.xml">
+                <img class="icon" src="/img/rss.svg" alt="rss" />
+            </a>
+        
+
+        </div>
+    </div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+<script>
+  WebFont.load({
+    google: {
+      families: ['Raleway:400,600,700', 'Merriweather:300,300i,700,700i', 'Ubuntu+Mono:400,700']
+    }
+  });
+</script>
+
+
+
+  <script src="/js/highlight.min.js" defer></script>
+  
+
+
+
+  <script src="/js/progressively.min.js" defer></script>
+
+
+
+  <script src="/js/social-share-kit.min.js" defer></script>
+
+
+
+
+
+
+<script>
+  window.onload = function() {
+    
+      hljs.initHighlighting();
+    
+    
+      progressively.init({delay: 30, throttle: 50});
+    
+    
+      SocialShareKit.init({
+        twitter: {
+            text: '',
+            via: 'RodMariscal'
+        }
+      });
+    
+  };
+</script>
+
+
+
+
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+
+</body>
+</html>
+
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
