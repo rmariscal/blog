@@ -1,10 +1,11 @@
 ---
 title: "Time Series in R: Quick Reference"
-use_math: true
 author: "Rodrigo Mariscal"
-date: 2018-06-26T21:12:36-00:00
-categories: ["R"]
+date: "2018-06-26T21:12:36-00:00"
 tags: ["Time Series"]
+categories: ["R"]
+use_math: yes
+output: html_document
 ---
 
 
@@ -362,7 +363,7 @@ ggplot() +
 ```
 
 
-```{r, echo = F, eval = T, message = F, warning = F, include=T, fig.width=9, fig.height=3, fig.align="center"}
+```{r, echo = F, eval = T, message = F, warning = F, include=T, fig.width=7, fig.height=3, fig.align="center"}
 dygraph(xts.data[,c(1,2)], ylab="", main="Federal Funds Rate and PCE Inflation") %>%
   dyOptions(colors = c('#377eb8','#4daf4a'), digitsAfterDecimal="1", strokeWidth = 2, fillAlpha = 0.7) %>%
   dyShading(from = "1969-06-1", to = "1970-12-1", color = "#d9d9d9") %>%
@@ -398,7 +399,7 @@ dygraph(xts.data[,c(1,2)], ylab="", main="Federal Funds Rate and PCE Inflation")
 [Another xts Reference](https://ugoproto.github.io/ugo_r_doc/Time+Series+in+R+The+Power+of+xts+and+zoo/)
 
 
----
+
 
 [^1]: For more information check the official [web site](http://data.imf.org/) and these other useful sites: [site 1](https://github.com/mingjerli/IMFData), [site 2](https://cran.r-project.org/web/packages/IMFData/IMFData.pdf) and [site 3](https://github.com/christophergandrud/imfr).
 [^2]: Organisation for Economic Co-operation and Development, for more information check the [web site](https://github.com/opensdmx/rsdmx).

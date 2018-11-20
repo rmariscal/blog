@@ -1,10 +1,11 @@
 ---
 title: "Mexico's 2018 Presidential Elections by State"
-use_math: true
 author: "Rodrigo Mariscal"
-date: 2018-07-04T21:12:36-00:00
+date: "2018-07-04T21:12:36-00:00"
 categories: ["Mexico"]
 tags: ["Elections"]
+use_math: true
+output: html_document
 ---
 
 ```{r, echo = F, eval = T, message = F, warning = F}
