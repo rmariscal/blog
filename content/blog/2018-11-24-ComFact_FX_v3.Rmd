@@ -233,7 +233,7 @@ highchart(type = "stock") %>%
 
 As an example, the next chart displays Mexico's exchange rate, FX volatility, and the events since the election of the new president on July 2th of 2018. With the previous section information, one can infer that Mexico's currency came to a neutral position in September after the elections and with low volatility. Since then, the U.S. monetary policy and a set of political events have turned the currency to one of the most undervalued among LatAm.
 
-```{r, echo = F, eval = T, message = F, warning = F, fig.width=7, fig.height=5}
+```{r, echo = F, eval = T, message = F, warning = F, fig.width=8, fig.height=5}
 #```{r, echo = F, eval = T, message = F, warning = F, results = "hide", fig.width=8, fig.height=4, fig.show='hold'}
 
 dygraph(data.vol["2018-01-01/",],ylab="", main="Mexico's Local Currency per USD") %>%
