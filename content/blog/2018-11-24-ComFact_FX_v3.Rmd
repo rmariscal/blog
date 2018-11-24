@@ -251,8 +251,8 @@ dygraph(data.vol["2018-01-01/",],ylab="", main="Mexico's Local Currency per USD"
   dyAnnotation(min.fed.2, text="6", tooltip="FED Minutes", width=15, height=30) %>%
   
   dyAnnotation(fitch.pemex, text="7", tooltip="Pemex downgrade", width=15, height=30) %>%
-  dyAnnotation(naicm.1, text="8", tooltip="NACM poll", width=15, height=30) %>%
-  dyAnnotation(naicm.2, text="9", tooltip="NAICM poll", width=15, height=30) %>%
+  dyAnnotation(naicm.1, text="8", tooltip="Airport poll", width=15, height=30) %>%
+  dyAnnotation(naicm.2, text="9", tooltip="Airport Canceled", width=15, height=30) %>%
   dyAnnotation(banks.fees, text="10", tooltip="Bank Fees Bill", width=15, height=30) %>%
   dyAnnotation(poll.2, text="10", tooltip="Train poll", width=15, height=30) %>%
 
