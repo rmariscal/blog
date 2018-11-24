@@ -6,10 +6,19 @@
     <description>Recent content in Time Series on Rodrigo Mariscal</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sun, 30 Sep 2018 21:12:36 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 24 Nov 2018 21:12:36 +0000</lastBuildDate>
     
 	<atom:link href="/tags/time-series/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Foreign Exchange Rate Common Factor</title>
+      <link>/blog/foreign-exchange-rate-common-factor/</link>
+      <pubDate>Sat, 24 Nov 2018 21:12:36 +0000</pubDate>
+      
+      <guid>/blog/foreign-exchange-rate-common-factor/</guid>
+      <description>Foreign Exchange Currency MovementsCurrency markets tend to move in-sync reflecting world market trends, but also it’s common that countries have own factors that affect their currency. In this post, I’ll show a way to separate the common factor from the own country factor.</description>
+    </item>
     
     <item>
       <title>The Natural Interest Rate and the Taylor Rule Prescription</title>

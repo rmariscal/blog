@@ -1,0 +1,275 @@
+---
+title: "Foreign Exchange Rate Common Factor"
+author: "Rodrigo Mariscal"
+date: "2018-11-24T21:12:36-00:00"
+categories: ["Economics"]
+tags: ["Time Series","Exchange Rates"]
+use_math: true
+output: html_document
+---
+
+
+```{r, echo = F, eval = T, message = F, warning = F}
+# ------------------------------------------------------------------------------
+## Upload required libraries 
+# ------------------------------------------------------------------------------
+library(ggplot2)
+library(ggthemes)
+library(lubridate)
+library(tidyquant)
+library(tidyverse)
+library(tibbletime)
+library(timetk)
+library(PerformanceAnalytics)
+library(dygraphs)
+library(highcharter)
+library(RColorBrewer)
+library(readxl)
+library(readr)
+library(foreign)
+library(tseries)
+library(xts)
+library(dlm)
+library(fpp)
+
+### Some references ###
+# https://stackoverflow.com/questions/24477814/how-to-embed-a-highcharts-chart-to-jekyll-blog-post
+# https://medium.com/auquan/time-series-analysis-for-finance-arch-garch-models-822f87f1d755
+# https://bhaskarvk.github.io/widgetframe/
+# https://www.r-graph-gallery.com/38-rcolorbrewers-palettes/
+# http://www.stat.columbia.edu/~tzheng/files/Rcolor.pdf
+# https://rstudio.github.io/dygraphs/index.html
+
+```
+
+
+```{r, echo = F, eval = T, message = F, warning = F}
+#------------------------------------------------------------------------------#
+# Set working directory 
+#------------------------------------------------------------------------------#
+
+rm(list = ls(all = TRUE))
+#setwd("C:/Users/rmariscal/Documents/(#) Resarch/(#) FX DynF")
+#setwd("~/LocalDocs/(#) Blog Posts/2018_03")
+#setwd("~/LocalDocs/(#) FX DynF")
+setwd("~/(#) Resarch/(#) FX DynF")
+
+data.fx <- read_excel("./data_raw/EMs - Exchange Rates.xlsx", sheet = "data.fx", col_names = T, na = ".")
+
+data.fx <- data.fx %>%
+  na.locf() %>%
+  mutate(date = ymd(date)) %>%
+  tk_xts()
+
+data.fx.0 <- data.fx
+
+
+# ------------------------------------------------------------------------------
+## Handle Data
+# ------------------------------------------------------------------------------
+
+cnames <- c("ARS","BRL","CLP","MXN","COP","PEN","UYU","CNY","INR","IDR","MYR","THB","PHP","PKR","PLN","HUF","LEV","RON","RUB","TRY","ZAR","EGP")
+date <- date(data.fx)
+
+
+for (x in cnames) {
+  
+  data.fx[,x] <- (data.fx[,x] - mean(data.fx[,x], na.rm = T)) / sd(data.fx[,x], na.rm = T)
+  #data.fx[,x] <- round(data.fx[,x],2)
+  #data.fx[,x] <- (data.fx[,x] - mean(data.fx[,x], na.rm = T)) / sd(data.fx[,x], na.rm = T)
+  #data.fx[which(data.fx[,x] < -2.0 | data.fx[,x] > 3.0),x] <- NA
+  
+}
+
+data.fx <- na.locf(data.fx)
+
+
+
+### LatAm Factor ###
+
+cnames.lat <- c("BRL","CLP","COP","MXN")
+#cnames.lat <- c("BRL","MXN")
+data.fx.lat <- round(data.fx[,cnames.lat],2)
+
+
+data.fx.lat$min <- NA
+data.fx.lat$max <- NA
+data.fx.lat$med <- NA
+data.fx.lat$mea <- NA
+
+for (t in 1:nrow(data.fx.lat)) {
+  data.fx.lat$min[t,] <- min(data.fx.lat[t,cnames.lat], na.rm = T)
+  data.fx.lat$max[t,] <- max(data.fx.lat[t,cnames.lat], na.rm = T)
+  data.fx.lat$mea[t,] <- mean(data.fx.lat[t,cnames.lat], na.rm = T)
+  data.fx.lat$med[t,] <- median(data.fx.lat[t,cnames.lat], na.rm = T)
+}
+
+
+#data.est <- read.csv("./content/blog/data/data.est.csv", sep=",", col.names=T)
+data.est <- read.csv("C:/Users/rmariscal/Documents/blog/content/blog/data/data.est.csv")
+colnames(data.est) <- c("Date","BRL","CLP","COP","MXN","Fact")
+
+cnames.lat <- c("BRL","CLP","COP","MXN")
+for (x in cnames.lat) {
+  
+  data.est[,x] <- (data.est[,x] - mean(data.est[,x], na.rm = T))
+  #data.est[,x] <- round(data.est[,x],2)
+  
+}
+
+data.est <- xts(data.est[,c(-1)], order.by = date(data.est$Date), frequency = 360)
+
+mxn.ts <- na.omit(log(data.fx.0$MXN)-log(lag(data.fx.0$MXN,1)))
+mex.vol <- rollapply(100*sqrt(252)*mxn.ts, FUN=sd, width=15)
+
+data.vol <- cbind(data.fx.0$MXN, mex.vol)
+colnames(data.vol) <- c("MXN","VOL")
+
+
+survey.1 <- "2018-04-18"
+debate.1 <- "2018-04-22"
+survey.2 <- "2018-05-01"
+debate.2 <- "2018-05-20"
+debate.3 <- "2018-06-12"
+elect.MEX <- "2018-07-02"
+
+rate.fed.1 <- "2018-08-01"
+nafta.1 <- "2018-08-27"
+
+rate.fed.2 <- "2018-09-26"
+nafta.2 <- "2018-10-01"
+
+min.fed.2 <- "2018-10-17"
+
+elect.BRA <- "2018-10-07"
+fitch.pemex <- "2018-10-19"
+
+naicm.1 <- "2018-10-26"
+naicm.2 <- "2018-10-29"
+
+banks.fees <- "2018-11-08"
+poll.2 <- "2018-11-24"
+
+
+#col.char <- brewer.pal(n = 4, name = "Set1")
+col.char <- c("goldenrod","red","blue","darkgreen")
+
+bdays <- "15 day"
+
+```
+
+
+
+### Foreign Exchange Currency Movements
+
+Currency markets tend to move in-sync reflecting world market trends, but also it's common that countries have own factors that affect their currency. In this post, I'll show a way to separate the common factor from the own country factor. I'll give the example of Mexico, where a lot of political changes have brought swings to the local currency, the peso (MXN).
+
+```{r, echo = F, eval = T, message = F, warning = F}
+#dygraph(data.fx.lat[,c(1:4)], ylab="", main="Normalized FX LatAm, USD per Local Currency") %>%
+#  dyOptions(colors = col.char, digitsAfterDecimal="1", strokeWidth = 1.5, fillAlpha = 0.5) %>%
+#  dyAxis("y", valueRange = c(-2, 3), label = "Percentage points", drawGrid = T) %>%
+#  dyAxis("x", valueRange = c("2010-01-01", "2018-01-01"), drawGrid = F, rangePad=3)
+
+highchart(type = "stock") %>%
+  hc_title(text = "Normalized FX LatAm, Local Currency per USD") %>%
+  hc_add_series(data.fx.lat[,"BRL"], name = "Brazil", color = col.char[1]) %>%
+  hc_add_series(data.fx.lat[,"CLP"], name = "Chile", color = col.char[2]) %>%
+  hc_add_series(data.fx.lat[,"COP"], name = "Colombia", color = col.char[3]) %>%
+  hc_add_series(data.fx.lat[,"MXN"], name = "Mexico", color = col.char[4]) %>%
+  hc_yAxis(showFirstLabel = T, showLastLabel = T) %>%
+  hc_add_theme(hc_theme_flat()) %>% 
+  hc_yAxis( labels = list(format = "{value:.1f}"), opposite = F, showFirstLabel = T, showLastLabel = T) %>% 
+  hc_navigator(enabled = F) %>% 
+  hc_scrollbar(enabled = F) %>% 
+  hc_exporting(enabled= F) %>% 
+  hc_legend(enabled = T)
+
+```
+
+
+
+### Common Factor Extraction
+
+To extract the common factor among the LatAm countries I use the following model:
+
+$y_{i,t} =  \mu_{i,t} + \gamma_{i} f_{t} + v_{it}, v_{i,t} \sim N(0,V_{i,t})$
+
+$\mu_{i,t} = \mu_{i,t-1} + w_{i,t}, w_{i,t} \sim N(0,W_{i,t})$
+
+where $y_{i,t}$ is the exchange rate of the LatAm country $i$, $\mu_{i,t}$ is the unobserved level variable, and $f_{t}$ is the common dynamic factor of the LatAm exchange rates. The objective is to get a county's exchange rate level ($\mu_{i,t}$) without the common factor that affected all currencies.
+
+The own country exchange level is useful in two ways: to identify periods where a currency is undervalued or overvalued relative to other countries, and to measure the country-specific effect on the exchange rate.
+
+
+### Country Own Factor Movements
+
+The following chart shows the country-specific exchange rates after the common factor is subtracted from the series. To compare between countries, the values are normalized (mean zero and standard deviation of one). One can see that the Brazilian real, the Colombian and Mexican peso have remained undervalued for most of the year. On the other hand, the Chilean peso was overvalued and look more natural now. The Mexican peso stand apart as the currency went back and forth with all the political volatility that the country has experienced this year.
+
+```{r, echo = F, eval = T, message = F, warning = F}
+#dygraph(data.est[,c(2:5)], ylab="", main="Country Specific FX, (series without common factor)") %>%
+#  dyOptions(colors = col.char, digitsAfterDecimal="1", strokeWidth = 1.5, fillAlpha = 0.5) %>%
+#  dyAxis("y", valueRange = c(-3, 5), label = "Percentage points", drawGrid = T) %>%
+#  dyAxis("x", valueRange = c("2010-01-01", "2018-01-01"), drawGrid = F, rangePad=3)
+
+highchart(type = "stock") %>%
+  hc_title(text = "Normalized FX LatAm, Local Currency per USD") %>%
+  hc_add_series(data.est[,"BRL"], name = "Brazil", color = col.char[1]) %>%
+  hc_add_series(data.est[,"CLP"], name = "Chile", color = col.char[2]) %>%
+  hc_add_series(data.est[,"COP"], name = "Colombia", color = col.char[3]) %>%
+  hc_add_series(data.est[,"MXN"], name = "Mexico", color = col.char[4]) %>%
+  hc_yAxis(showFirstLabel = T, showLastLabel = T) %>%
+  hc_add_theme(hc_theme_flat()) %>% 
+  hc_yAxis( labels = list(format = "{value:.1f}"), opposite = F, showFirstLabel = T, showLastLabel = T) %>% 
+  hc_navigator(enabled = F) %>% 
+  hc_scrollbar(enabled = F) %>% 
+  hc_exporting(enabled= F) %>% 
+  hc_legend(enabled = T)
+
+
+```
+
+
+##### Mexico's Country Specific Events
+
+As an example, the next chart displays Mexico's exchange rate, FX volatility, and the events since the election of the new president on July 2th of 2018. With the previous section information, one can infer that Mexico's currency came to a neutral position in September after the elections and with low volatility. Since then, the U.S. monetary policy and a set of political events have turned the currency to one of the most undervalued among LatAm.
+
+```{r, echo = F, eval = T, message = F, warning = F, fig.width=7, fig.height=5}
+#```{r, echo = F, eval = T, message = F, warning = F, results = "hide", fig.width=8, fig.height=4, fig.show='hold'}
+
+dygraph(data.vol["2018-01-01/",],ylab="", main="Mexico's Local Currency per USD") %>%
+  dySeries("MXN",label="Exchange Rate", axis = 'y') %>%
+  dySeries("VOL",label="Volatility", axis = 'y2', stepPlot = TRUE, fillGraph = TRUE) %>%
+  #dyShading(from = elect.MEX, to = "2018-11-20", color = "#AAAAAA") %>%
+  #dyShading(from = "1996-1-1", to = "2001-1-1", color = "#AAAAAA") %>%
+  #dyShading(from = "2012-1-1", to = "2015-1-1", color = "#AAAAAA") %>%
+  
+  dyAnnotation(elect.MEX, text="1", tooltip="MEX election", width=15, height=30) %>%
+  dyAnnotation(rate.fed.1, text="2", tooltip="FED leaves 2.0%", width=15, height=30) %>%
+  dyAnnotation(nafta.1, text="3", tooltip="USA-MEX deal", width=15, height=30) %>%
+  dyAnnotation(nafta.2, text="4", tooltip="USMCA deal", width=15, height=30) %>%
+  dyAnnotation(rate.fed.2, text="5", tooltip="FED raise 2.25%", width=15, height=30) %>%
+  dyAnnotation(min.fed.2, text="6", tooltip="FED Minutes", width=15, height=30) %>%
+  
+  dyAnnotation(fitch.pemex, text="7", tooltip="Pemex downgrade", width=15, height=30) %>%
+  dyAnnotation(naicm.1, text="8", tooltip="NACM poll", width=15, height=30) %>%
+  dyAnnotation(naicm.2, text="9", tooltip="NAICM poll", width=15, height=30) %>%
+  dyAnnotation(banks.fees, text="10", tooltip="Bank Fees Bill", width=15, height=30) %>%
+  dyAnnotation(poll.2, text="10", tooltip="Train poll", width=15, height=30) %>%
+
+  dyOptions(colors = c("darkgreen","skyblue"), digitsAfterDecimal="1", strokeWidth = 2, fillAlpha = 0.5) %>%
+  dyAxis("y", valueRange = c(17,22), label = "Exchange Rate", drawGrid = T) %>%
+  dyAxis("y2", valueRange = c(4, 23), label = "Rolling Std.Dev.", drawGrid = T) %>%
+  dyAxis("x", drawGrid = F, rangePad=2)
+
+```
+
+
+
+
+
+
+
+
+
+
+
