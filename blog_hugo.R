@@ -18,7 +18,7 @@
 ## Load blogdown package and install Hugo ##
 library(blogdown)
 #install_hugo()
-
+setwd("~/blog")
 
 # new_site(dir = "~/LocalDocs/blog_beta",
 #          theme = 'mtn/cocoa-eh-hugo-theme',
@@ -34,6 +34,6 @@ blogdown::build_site()
 blogdown::serve_site()
 
 # Add a new post
-blogdown::new_post()
+#blogdown::new_post()
 
-file.create('.nojekyll')
+#file.create('.nojekyll')

@@ -120,7 +120,7 @@ for (x in cnames.lat) {
 data.est <- xts(data.est[,c(-1)], order.by = date(data.est$Date), frequency = 360)
 
 mxn.ts <- na.omit(log(data.fx.0$MXN)-log(lag(data.fx.0$MXN,1)))
-mex.vol <- rollapply(100*sqrt(252)*mxn.ts, FUN=sd, width=15)
+mex.vol <- rollapply(100*sqrt(252)*mxn.ts, FUN=sd, width=30)
 
 data.vol <- cbind(data.fx.0$MXN, mex.vol)
 colnames(data.vol) <- c("MXN","VOL")
@@ -149,6 +149,10 @@ naicm.2 <- "2018-10-29"
 
 banks.fees <- "2018-11-08"
 poll.2 <- "2018-11-24"
+
+nafta.3 <- "2018-11-30"
+amlo.mex <- "2018-12-01"
+
 
 
 #col.char <- brewer.pal(n = 4, name = "Set1")
@@ -255,6 +259,8 @@ dygraph(data.vol["2018-01-01/",],ylab="", main="Mexico's Local Currency per USD"
   dyAnnotation(naicm.2, text="9", tooltip="Airport Canceled", width=15, height=30) %>%
   dyAnnotation(banks.fees, text="10", tooltip="Bank Fees Bill", width=15, height=30) %>%
   dyAnnotation(poll.2, text="10", tooltip="Train poll", width=15, height=30) %>%
+  dyAnnotation(nafta.3, text="11", tooltip="USMCA signed", width=15, height=30) %>%
+  dyAnnotation(amlo.mex, text="12", tooltip="AMLO President", width=15, height=30) %>%
 
   dyOptions(colors = c("darkgreen","skyblue"), digitsAfterDecimal="1", strokeWidth = 2, fillAlpha = 0.5) %>%
   dyAxis("y", valueRange = c(17,22), label = "Exchange Rate", drawGrid = T) %>%

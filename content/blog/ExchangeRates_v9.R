@@ -50,7 +50,7 @@ snames <- c("CAD","MXN","BRL","CLP","COP","BIT")
 source <- c("yahoo","google","FRED","Oanda")
 ddate <- "2018-05-02"
 #ddate <- "2018-08-27"
-bdays <- "15 day"
+bdays <- "20 day"
 
 symbols <- c("USD/CAD","USD/MXN","USD/BRL","USD/CLP","USD/COP","USD/BTC")
 data.fx2 <- getFX(symbols, from = "2018-07-01", to = Sys.Date(), auto.assign = TRUE, warnings = FALSE) %>%
@@ -131,9 +131,9 @@ colnames(data.vol) <- vnames
 
 
 
-
-
-
+data.fx <- data.fx["2018-07-01/"]
+data.stk <- data.stk["2018-07-01/"]
+data.vol <- data.vol["2018-07-01/"]
 
 
 
@@ -169,36 +169,29 @@ naicm.1 <- "2018-10-26"
 naicm.2 <- "2018-10-29"
 
 banks.fees <- "2018-11-08"
+poll.2 <- "2018-11-24"
 
 
-vlevel <- 20.5
+
+vlevel <- 18
 ggplot() +
   geom_line(data = data.fx, aes(x = Index, y = MXN, color = "Mexico"), size = 1) +
   scale_color_manual(labels = c("Mexico"), 
                      breaks = c("Mexico"),
                      values = c("Mexico"="darkgreen")) +
   
-  # geom_vline(xintercept = as.numeric(as.Date(debate.1)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(debate.1), label="\n1st Debate", y = 19.5), colour="black", angle=-90, size = 3) +
-  # geom_vline(xintercept = as.numeric(as.Date(survey.2)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(survey.2), label="\nReforma Survey (2)", y = 20), colour="black", angle=-90, size = 3) +
-  # geom_vline(xintercept = as.numeric(as.Date(debate.2)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(debate.2), label="\n2nd Debate", y = 19), colour="black", angle=-90, size = 3) +
-  # geom_vline(xintercept = as.numeric(as.Date(debate.3)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(debate.3), label="\n3rd Debate", y = 19), colour="black", angle=-90, size = 3) +  
   geom_vline(xintercept = as.numeric(as.Date(elect.MEX)), linetype = 2, col = "black") +
   geom_text(aes(x = as.Date(elect.MEX), label="\nMEX election", y = vlevel), colour="black", angle=-90, size = 3) +  
-  geom_vline(xintercept = as.numeric(as.Date(elect.BRA)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(elect.BRA), label="\nBRA election", y = vlevel), colour="black", angle=-90, size = 3) +  
   geom_vline(xintercept = as.numeric(as.Date(fitch.pemex)), linetype = 2, col = "black") +
   geom_text(aes(x = as.Date(fitch.pemex), label="\nPemex downgrade", y = vlevel, vjust=-0.25), colour="black", angle=-90, size = 3) +
   geom_vline(xintercept = as.numeric(as.Date(naicm.1)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(naicm.1), label="\nNACM poll", y = vlevel), colour="black", angle=-90, size = 3) +
+  geom_text(aes(x = as.Date(naicm.1), label="\nAirport poll", y = vlevel), colour="black", angle=-90, size = 3) +
   geom_vline(xintercept = as.numeric(as.Date(naicm.2)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(naicm.2), label="\nNACM result", y = vlevel, vjust=-0.25), colour="black", angle=-90, size = 3) +
+  geom_text(aes(x = as.Date(naicm.2), label="\nAirport Canceled", y = vlevel, vjust=-0.25), colour="black", angle=-90, size = 3) +
   geom_vline(xintercept = as.numeric(as.Date(banks.fees)), linetype = 2, col = "black") +
   geom_text(aes(x = as.Date(banks.fees), label="\nBank Fees Bill", y = vlevel), colour="black", angle=-90, size = 3) +  
-  
+  geom_vline(xintercept = as.numeric(as.Date(poll.2)), linetype = 2, col = "black") +
+  geom_text(aes(x = as.Date(poll.2), label="\nTrain poll", y = vlevel), colour="black", angle=-90, size = 3) +  
   
   geom_vline(xintercept = as.numeric(as.Date(nafta.1)), linetype = 2, col = "black") +
   geom_text(aes(x = as.Date(nafta.1), label="\nNUSA-MEX deal", y = vlevel), colour="black", angle=-90, size = 3) +  
@@ -206,13 +199,13 @@ ggplot() +
   geom_text(aes(x = as.Date(nafta.2), label="\nUSMCA deal", y = vlevel), colour="black", angle=-90, size = 3) +  
   
   geom_vline(xintercept = as.numeric(as.Date(rate.fed.1)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(rate.fed.1), label="\nFED leaves 2%", y = vlevel), colour="black", angle=-90, size = 3) +  
+  geom_text(aes(x = as.Date(rate.fed.1), label="\nFED leaves 2.0%", y = vlevel), colour="black", angle=-90, size = 3) +  
   geom_vline(xintercept = as.numeric(as.Date(rate.fed.2)), linetype = 2, col = "black") +
   geom_text(aes(x = as.Date(rate.fed.2), label="\nFED raise 2.25%", y = vlevel), colour="black", angle=-90, size = 3) +  
   geom_vline(xintercept = as.numeric(as.Date(min.fed.2)), linetype = 2, col = "black") +
   geom_text(aes(x = as.Date(min.fed.2), label="\nFED Minutes", y = vlevel), colour="black", angle=-90, size = 3) +  
   
-  scale_y_continuous(limits=c(18,21), breaks=seq(18,21,0.5)) +
+  scale_y_continuous(limits=c(17,21), breaks=seq(17,21,1)) +
   scale_x_date(date_breaks = bdays, date_labels = "%b-%d") +
   theme_gdocs(base_size = 9) +
   theme(legend.position = "none", 
@@ -231,42 +224,30 @@ ggsave(file="Exchange.png", width=6, height=4.8, dpi=pic.save)
 # Twitter dpi = 2500
 
 
-vlevel <- 16
+vlevel <- 11
 ggplot() +
   geom_line(data = data.vol, aes(x = Index, y = MXN, color = "Mexico"), size = 1) +
-  #geom_line(data = data.vol, aes(x = Index, y = COP, color = "Colombia"), size = 1) +
-  #geom_line(data = data.vol, aes(x = Index, y = CAD, color = "Canada"), size = 1) +
-  #geom_line(data = data.vol, aes(x = Index, y = CLP, color = "Chile"), size = 1) +
-
-  # geom_vline(xintercept = as.numeric(as.Date(debate.1)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(debate.1), label="\n1st Debate", y = 19.5), colour="black", angle=-90, size = 3) +
-  # geom_vline(xintercept = as.numeric(as.Date(survey.2)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(survey.2), label="\nReforma Survey (2)", y = 20), colour="black", angle=-90, size = 3) +
-  # geom_vline(xintercept = as.numeric(as.Date(debate.2)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(debate.2), label="\n2nd Debate", y = 19), colour="black", angle=-90, size = 3) +
-  # geom_vline(xintercept = as.numeric(as.Date(debate.3)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(debate.3), label="\n3rd Debate", y = 19), colour="black", angle=-90, size = 3) +  
+  
   geom_vline(xintercept = as.numeric(as.Date(elect.MEX)), linetype = 2, col = "black") +
   geom_text(aes(x = as.Date(elect.MEX), label="\nMEX election", y = vlevel), colour="black", angle=-90, size = 3) +  
-  geom_vline(xintercept = as.numeric(as.Date(elect.BRA)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(elect.BRA), label="\nBRA election", y = vlevel), colour="black", angle=-90, size = 3) +  
   geom_vline(xintercept = as.numeric(as.Date(fitch.pemex)), linetype = 2, col = "black") +
   geom_text(aes(x = as.Date(fitch.pemex), label="\nPemex downgrade", y = vlevel, vjust=-0.25), colour="black", angle=-90, size = 3) +
   geom_vline(xintercept = as.numeric(as.Date(naicm.1)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(naicm.1), label="\nNAICM poll", y = vlevel), colour="black", angle=-90, size = 3) +
+  geom_text(aes(x = as.Date(naicm.1), label="\nAirport poll", y = vlevel), colour="black", angle=-90, size = 3) +
   geom_vline(xintercept = as.numeric(as.Date(naicm.2)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(naicm.2), label="\nNAICM result", y = vlevel, vjust=-0.25), colour="black", angle=-90, size = 3) +
+  geom_text(aes(x = as.Date(naicm.2), label="\nAirport Canceled", y = vlevel, vjust=-0.25), colour="black", angle=-90, size = 3) +
   geom_vline(xintercept = as.numeric(as.Date(banks.fees)), linetype = 2, col = "black") +
   geom_text(aes(x = as.Date(banks.fees), label="\nBank Fees Bill", y = vlevel), colour="black", angle=-90, size = 3) +  
+  geom_vline(xintercept = as.numeric(as.Date(poll.2)), linetype = 2, col = "black") +
+  geom_text(aes(x = as.Date(poll.2), label="\nTrain poll", y = vlevel), colour="black", angle=-90, size = 3) +  
   
-
   geom_vline(xintercept = as.numeric(as.Date(nafta.1)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(nafta.1), label="\nUSA-MEX deal", y = vlevel), colour="black", angle=-90, size = 3) +  
+  geom_text(aes(x = as.Date(nafta.1), label="\nNUSA-MEX deal", y = vlevel), colour="black", angle=-90, size = 3) +  
   geom_vline(xintercept = as.numeric(as.Date(nafta.2)), linetype = 2, col = "black") +
   geom_text(aes(x = as.Date(nafta.2), label="\nUSMCA deal", y = vlevel), colour="black", angle=-90, size = 3) +  
-
+  
   geom_vline(xintercept = as.numeric(as.Date(rate.fed.1)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(rate.fed.1), label="\nFED leaves 2%", y = vlevel), colour="black", angle=-90, size = 3) +  
+  geom_text(aes(x = as.Date(rate.fed.1), label="\nFED leaves 2.0%", y = vlevel), colour="black", angle=-90, size = 3) +  
   geom_vline(xintercept = as.numeric(as.Date(rate.fed.2)), linetype = 2, col = "black") +
   geom_text(aes(x = as.Date(rate.fed.2), label="\nFED raise 2.25%", y = vlevel), colour="black", angle=-90, size = 3) +  
   geom_vline(xintercept = as.numeric(as.Date(min.fed.2)), linetype = 2, col = "black") +
@@ -276,8 +257,7 @@ ggplot() +
                      breaks = c("Mexico","Colombia","Canada","Chile"),
                      values = c("Mexico"="darkgreen","Colombia"="red","Canada"="orange","Chile"="black")) +
   
-
-  #scale_y_continuous(limits=c(13.2,16.2), breaks=seq(13.2,16.2,1)) +
+  scale_y_continuous(limits=c(6,22), breaks=seq(6,22,2)) +
   scale_x_date(date_breaks = bdays, date_labels = "%b-%d") +
   theme_gdocs(base_size = 9) +
   theme(legend.position = "none", 
@@ -289,7 +269,7 @@ ggplot() +
         panel.grid.minor.x = element_line(colour = "transparent")) +
   labs(x = "", y = "", color = "", 
        title = "Mexico's Exchange Rate Volatility, Annualized (%)", 
-       caption = "Note: GARCH(1,1) standard deviation of a daily returns.\nSource: finance.yahoo.com.")
+       caption = "Note: Rolling standard deviation of a daily returns.\nSource: finance.yahoo.com.")
 ggsave(file="Exchange Vol.png", width=6, height=4.8, dpi=pic.save)
 # export as png: 1360 x 800
 # Facebook dpi = 1500
@@ -299,56 +279,47 @@ ggsave(file="Exchange Vol.png", width=6, height=4.8, dpi=pic.save)
 
 
 
-vlevel <- 3
+vlevel <- 2
 ggplot() +
-  geom_line(data = data.vol, aes(x = Index, y = MXN - min(MXN), color = "Mexico"), size = 1) +
-  geom_line(data = data.vol, aes(x = Index, y = COP - min(COP), color = "Colombia"), size = 0.8) +
-  geom_line(data = data.vol, aes(x = Index, y = CAD - min(CAD), color = "Canada"), size = 0.8) +
-  geom_line(data = data.vol, aes(x = Index, y = CLP - min(CLP), color = "Chile"), size = 0.8) +
+  geom_line(data = data.vol, aes(x = Index, y = MXN, color = "Mexico"), size = 1) +
+  geom_line(data = data.vol, aes(x = Index, y = COP, color = "Colombia"), size = 0.8) +
+  geom_line(data = data.vol, aes(x = Index, y = CAD, color = "Canada"), size = 0.8) +
+  geom_line(data = data.vol, aes(x = Index, y = CLP, color = "Chile"), size = 0.8) +
+  geom_line(data = data.vol, aes(x = Index, y = BRL, color = "Brazil"), size = 1) +
   
-  # geom_vline(xintercept = as.numeric(as.Date(debate.1)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(debate.1), label="\n1st Debate", y = 19.5), colour="black", angle=-90, size = 3) +
-  # geom_vline(xintercept = as.numeric(as.Date(survey.2)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(survey.2), label="\nReforma Survey (2)", y = 20), colour="black", angle=-90, size = 3) +
-  # geom_vline(xintercept = as.numeric(as.Date(debate.2)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(debate.2), label="\n2nd Debate", y = 19), colour="black", angle=-90, size = 3) +
-  # geom_vline(xintercept = as.numeric(as.Date(debate.3)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(debate.3), label="\n3rd Debate", y = 19), colour="black", angle=-90, size = 3) +  
   geom_vline(xintercept = as.numeric(as.Date(elect.MEX)), linetype = 2, col = "black") +
   geom_text(aes(x = as.Date(elect.MEX), label="\nMEX election", y = vlevel), colour="black", angle=-90, size = 3) +  
-  geom_vline(xintercept = as.numeric(as.Date(elect.BRA)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(elect.BRA), label="\nBRA election", y = vlevel), colour="black", angle=-90, size = 3) +  
   geom_vline(xintercept = as.numeric(as.Date(fitch.pemex)), linetype = 2, col = "black") +
   geom_text(aes(x = as.Date(fitch.pemex), label="\nPemex downgrade", y = vlevel, vjust=-0.25), colour="black", angle=-90, size = 3) +
   geom_vline(xintercept = as.numeric(as.Date(naicm.1)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(naicm.1), label="\nNAICM poll", y = vlevel), colour="black", angle=-90, size = 3) +
+  geom_text(aes(x = as.Date(naicm.1), label="\nAirport poll", y = vlevel), colour="black", angle=-90, size = 3) +
   geom_vline(xintercept = as.numeric(as.Date(naicm.2)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(naicm.2), label="\nNAICM result", y = vlevel, vjust=-0.25), colour="black", angle=-90, size = 3) +
+  geom_text(aes(x = as.Date(naicm.2), label="\nAirport Canceled", y = vlevel, vjust=-0.25), colour="black", angle=-90, size = 3) +
   geom_vline(xintercept = as.numeric(as.Date(banks.fees)), linetype = 2, col = "black") +
   geom_text(aes(x = as.Date(banks.fees), label="\nBank Fees Bill", y = vlevel), colour="black", angle=-90, size = 3) +  
-  
+  geom_vline(xintercept = as.numeric(as.Date(poll.2)), linetype = 2, col = "black") +
+  geom_text(aes(x = as.Date(poll.2), label="\nTrain poll", y = vlevel), colour="black", angle=-90, size = 3) +  
   
   geom_vline(xintercept = as.numeric(as.Date(nafta.1)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(nafta.1), label="\nUSA-MEX deal", y = vlevel), colour="black", angle=-90, size = 3) +  
+  geom_text(aes(x = as.Date(nafta.1), label="\nNUSA-MEX deal", y = vlevel), colour="black", angle=-90, size = 3) +  
   geom_vline(xintercept = as.numeric(as.Date(nafta.2)), linetype = 2, col = "black") +
   geom_text(aes(x = as.Date(nafta.2), label="\nUSMCA deal", y = vlevel), colour="black", angle=-90, size = 3) +  
   
   geom_vline(xintercept = as.numeric(as.Date(rate.fed.1)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(rate.fed.1), label="\nFED leaves 2%", y = vlevel), colour="black", angle=-90, size = 3) +  
+  geom_text(aes(x = as.Date(rate.fed.1), label="\nFED leaves 2.0%", y = vlevel), colour="black", angle=-90, size = 3) +  
   geom_vline(xintercept = as.numeric(as.Date(rate.fed.2)), linetype = 2, col = "black") +
   geom_text(aes(x = as.Date(rate.fed.2), label="\nFED raise 2.25%", y = vlevel), colour="black", angle=-90, size = 3) +  
   geom_vline(xintercept = as.numeric(as.Date(min.fed.2)), linetype = 2, col = "black") +
   geom_text(aes(x = as.Date(min.fed.2), label="\nFED Minutes", y = vlevel), colour="black", angle=-90, size = 3) +  
   
-  scale_color_manual(labels = c("Mexico","Colombia","Canada","Chile"), 
-                     breaks = c("Mexico","Colombia","Canada","Chile"),
-                     values = c("Mexico"="darkgreen","Colombia"="red","Canada"="orange","Chile"="black")) +
+  scale_color_manual(labels = c("Mexico","Colombia","Canada","Chile","Brazil"), 
+                     breaks = c("Mexico","Colombia","Canada","Chile","Brazil"),
+                     values = c("Mexico"="darkgreen","Colombia"="red","Canada"="orange","Chile"="black","Brazil"="blue")) +
   
-  
-  #scale_y_continuous(limits=c(0,3.5), breaks=seq(0,3.5,0.5)) +
+  scale_y_continuous(limits=c(0,24), breaks=seq(0,24,4)) +
   scale_x_date(date_breaks = bdays, date_labels = "%b-%d") +
   theme_gdocs(base_size = 9) +
-  theme(legend.position = c(0.38,0.94), 
+  theme(legend.position = c(0.75,0.94), 
         legend.direction = "horizontal",
         legend.background = element_rect(fill="transparent"),
         legend.title = element_blank(),
@@ -359,7 +330,7 @@ ggplot() +
         panel.grid.minor.x = element_line(colour = "transparent")) +
   labs(x = "", y = "", color = "", 
        title = "Exchange Rate Volatility, Annualized (%)", 
-       caption = "Note: rescale GARCH(1,1) standard deviation of a daily returns.\nSource: finance.yahoo.com.")
+       caption = "Note: Rolling standard deviation of a daily returns.\nSource: finance.yahoo.com.")
 ggsave(file="Exchange Vol_pull.png", width=6, height=4.8, dpi=pic.save)
 # export as png: 1360 x 800
 # Facebook dpi = 1500
@@ -370,7 +341,7 @@ ggsave(file="Exchange Vol_pull.png", width=6, height=4.8, dpi=pic.save)
 
 
 
-
+vlevel <- 90
 ggplot() +
   geom_line(data = data.fx, aes(x = Index, y = 100*(MXN/MXN[1]), color = "Mexico"), size = 1) +
   geom_line(data = data.fx, aes(x = Index, y = 100*(COP/COP[1]), color = "Colombia"), size = 1) +
@@ -378,47 +349,35 @@ ggplot() +
   geom_line(data = data.fx, aes(x = Index, y = 100*(CLP/CLP[1]), color = "Chile"), size = 1) +
   geom_line(data = data.fx, aes(x = Index, y = 100*(BRL/BRL[1]), color = "Brazil"), size = 1) +
   
-  # geom_vline(xintercept = as.numeric(as.Date(survey.1)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(survey.1), label="\nReforma Survey (1)", y = 106), colour="black", angle=-90, size = 3) +
-  # geom_vline(xintercept = as.numeric(as.Date(debate.1)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(debate.1), label="\n1st Debate", y = 106), colour="black", angle=-90, size = 3) +
-  # geom_vline(xintercept = as.numeric(as.Date(survey.2)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(survey.2), label="\nReforma Survey (2)", y = 110), colour="black", angle=-90, size = 3) +
-  # geom_vline(xintercept = as.numeric(as.Date(debate.2)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(debate.2), label="\n2nd Debate", y = 99), colour="black", angle=-90, size = 3) +
-  # geom_vline(xintercept = as.numeric(as.Date(debate.3)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(debate.3), label="\n3rd Debate", y = 100), colour="black", angle=-90, size = 3) +  
   geom_vline(xintercept = as.numeric(as.Date(elect.MEX)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(elect.MEX), label="\nMEX election", y = 100), colour="black", angle=-90, size = 3) +  
-  geom_vline(xintercept = as.numeric(as.Date(elect.BRA)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(elect.BRA), label="\nBRA election", y = 111), colour="black", angle=-90, size = 3) +  
+  geom_text(aes(x = as.Date(elect.MEX), label="\nMEX election", y = vlevel), colour="black", angle=-90, size = 3) +  
   geom_vline(xintercept = as.numeric(as.Date(fitch.pemex)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(fitch.pemex), label="\nPemex downgrade", y = 111, vjust=-0.25), colour="black", angle=-90, size = 3) +
+  geom_text(aes(x = as.Date(fitch.pemex), label="\nPemex downgrade", y = vlevel, vjust=-0.25), colour="black", angle=-90, size = 3) +
   geom_vline(xintercept = as.numeric(as.Date(naicm.1)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(naicm.1), label="\nNAICM poll", y = 113), colour="black", angle=-90, size = 3) +
+  geom_text(aes(x = as.Date(naicm.1), label="\nAirport poll", y = vlevel), colour="black", angle=-90, size = 3) +
   geom_vline(xintercept = as.numeric(as.Date(naicm.2)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(naicm.2), label="\nNAICM result", y = 113, vjust=-0.25), colour="black", angle=-90, size = 3) +
+  geom_text(aes(x = as.Date(naicm.2), label="\nAirport Canceled", y = vlevel, vjust=-0.25), colour="black", angle=-90, size = 3) +
   geom_vline(xintercept = as.numeric(as.Date(banks.fees)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(banks.fees), label="\nBank Fees Bill", y = 113), colour="black", angle=-90, size = 3) +  
+  geom_text(aes(x = as.Date(banks.fees), label="\nBank Fees Bill", y = vlevel), colour="black", angle=-90, size = 3) +  
+  geom_vline(xintercept = as.numeric(as.Date(poll.2)), linetype = 2, col = "black") +
+  geom_text(aes(x = as.Date(poll.2), label="\nTrain poll", y = vlevel), colour="black", angle=-90, size = 3) +  
   
   geom_vline(xintercept = as.numeric(as.Date(nafta.1)), linetype = 2, col = "black") +
-  geom_vline(xintercept = as.numeric(as.Date(nafta.1)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(nafta.1), label="\nUSA-MEX deal", y = 110), colour="black", angle=-90, size = 3) +  
+  geom_text(aes(x = as.Date(nafta.1), label="\nNUSA-MEX deal", y = vlevel), colour="black", angle=-90, size = 3) +  
   geom_vline(xintercept = as.numeric(as.Date(nafta.2)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(nafta.2), label="\nUSMCA deal", y = 110), colour="black", angle=-90, size = 3) +  
+  geom_text(aes(x = as.Date(nafta.2), label="\nUSMCA deal", y = vlevel), colour="black", angle=-90, size = 3) +  
   
   geom_vline(xintercept = as.numeric(as.Date(rate.fed.1)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(rate.fed.1), label="\nFED leaves 2%", y = 105), colour="black", angle=-90, size = 3) +  
+  geom_text(aes(x = as.Date(rate.fed.1), label="\nFED leaves 2.0%", y = vlevel), colour="black", angle=-90, size = 3) +  
   geom_vline(xintercept = as.numeric(as.Date(rate.fed.2)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(rate.fed.2), label="\nFED raise 2.25%", y = 110), colour="black", angle=-90, size = 3) +  
+  geom_text(aes(x = as.Date(rate.fed.2), label="\nFED raise 2.25%", y = vlevel), colour="black", angle=-90, size = 3) +  
   geom_vline(xintercept = as.numeric(as.Date(min.fed.2)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(min.fed.2), label="\nFED Minutes", y = 111), colour="black", angle=-90, size = 3) +  
+  geom_text(aes(x = as.Date(min.fed.2), label="\nFED Minutes", y = vlevel), colour="black", angle=-90, size = 3) +  
   
-
   scale_color_manual(labels = c("Mexico","Colombia","Canada","Chile","Brazil"), 
                      breaks = c("Mexico","Colombia","Canada","Chile","Brazil"),
                      values = c("Mexico"="darkgreen","Colombia"="red","Canada"="orange","Chile"="black","Brazil"="blue")) +
-  scale_y_continuous(limits=c(90,115), breaks=seq(90,115,5)) +
+  scale_y_continuous(limits=c(85,115), breaks=seq(85,115,5)) +
   scale_x_date(date_breaks = bdays, date_labels = "%b-%d") +
   theme_gdocs(base_size = 9) +
   theme(legend.position = c(0.38,0.94), 
@@ -444,30 +403,41 @@ ggsave(file="Exchange_indx.png", width=6, height=4.8, dpi=pic.save)
 
 
 
+vlevel <- 55
 
 ggplot() +
   geom_line(data = data.stk, aes(x = Index, y = EWW, color = "Mexico"), size = 1) +
+  
+  geom_vline(xintercept = as.numeric(as.Date(elect.MEX)), linetype = 2, col = "black") +
+  geom_text(aes(x = as.Date(elect.MEX), label="\nMEX election", y = vlevel), colour="black", angle=-90, size = 3) +  
+  geom_vline(xintercept = as.numeric(as.Date(fitch.pemex)), linetype = 2, col = "black") +
+  geom_text(aes(x = as.Date(fitch.pemex), label="\nPemex downgrade", y = vlevel, vjust=-0.25), colour="black", angle=-90, size = 3) +
+  geom_vline(xintercept = as.numeric(as.Date(naicm.1)), linetype = 2, col = "black") +
+  geom_text(aes(x = as.Date(naicm.1), label="\nAirport poll", y = vlevel), colour="black", angle=-90, size = 3) +
+  geom_vline(xintercept = as.numeric(as.Date(naicm.2)), linetype = 2, col = "black") +
+  geom_text(aes(x = as.Date(naicm.2), label="\nAirport Canceled", y = vlevel, vjust=-0.25), colour="black", angle=-90, size = 3) +
+  geom_vline(xintercept = as.numeric(as.Date(banks.fees)), linetype = 2, col = "black") +
+  geom_text(aes(x = as.Date(banks.fees), label="\nBank Fees Bill", y = vlevel), colour="black", angle=-90, size = 3) +  
+  geom_vline(xintercept = as.numeric(as.Date(poll.2)), linetype = 2, col = "black") +
+  geom_text(aes(x = as.Date(poll.2), label="\nTrain poll", y = vlevel), colour="black", angle=-90, size = 3) +  
+  
+  geom_vline(xintercept = as.numeric(as.Date(nafta.1)), linetype = 2, col = "black") +
+  geom_text(aes(x = as.Date(nafta.1), label="\nNUSA-MEX deal", y = vlevel), colour="black", angle=-90, size = 3) +  
+  geom_vline(xintercept = as.numeric(as.Date(nafta.2)), linetype = 2, col = "black") +
+  geom_text(aes(x = as.Date(nafta.2), label="\nUSMCA deal", y = vlevel), colour="black", angle=-90, size = 3) +  
+  
+  geom_vline(xintercept = as.numeric(as.Date(rate.fed.1)), linetype = 2, col = "black") +
+  geom_text(aes(x = as.Date(rate.fed.1), label="\nFED leaves 2.0%", y = vlevel), colour="black", angle=-90, size = 3) +  
+  geom_vline(xintercept = as.numeric(as.Date(rate.fed.2)), linetype = 2, col = "black") +
+  geom_text(aes(x = as.Date(rate.fed.2), label="\nFED raise 2.25%", y = vlevel), colour="black", angle=-90, size = 3) +  
+  geom_vline(xintercept = as.numeric(as.Date(min.fed.2)), linetype = 2, col = "black") +
+  geom_text(aes(x = as.Date(min.fed.2), label="\nFED Minutes", y = vlevel), colour="black", angle=-90, size = 3) +  
+  
   scale_color_manual(labels = c("Mexico"), 
                      breaks = c("Mexico"),
                      values = c("Mexico"="darkgreen")) +
   
-  # geom_vline(xintercept = as.numeric(as.Date(survey.1)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(survey.1), label="\nReforma Survey (1)", y = 45000), colour="black", angle=-90, size = 3) +
-  # geom_vline(xintercept = as.numeric(as.Date(debate.1)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(debate.1), label="\n1st Debate", y = 45000), colour="black", angle=-90, size = 3) +
-  # geom_vline(xintercept = as.numeric(as.Date(survey.2)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(survey.2), label="\nReforma Survey (2)", y = 45000), colour="black", angle=-90, size = 3) +
-  # geom_vline(xintercept = as.numeric(as.Date(debate.2)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(debate.2), label="\n2nd Debate", y = 45000), colour="black", angle=-90, size = 3) +
-  # geom_vline(xintercept = as.numeric(as.Date(debate.3)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(debate.3), label="\n3rd Debate", y = 45000), colour="black", angle=-90, size = 3) +
-  geom_vline(xintercept = as.numeric(as.Date(elect.MEX)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(elect.MEX), label="\nMEX election", y = 48), colour="black", angle=-90, size = 3) +
-  geom_vline(xintercept = as.numeric(as.Date(fitch.pemex)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(fitch.pemex), label="\nPemex downgrade", y = 51), colour="black", angle=-90, size = 3) +
-  
-  
-  #scale_y_continuous(limits=c(46000,51000), breaks=seq(46000,51000,1000)) +
+  scale_y_continuous(limits=c(40,60), breaks=seq(40,60,5)) +
   scale_x_date(date_breaks = bdays, date_labels = "%b-%d") +
   theme_gdocs(base_size = 9) +
   theme(legend.position = "none", 
@@ -488,6 +458,8 @@ ggsave(file="Stock_Exchange.png", width=6, height=4.8, dpi=pic.save)
 
 
 
+vlevel <- 70
+
 ggplot() +
   geom_line(data = data.stk, aes(x = Index, y = 100*(EWW/EWW[1]), color = "Mexico"), size = 1) +
   geom_line(data = data.stk, aes(x = Index, y = 100*(GXG/GXG[1]), color = "Colombia"), size = 1) +
@@ -495,46 +467,35 @@ ggplot() +
   geom_line(data = data.stk, aes(x = Index, y = 100*(ECH/ECH[1]), color = "Chile"), size = 1) +
   geom_line(data = data.stk, aes(x = Index, y = 100*(EWZ/EWZ[1]), color = "Brazil"), size = 1) +  
 
-  # geom_vline(xintercept = as.numeric(as.Date(survey.1)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(survey.1), label="\nReforma Survey (1)", y = 85), colour="black", angle=-90, size = 3) +
-  # geom_vline(xintercept = as.numeric(as.Date(debate.1)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(debate.1), label="\n1st Debate", y = 85), colour="black", angle=-90, size = 3) +
-  # geom_vline(xintercept = as.numeric(as.Date(survey.2)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(survey.2), label="\nReforma Survey (2)", y = 85), colour="black", angle=-90, size = 3) +
-  # geom_vline(xintercept = as.numeric(as.Date(debate.2)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(debate.2), label="\n2nd Debate", y = 85), colour="black", angle=-90, size = 3) +
-  # geom_vline(xintercept = as.numeric(as.Date(debate.3)), linetype = 2, col = "black") +
-  # geom_text(aes(x = as.Date(debate.3), label="\n3rd Debate", y = 83), colour="black", angle=-90, size = 3) +
   geom_vline(xintercept = as.numeric(as.Date(elect.MEX)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(elect.MEX), label="\nMEX election", y = 100), colour="black", angle=-90, size = 3) +  
-  geom_vline(xintercept = as.numeric(as.Date(elect.BRA)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(elect.BRA), label="\nBRA election", y = 122), colour="black", angle=-90, size = 3) +  
+  geom_text(aes(x = as.Date(elect.MEX), label="\nMEX election", y = vlevel), colour="black", angle=-90, size = 3) +  
   geom_vline(xintercept = as.numeric(as.Date(fitch.pemex)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(fitch.pemex), label="\nPemex downgrade", y = 111, vjust=-0.25), colour="black", angle=-90, size = 3) +
+  geom_text(aes(x = as.Date(fitch.pemex), label="\nPemex downgrade", y = vlevel, vjust=-0.25), colour="black", angle=-90, size = 3) +
   geom_vline(xintercept = as.numeric(as.Date(naicm.1)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(naicm.1), label="\nNAICM poll", y = 113), colour="black", angle=-90, size = 3) +
+  geom_text(aes(x = as.Date(naicm.1), label="\nAirport poll", y = vlevel), colour="black", angle=-90, size = 3) +
   geom_vline(xintercept = as.numeric(as.Date(naicm.2)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(naicm.2), label="\nNAICM result", y = 113, vjust=-0.25), colour="black", angle=-90, size = 3) +
+  geom_text(aes(x = as.Date(naicm.2), label="\nAirport Canceled", y = vlevel, vjust=-0.25), colour="black", angle=-90, size = 3) +
   geom_vline(xintercept = as.numeric(as.Date(banks.fees)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(banks.fees), label="\nBank Fees Bill", y = 113), colour="black", angle=-90, size = 3) +  
-  
+  geom_text(aes(x = as.Date(banks.fees), label="\nBank Fees Bill", y = vlevel), colour="black", angle=-90, size = 3) +  
+  geom_vline(xintercept = as.numeric(as.Date(poll.2)), linetype = 2, col = "black") +
+  geom_text(aes(x = as.Date(poll.2), label="\nTrain poll", y = vlevel), colour="black", angle=-90, size = 3) +  
   
   geom_vline(xintercept = as.numeric(as.Date(nafta.1)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(nafta.1), label="\nUSA-MEX deal", y = 92), colour="black", angle=-90, size = 3) +  
+  geom_text(aes(x = as.Date(nafta.1), label="\nNUSA-MEX deal", y = vlevel), colour="black", angle=-90, size = 3) +  
   geom_vline(xintercept = as.numeric(as.Date(nafta.2)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(nafta.2), label="\nUSMCA deal", y = 120), colour="black", angle=-90, size = 3) +  
+  geom_text(aes(x = as.Date(nafta.2), label="\nUSMCA deal", y = vlevel), colour="black", angle=-90, size = 3) +  
   
   geom_vline(xintercept = as.numeric(as.Date(rate.fed.1)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(rate.fed.1), label="\nFED leaves 2%", y = 92), colour="black", angle=-90, size = 3) +  
+  geom_text(aes(x = as.Date(rate.fed.1), label="\nFED leaves 2.0%", y = vlevel), colour="black", angle=-90, size = 3) +  
   geom_vline(xintercept = as.numeric(as.Date(rate.fed.2)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(rate.fed.2), label="\nFED raise 2.25%", y = 120), colour="black", angle=-90, size = 3) +  
+  geom_text(aes(x = as.Date(rate.fed.2), label="\nFED raise 2.25%", y = vlevel), colour="black", angle=-90, size = 3) +  
   geom_vline(xintercept = as.numeric(as.Date(min.fed.2)), linetype = 2, col = "black") +
-  geom_text(aes(x = as.Date(min.fed.2), label="\nFED Minutes", y = 113), colour="black", angle=-90, size = 3) +  
+  geom_text(aes(x = as.Date(min.fed.2), label="\nFED Minutes", y = vlevel), colour="black", angle=-90, size = 3) +  
   
   scale_color_manual(labels = c("Mexico","Colombia","Canada","Chile","Brazil"), 
                      breaks = c("Mexico","Colombia","Canada","Chile","Brazil"),
                      values = c("Mexico"="darkgreen","Colombia"="red","Canada"="orange","Chile"="black","Brazil"="blue")) +
-  #scale_y_continuous(limits=c(95,120), breaks=seq(95,120,5)) +
+  scale_y_continuous(limits=c(60,140), breaks=seq(60,140,10)) +
   scale_x_date(date_breaks = bdays, date_labels = "%b-%d") +
   theme_gdocs(base_size = 9) +
   theme(legend.position = c(0.35,0.90), 
