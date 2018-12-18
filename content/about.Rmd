@@ -47,4 +47,7 @@ Rodrigo Mariscal is a senior research analyst at the [Institute of International
 * * *
 
 ## Other collaborations
+
+[*Mapping Income Polarization in the United States*](https://blogs.imf.org/2018/05/15/mapping-income-polarization-in-the-united-states/), IMF Blog (May 2018).
+
 [*Global GVAR Modelling Database*](https://sites.google.com/site/gvarmodelling/data), GVAR data (2013 Vintage).
