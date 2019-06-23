@@ -8,14 +8,12 @@ author: "Rodrigo Mariscal"
   display: none;
 }
 
-getting-started img {
-  margin-right: 20in;
+#getting-started img {
+  margin-right: 10px;
 }
 
 </style>
 
-<div class="row" style="padding-top: 5px;">
-<div class="row-sm-50">
 
 # **Personal Web Page**
 
@@ -23,8 +21,6 @@ getting-started img {
 
 I'm Rodrigo Mariscal a mexican economist that has worked at the [Institute of International Finance](https://www.iif.com/), the [IMF's](http://www.imf.org/external/index.htm) Western Hemisphere Department, the [Inter-American Development Bank](https://www.iadb.org/), and [Mexico’s Central Bank](http://www.banxico.org.mx/). I hold an M.A. in economics from [El Colegio de Mexico](https://www.colmex.mx/). My research focuses on macroeconomics, with emphasis on the credibility of inflation regimes in Latin America, sovereign debt restructurings, and commodity prices.
 
-</div>
-<div class="col-sm-50">
 
 ![](img/leaves.png)
 
