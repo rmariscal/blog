@@ -17,7 +17,7 @@
       <pubDate>Sat, 24 Nov 2018 21:12:36 +0000</pubDate>
       
       <guid>/blog/foreign-exchange-rate-common-factor/</guid>
-      <description>Foreign Exchange Currency MovementsCurrency markets tend to move in-sync reflecting world market trends, but also it’s common that countries have own factors that affect their currency. In this post, I’ll show a way to separate the common factor from the own country factor.</description>
+      <description>Foreign Exchange Currency MovementsCurrency markets tend to move in-sync reflecting world market trends, but also it’s common that countries have own factors that affect their currency.</description>
     </item>
     
     <item>
@@ -35,8 +35,7 @@
       <pubDate>Wed, 04 Jul 2018 21:12:36 +0000</pubDate>
       
       <guid>/blog/mexicos-2018-presidential-elections-by-state/</guid>
-      <description>Mexico’s 2018 presidential elections. Two interesting maps that summarize the results. Map 1, percent difference between the front-runner, Andres Manuel (AMLO), and the second place, Ricardo Anaya. In 15 states, AMLO won by more than 40 percentage points.
-{&#34;</description>
+      <description>Mexico’s 2018 presidential elections. Two interesting maps that summarize the results. Map 1, percent difference between the front-runner, Andres Manuel (AMLO), and the second place, Ricardo Anaya. In 15 states, AMLO won by more than 40 percentage points.</description>
     </item>
     
     <item>
@@ -64,8 +63,9 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/home/</guid>
-      <description>.title {display: none;}#getting-started img {margin-right: 10px;}Personal Web PageSummaryRodrigo Mariscal is a senior research analyst at the Institute of International Finance. He has worked at the IMF’s Western Hemisphere Department, the Inter-American Development Bank, and the Central Bank of Mexico. Mr. Mariscal holds an M.A. in economics from El Colegio de Mexico.
-</description>
+      <description>.title {display: none;}
+getting-started img {margin-right: 5in;}
+Personal Web PageSummaryI’m Rodrigo Mariscal a mexican economist that has worked at the Institute of International Finance, the IMF’s Western Hemisphere Department, the Inter-American Development Bank, and Mexico’s Central Bank. I hold an M.A. in economics from El Colegio de Mexico. My research focuses on macroeconomics, with emphasis on the credibility of inflation regimes in Latin America, sovereign debt restructurings, and commodity prices.</description>
     </item>
     
     <item>
