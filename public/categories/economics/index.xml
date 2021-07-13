@@ -1,31 +1,27 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Economics on Rodrigo Mariscal</title>
-    <link>/categories/economics/</link>
+    <link>https://rodmariscal.com/categories/economics/</link>
     <description>Recent content in Economics on Rodrigo Mariscal</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sat, 24 Nov 2018 21:12:36 +0000</lastBuildDate>
-    
-	<atom:link href="/categories/economics/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sat, 24 Nov 2018 21:12:36 +0000</lastBuildDate><atom:link href="https://rodmariscal.com/categories/economics/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Foreign Exchange Rate Common Factor</title>
-      <link>/blog/foreign-exchange-rate-common-factor/</link>
+      <link>https://rodmariscal.com/blog/foreign-exchange-rate-common-factor/</link>
       <pubDate>Sat, 24 Nov 2018 21:12:36 +0000</pubDate>
       
-      <guid>/blog/foreign-exchange-rate-common-factor/</guid>
+      <guid>https://rodmariscal.com/blog/foreign-exchange-rate-common-factor/</guid>
       <description>Foreign Exchange Currency MovementsCurrency markets tend to move in-sync reflecting world market trends, but also it’s common that countries have own factors that affect their currency.</description>
     </item>
     
     <item>
       <title>The Natural Interest Rate and the Taylor Rule Prescription</title>
-      <link>/blog/the-natural-interest-rate-and-the-taylor-rule-prescription/</link>
+      <link>https://rodmariscal.com/blog/the-natural-interest-rate-and-the-taylor-rule-prescription/</link>
       <pubDate>Sun, 30 Sep 2018 21:12:36 +0000</pubDate>
       
-      <guid>/blog/the-natural-interest-rate-and-the-taylor-rule-prescription/</guid>
+      <guid>https://rodmariscal.com/blog/the-natural-interest-rate-and-the-taylor-rule-prescription/</guid>
       <description>Monetary Stance in the U.S.The Natural Interest Rate (R-Star)The natural interest rate or r-star is commonly defied as the long-term interest rate such that monetary policy is consistent sustained maximum employment and inflation at its longer-run objective.1 Also it’s sometimes defined as the interest rate that would preveil in a steady state where prices are fully flexible and inflation is zero (Woodford, 2003). However, the approach that I will take here is the one put forward by Holston, Lauback and Williams (2017) which is more an equilibrium concept that uses a time series approach.</description>
     </item>
     

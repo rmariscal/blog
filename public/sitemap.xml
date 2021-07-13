@@ -1,102 +1,56 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
   <url>
-    <loc>/blog/foreign-exchange-rate-common-factor/</loc>
+    <loc>https://rodmariscal.com/blog/</loc>
     <lastmod>2018-11-24T21:12:36+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/blog/the-natural-interest-rate-and-the-taylor-rule-prescription/</loc>
+  </url><url>
+    <loc>https://rodmariscal.com/categories/</loc>
+    <lastmod>2018-11-24T21:12:36+00:00</lastmod>
+  </url><url>
+    <loc>https://rodmariscal.com/categories/economics/</loc>
+    <lastmod>2018-11-24T21:12:36+00:00</lastmod>
+  </url><url>
+    <loc>https://rodmariscal.com/tags/exchange-rates/</loc>
+    <lastmod>2018-11-24T21:12:36+00:00</lastmod>
+  </url><url>
+    <loc>https://rodmariscal.com/blog/foreign-exchange-rate-common-factor/</loc>
+    <lastmod>2018-11-24T21:12:36+00:00</lastmod>
+  </url><url>
+    <loc>https://rodmariscal.com/</loc>
+    <lastmod>2018-11-24T21:12:36+00:00</lastmod>
+  </url><url>
+    <loc>https://rodmariscal.com/tags/</loc>
+    <lastmod>2018-11-24T21:12:36+00:00</lastmod>
+  </url><url>
+    <loc>https://rodmariscal.com/tags/time-series/</loc>
+    <lastmod>2018-11-24T21:12:36+00:00</lastmod>
+  </url><url>
+    <loc>https://rodmariscal.com/tags/monetary-policy/</loc>
     <lastmod>2018-09-30T21:12:36+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/blog/mexicos-2018-presidential-elections-by-state/</loc>
-    <lastmod>2018-07-04T21:12:36+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/blog/time-series-in-r-quick-reference/</loc>
-    <lastmod>2018-06-26T21:12:36+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/about/</loc>
-  </url>
-  
-  <url>
-    <loc>/blog/</loc>
-    <lastmod>2018-11-24T21:12:36+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/economics/</loc>
-    <lastmod>2018-11-24T21:12:36+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/elections/</loc>
-    <lastmod>2018-07-04T21:12:36+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/exchange-rates/</loc>
-    <lastmod>2018-11-24T21:12:36+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/home/</loc>
-  </url>
-  
-  <url>
-    <loc>/license/</loc>
-  </url>
-  
-  <url>
-    <loc>/categories/mexico/</loc>
-    <lastmod>2018-07-04T21:12:36+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/monetary-policy/</loc>
+  </url><url>
+    <loc>https://rodmariscal.com/blog/the-natural-interest-rate-and-the-taylor-rule-prescription/</loc>
     <lastmod>2018-09-30T21:12:36+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/r/</loc>
-    <lastmod>2018-06-26T21:12:36+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/</loc>
-    <lastmod>2018-11-24T21:12:36+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
+  </url><url>
+    <loc>https://rodmariscal.com/tags/elections/</loc>
     <lastmod>2018-07-04T21:12:36+00:00</lastmod>
-    <priority>0</priority>
+  </url><url>
+    <loc>https://rodmariscal.com/categories/mexico/</loc>
+    <lastmod>2018-07-04T21:12:36+00:00</lastmod>
+  </url><url>
+    <loc>https://rodmariscal.com/blog/mexicos-2018-presidential-elections-by-state/</loc>
+    <lastmod>2018-07-04T21:12:36+00:00</lastmod>
+  </url><url>
+    <loc>https://rodmariscal.com/categories/r/</loc>
+    <lastmod>2018-06-26T21:12:36+00:00</lastmod>
+  </url><url>
+    <loc>https://rodmariscal.com/blog/time-series-in-r-quick-reference/</loc>
+    <lastmod>2018-06-26T21:12:36+00:00</lastmod>
+  </url><url>
+    <loc>https://rodmariscal.com/about/</loc>
+  </url><url>
+    <loc>https://rodmariscal.com/home/</loc>
+  </url><url>
+    <loc>https://rodmariscal.com/license/</loc>
   </url>
-  
-  <url>
-    <loc>/tags/time-series/</loc>
-    <lastmod>2018-11-24T21:12:36+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
 </urlset>

@@ -1,22 +1,18 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Mexico on Rodrigo Mariscal</title>
-    <link>/categories/mexico/</link>
+    <link>https://rodmariscal.com/categories/mexico/</link>
     <description>Recent content in Mexico on Rodrigo Mariscal</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Wed, 04 Jul 2018 21:12:36 +0000</lastBuildDate>
-    
-	<atom:link href="/categories/mexico/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 04 Jul 2018 21:12:36 +0000</lastBuildDate><atom:link href="https://rodmariscal.com/categories/mexico/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Mexico&#39;s 2018 Presidential Elections by State</title>
-      <link>/blog/mexicos-2018-presidential-elections-by-state/</link>
+      <link>https://rodmariscal.com/blog/mexicos-2018-presidential-elections-by-state/</link>
       <pubDate>Wed, 04 Jul 2018 21:12:36 +0000</pubDate>
       
-      <guid>/blog/mexicos-2018-presidential-elections-by-state/</guid>
+      <guid>https://rodmariscal.com/blog/mexicos-2018-presidential-elections-by-state/</guid>
       <description>Mexico’s 2018 presidential elections. Two interesting maps that summarize the results. Map 1, percent difference between the front-runner, Andres Manuel (AMLO), and the second place, Ricardo Anaya. In 15 states, AMLO won by more than 40 percentage points.</description>
     </item>
     

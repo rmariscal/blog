@@ -3,7 +3,7 @@ title: "About"
 author: "Rodrigo Mariscal"
 ---
 
-Rodrigo Mariscal is the general director of macroeconomic analysis at Mexico's Ministry of Finance [SHCP](https://www.gob.mx/shcp). He has worked at the [Institute of International Finance](https://www.iif.com/), [IMF's](http://www.imf.org/external/index.htm) Western Hemisphere Department, the [Inter-American Development Bank](https://www.iadb.org/), and the [Central Bank of Mexico](http://www.banxico.org.mx/). Mr. Mariscal holds an M.A. in economics from [El Colegio de Mexico](https://www.colmex.mx/). His research focuses on macroeconomics, with emphasis on the credibility of inflation regimes in Latin America, sovereign debt restructurings, and commodity prices. He has also worked on income distribution and labor productivity in North America.
+I'm the general director of macroeconomic analysis at Mexico's Ministry of Finance [SHCP](https://www.gob.mx/shcp). He has worked at the [Institute of International Finance](https://www.iif.com/), [IMF's](http://www.imf.org/external/index.htm) Western Hemisphere Department, the [Inter-American Development Bank](https://www.iadb.org/), and the [Central Bank of Mexico](http://www.banxico.org.mx/). Mr. Mariscal holds an M.A. in economics from [El Colegio de Mexico](https://www.colmex.mx/). His research focuses on macroeconomics, with emphasis on the credibility of inflation regimes in Latin America, sovereign debt restructurings, and commodity prices. He has also worked on income distribution and labor productivity in North America.
 
 * * *
 
@@ -41,7 +41,7 @@ Rodrigo Mariscal is the general director of macroeconomic analysis at Mexico's M
  
 * [*Forecasting Inflation Risks in Latin America*](https://publications.iadb.org/en/publication/11742/forecasting-inflation-risks-latin-america-technical-note), with Andrew Powell. **IDB Technical Note**, No. IDB-TN-403, June 2012.
 
-* [*The Evolution of Cooperation in a Psychological Environment*](http://smtp2.colmex.mx/concern/generic_works/2z10wr578). **El Colegio de Mexico**, Masters Dissertation, June 2008.
+* [*The Evolution of Cooperation in a Psychological Environment*](https://repositorio.colmex.mx/concern/theses/8k71nh41x?locale=es). **El Colegio de Mexico**, Masters Dissertation, June 2008.
 
 
 * * *
